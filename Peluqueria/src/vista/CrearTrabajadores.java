@@ -30,12 +30,8 @@ public class CrearTrabajadores extends JFrame {
     private JTextField telefono_trabajadorField;
     private JLabel contrasenaLabel;
     private JTextField contrasenaField;
-    private JLabel trabajador_activoLabel;
-    private JCheckBox trabajador_activoCheckBox;
     private JLabel tipo_trabajadorLabel;
     private JCheckBox tipo_trabajadorCheckBox;
-    private JLabel comisionLabel;
-    private JTextField comisionField;
     private JLabel missatgeLabel;
     private JButton agregarTrabajadorButton;
     private JButton volverButton;
@@ -136,18 +132,6 @@ public class CrearTrabajadores extends JFrame {
         panel.add(contrasenaField);
 
 
-        trabajador_activoLabel = new JLabel("Trabajador Activo: ");
-        trabajador_activoLabel.setBounds(300, 280, 200, 25);
-        trabajador_activoLabel.setFont(nFont18);
-        trabajador_activoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(trabajador_activoLabel);
-
-        trabajador_activoCheckBox = new JCheckBox();
-        trabajador_activoCheckBox.setBounds(500, 280, 200, 25);
-        trabajador_activoCheckBox.setBackground(new Color(255, 255, 255)); 
-        panel.add(trabajador_activoCheckBox);
-
-
         tipo_trabajadorLabel = new JLabel("Administrador: ");
         tipo_trabajadorLabel.setBounds(300, 320, 200, 25);
         tipo_trabajadorLabel.setFont(nFont18);
@@ -158,18 +142,6 @@ public class CrearTrabajadores extends JFrame {
         tipo_trabajadorCheckBox.setBounds(500, 320, 200, 25);
         tipo_trabajadorCheckBox.setBackground(new Color(255, 255, 255)); 
         panel.add(tipo_trabajadorCheckBox);
-
-
-        comisionLabel = new JLabel("Comision: ");
-        comisionLabel.setBounds(300, 360, 200, 25);
-        comisionLabel.setFont(nFont18);
-        comisionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(comisionLabel);
-
-        comisionField = new JTextField(20);
-        comisionField.setBounds(500, 360, 200, 25);
-        comisionField.setBackground(new Color(255, 255, 255)); 
-        panel.add(comisionField);
 
 
         missatgeLabel = new JLabel("");
@@ -216,21 +188,12 @@ public class CrearTrabajadores extends JFrame {
 
     private void crearTrabajador() {
         String dni = dniField.getText();
-        String nombre = nombre_trabajadorLabel.getText();
+        String nombre = nombre_trabajadorField.getText();
         String apellido = apellido_trabajadorField.getText();
         String correo = correo_trabajadorField.getText();
         String telefono = telefono_trabajadorField.getText();
         String contrasena = contrasenaField.getText();
-        Boolean trabajadorActivo = trabajador_activoCheckBox.isSelected(); // Activo / Inactivo;
         Boolean trabajadorTipo = tipo_trabajadorCheckBox.isSelected(); // Jefe / Emlpeado;
-        String comisionText = comisionField.getText().replace(',', '.'); // Reemplaza la coma por un punto
-        BigDecimal comision;
-        
-        if (comisionText.isEmpty()) {
-            comision = BigDecimal.ZERO; // Si está vacío, asigna 0.00
-        } else {
-            comision = new BigDecimal(comisionText); // Si no está vacío, convierte la entrada
-        }
 
         String missatge = "";
         Color colorMissatge = Color.BLUE;
@@ -245,9 +208,9 @@ public class CrearTrabajadores extends JFrame {
             trabajadores.setCorreoTrabajador(correo);
             trabajadores.setTelefonoTrabajador(telefono);
             trabajadores.setContrasena(contrasena);
-            trabajadores.setTrabajadorActivo(trabajadorActivo);
+            trabajadores.setTrabajadorActivo(true);
             trabajadores.setTipoTrabajador(trabajadorTipo);
-            trabajadores.setComision(comision);
+            trabajadores.setComision(BigDecimal.ZERO);
 
 
             try {

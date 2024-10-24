@@ -114,7 +114,7 @@ public class GestionTrabajadores extends JFrame {
         for (int i = 0; i < listaTrabajadores.size(); i++) {
 
             Trabajadores trabajador = listaTrabajadores.get(i);
-
+            
             datos[i] = new Object[] {trabajador.getDni(), trabajador.getNombreTrabajador(), trabajador.getApellidoTrabajador(), trabajador.getCorreoTrabajador(), trabajador.getTelefonoTrabajador(), trabajador.isTrabajadorActivo(), trabajador.isTipoTrabajador(), trabajador.getComision()};
         }
 
