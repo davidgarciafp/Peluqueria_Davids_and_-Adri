@@ -103,5 +103,34 @@ public class TrabajadoresDAO {
         return resultado;
     }
 
-    
+
+    public boolean actualizarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean nuevoActivo, String nuevoTipo, double nuevaComision) {
+        String sqlActualizarTrabajadores = "UPDATE trabajadores SET nombre_trabajador = ?, apellido_trabajador = ?, correo_trabajador = ?, telefono_trabajador = ?, contrasena = ?, trabajador_activo = ?, tipo_trabajador = ?, comision = ? WHERE dni = ?";
+        boolean resultado =  false;
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+            PreparedStatement pstmt = conn.prepareStatement(sqlActualizarTrabajadores)) {
+            
+            pstmt.setString(1, nuevoNombre);
+            pstmt.setString(2, nuevoApellido);
+            pstmt.setString(3, nuevoCorreo);
+            pstmt.setString(4, nuevoTelefono);
+            pstmt.setString(5, nuevaContrasena);
+            pstmt.setBoolean(6, nuevoActivo);
+            pstmt.setString(7, nuevoTipo);
+            pstmt.setDouble(8, nuevaComision);
+            pstmt.setString(9, dni);
+            
+            int filasActualizadas = pstmt.executeUpdate();
+            resultado = filasActualizadas > 0;
+
+        } catch (SQLException ex) {
+            if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                throw new RuntimeException("BaseDatos NO encontrada");
+            } else {
+                ex.printStackTrace();
+            }
+        }
+        return resultado;
+    }
 }

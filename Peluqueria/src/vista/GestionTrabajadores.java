@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
@@ -107,21 +108,52 @@ public class GestionTrabajadores extends JFrame {
 
     private JScrollPane mostrarTablaTrabajadores() {
         List<Trabajadores> listaTrabajadores = controladorTrabajadores.mostrarTrabajadores(); // Obté la llista de trabajadores del controlador.
-        String[] columnas = {"DNI", "Nombre", "Apellido", "Correo", "Telèfon", "Alta", "Rol", "Comisión"}; // Defineix les columnes de la taula.
-        Object[][] datos = new Object[listaTrabajadores.size()][8]; // Crar un array de los trabajadores.
+        String[] columnas = {"DNI", "Nombre", "Apellido", "Correo", "Telèfon", "Alta", "Rol", "Comisión", "Editar"}; // Defineix les columnes de la taula.
+        Object[][] datos = new Object[listaTrabajadores.size()][9]; // Crar un array de los trabajadores.
 
         // Omple l'array de dades amb la informació de cada llibre.
         for (int i = 0; i < listaTrabajadores.size(); i++) {
 
             Trabajadores trabajador = listaTrabajadores.get(i);
             
-            datos[i] = new Object[] {trabajador.getDni(), trabajador.getNombreTrabajador(), trabajador.getApellidoTrabajador(), trabajador.getCorreoTrabajador(), trabajador.getTelefonoTrabajador(), trabajador.isTrabajadorActivo(), trabajador.isTipoTrabajador(), trabajador.getComision()};
+            datos[i] = new Object[]{
+                trabajador.getDni(),
+                trabajador.getNombreTrabajador(),
+                trabajador.getApellidoTrabajador(),
+                trabajador.getCorreoTrabajador(),
+                trabajador.getTelefonoTrabajador(),
+                trabajador.isTrabajadorActivo(),
+                trabajador.isTipoTrabajador(),
+                trabajador.getComision(),
+                "Editar" // Aquí se añade el label "Editar"
+            };
         }
 
-        tablaTrabajador = new JTable(datos, columnas); // Crea la taula de llibres.
+        // Crea un modelo de tabla personalizado
+        DefaultTableModel opcionesTabla = new DefaultTableModel(datos, columnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 8; // Solo editable la columna "Editar"
+            }
+        };
+
+        tablaTrabajador = new JTable(opcionesTabla);
+    
+        // Añadir un MouseListener para manejar el clic en la columna "Editar"
+        tablaTrabajador.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int row = tablaTrabajador.rowAtPoint(e.getPoint());
+                int column = tablaTrabajador.columnAtPoint(e.getPoint());
+                if (column == 8) { // Si se clicó en la columna "Editar"
+                    String dni = (String) tablaTrabajador.getValueAt(row, 0); // Obtener el DNI
+                    // Aquí puedes abrir una nueva pestaña o ventana con el DNI
+                    //abrirNuevaPestana(dni);
+                }
+            }
+        });
 
         JScrollPane scrollPane = new JScrollPane(tablaTrabajador); // Crea un JScrollPane que contindrà la taula de llibres.
-        scrollPane.setBounds(50, 100, 200, 300); // Ajusteu la posició i la mida del JScrollPane.
+        scrollPane.setBounds(50, 100, 600, 300); // Ajusteu la posició i la mida del JScrollPane.
     
         return scrollPane; // Retorna el JScrollPane amb la taula de llibres.
     }
