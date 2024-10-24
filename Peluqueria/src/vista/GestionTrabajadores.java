@@ -6,10 +6,14 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
@@ -22,6 +26,7 @@ public class GestionTrabajadores extends JFrame {
     private JLabel mensaje;
     private JLabel volverLabel;
     private JTable tablaTrabajador;
+    private JButton agregarButton;
     private ControladorTrabajadores controladorTrabajadores;
 
     public GestionTrabajadores(Trabajadores trabajadores) {
@@ -50,7 +55,7 @@ public class GestionTrabajadores extends JFrame {
         mensaje.setBounds(575, 110, 200, 40);
         mensaje.setFont(nFont18);
         mensaje.setForeground(new Color(255, 255, 255));
-        panel.add(mensaje); 
+        panel.add(mensaje);
 
         ImageIcon originalIcon = new ImageIcon("C:\\xampp\\htdocs\\MP_12 Projecte_1\\Imagenes\\volver.png");
         Image imagenRedimensionada = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -75,6 +80,22 @@ public class GestionTrabajadores extends JFrame {
 
         JScrollPane scrollPane = mostrarTablaTrabajadores();
         panel.add(scrollPane);
+
+        agregarButton = new JButton("Agregar Trabajador");
+        agregarButton.setBounds(250, 500, 200, 40);
+        agregarButton.setHorizontalAlignment(SwingConstants.CENTER);
+        agregarButton.setBackground(new Color(206, 123, 86));
+        agregarButton.setFont(nFont18);
+        agregarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                agregarTrabajador((Trabajadores) trabajadores);
+            }
+        });
+        panel.getRootPane().setDefaultButton(agregarButton); // Para poderlo pulsar con la tecla "INTRO".
+        panel.add(agregarButton);
+
+
     }
 
     
@@ -100,8 +121,13 @@ public class GestionTrabajadores extends JFrame {
         tablaTrabajador = new JTable(datos, columnas); // Crea la taula de llibres.
 
         JScrollPane scrollPane = new JScrollPane(tablaTrabajador); // Crea un JScrollPane que contindrà la taula de llibres.
-        scrollPane.setBounds(50, 140, (int) 587.5, 300); // Ajusteu la posició i la mida del JScrollPane.
+        scrollPane.setBounds(50, 100, 200, 300); // Ajusteu la posició i la mida del JScrollPane.
     
         return scrollPane; // Retorna el JScrollPane amb la taula de llibres.
+    }
+
+    private void agregarTrabajador(Trabajadores trabajadores) {
+        new CrearTrabajadores(trabajadores).setVisible(true);
+        dispose();
     }
 }

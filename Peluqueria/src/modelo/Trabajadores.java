@@ -30,6 +30,8 @@ public class Trabajadores {
         this.comision = comision;
     }
 
+    public Trabajadores() {} 
+
     // Setters
     public void setDni(String dni) {
         this.dni = dni;

@@ -20,4 +20,8 @@ public class ControladorTrabajadores {
     public Trabajadores identificarTrabajador(String dni, String contrasena) {
         return trabajadoresDAO.identificarTrabajador(dni, contrasena);
     }
+
+    public boolean anyadirTrabajadores(Trabajadores trabajadores) {
+        return trabajadoresDAO.agregarTrabajadores(trabajadores);
+    }
 }
