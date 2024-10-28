@@ -24,4 +24,8 @@ public class ControladorTrabajadores {
     public boolean anyadirTrabajadores(Trabajadores trabajadores) {
         return trabajadoresDAO.agregarTrabajadores(trabajadores);
     }
+
+    public boolean modificarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean nuevoActivo, String nuevoTipo, double nuevaComision) {
+        return trabajadoresDAO.actualizarTrabajadores(dni, nuevoNombre, nuevoApellido, nuevoCorreo, nuevoTelefono, nuevaContrasena, nuevoActivo, nuevoTipo, nuevaComision);
+    }
 }

@@ -103,7 +103,6 @@ public class TrabajadoresDAO {
         return resultado;
     }
 
-
     public boolean actualizarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean nuevoActivo, String nuevoTipo, double nuevaComision) {
         String sqlActualizarTrabajadores = "UPDATE trabajadores SET nombre_trabajador = ?, apellido_trabajador = ?, correo_trabajador = ?, telefono_trabajador = ?, contrasena = ?, trabajador_activo = ?, tipo_trabajador = ?, comision = ? WHERE dni = ?";
         boolean resultado =  false;
@@ -132,5 +131,25 @@ public class TrabajadoresDAO {
             }
         }
         return resultado;
+    }
+
+    public boolean encontrarTrabajador(String dni) {
+        boolean encontrado = false;
+        String sql = "SELECT * FROM trabajadores WHERE dni = ?";
+        
+        try (Connection conn = ConexionBaseDatos.getConexion();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                
+            pstmt.setString(1, dni);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                encontrado = true; // Si hay un resultado, el trabajador fue encontrado
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            encontrado = false;
+        }
+        return encontrado;
     }
 }

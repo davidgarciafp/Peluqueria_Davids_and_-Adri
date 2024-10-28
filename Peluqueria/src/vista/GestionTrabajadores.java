@@ -79,7 +79,7 @@ public class GestionTrabajadores extends JFrame {
         });
         panel.add(volverLabel);
 
-        JScrollPane scrollPane = mostrarTablaTrabajadores();
+        JScrollPane scrollPane = mostrarTablaTrabajadores((Trabajadores) trabajadores);
         panel.add(scrollPane);
 
         agregarButton = new JButton("Agregar Trabajador");
@@ -106,7 +106,7 @@ public class GestionTrabajadores extends JFrame {
         dispose();
     }
 
-    private JScrollPane mostrarTablaTrabajadores() {
+    private JScrollPane mostrarTablaTrabajadores(Trabajadores trabajadores) {
         List<Trabajadores> listaTrabajadores = controladorTrabajadores.mostrarTrabajadores(); // Obté la llista de trabajadores del controlador.
         String[] columnas = {"DNI", "Nombre", "Apellido", "Correo", "Telèfon", "Alta", "Rol", "Comisión", "Editar"}; // Defineix les columnes de la taula.
         Object[][] datos = new Object[listaTrabajadores.size()][9]; // Crar un array de los trabajadores.
@@ -146,8 +146,8 @@ public class GestionTrabajadores extends JFrame {
                 int column = tablaTrabajador.columnAtPoint(e.getPoint());
                 if (column == 8) { // Si se clicó en la columna "Editar"
                     String dni = (String) tablaTrabajador.getValueAt(row, 0); // Obtener el DNI
-                    // Aquí puedes abrir una nueva pestaña o ventana con el DNI
-                    //abrirNuevaPestana(dni);
+                    new EditarTrabajadores(trabajadores, dni).setVisible(true);
+                    dispose();
                 }
             }
         });
