@@ -103,7 +103,7 @@ public class TrabajadoresDAO {
         return resultado;
     }
 
-    public boolean actualizarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean nuevoActivo, String nuevoTipo, double nuevaComision) {
+    public <BigDecimal> boolean actualizarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean trabajadorActivo, Boolean trabajadorTipo, java.math.BigDecimal comision) {
         String sqlActualizarTrabajadores = "UPDATE trabajadores SET nombre_trabajador = ?, apellido_trabajador = ?, correo_trabajador = ?, telefono_trabajador = ?, contrasena = ?, trabajador_activo = ?, tipo_trabajador = ?, comision = ? WHERE dni = ?";
         boolean resultado =  false;
 
@@ -115,9 +115,9 @@ public class TrabajadoresDAO {
             pstmt.setString(3, nuevoCorreo);
             pstmt.setString(4, nuevoTelefono);
             pstmt.setString(5, nuevaContrasena);
-            pstmt.setBoolean(6, nuevoActivo);
-            pstmt.setString(7, nuevoTipo);
-            pstmt.setDouble(8, nuevaComision);
+            pstmt.setBoolean(6, trabajadorActivo);
+            pstmt.setBoolean(7, trabajadorTipo);
+            pstmt.setBigDecimal(8, (java.math.BigDecimal) comision);
             pstmt.setString(9, dni);
             
             int filasActualizadas = pstmt.executeUpdate();
@@ -133,8 +133,8 @@ public class TrabajadoresDAO {
         return resultado;
     }
 
-    public boolean encontrarTrabajador(String dni) {
-        boolean encontrado = false;
+    public Trabajadores encontrarTrabajador(String dni) {
+        Trabajadores trabajadores = null;
         String sql = "SELECT * FROM trabajadores WHERE dni = ?";
         
         try (Connection conn = ConexionBaseDatos.getConexion();
@@ -144,12 +144,21 @@ public class TrabajadoresDAO {
             ResultSet rs = pstmt.executeQuery();
             
             if (rs.next()) {
-                encontrado = true; // Si hay un resultado, el trabajador fue encontrado
+                trabajadores = new Trabajadores(
+                    rs.getString("dni"),
+                    rs.getString("nombre_trabajador"),
+                    rs.getString("apellido_trabajador"),
+                    rs.getString("correo_trabajador"),
+                    rs.getString("telefono_trabajador"),
+                    rs.getString("contrasena"),
+                    rs.getBoolean("trabajador_activo"),
+                    rs.getBoolean("tipo_trabajador"),
+                    rs.getBigDecimal("comision")
+                );
             }
         } catch (Exception e) {
             e.printStackTrace();
-            encontrado = false;
         }
-        return encontrado;
+        return trabajadores;
     }
 }

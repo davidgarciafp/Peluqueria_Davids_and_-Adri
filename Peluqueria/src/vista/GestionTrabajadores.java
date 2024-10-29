@@ -53,7 +53,7 @@ public class GestionTrabajadores extends JFrame {
         Font nFont18 = new Font(null, Font.PLAIN, 18);
 
         mensaje = new JLabel(((Trabajadores) trabajadores).getNombreTrabajador() + " " + ((Trabajadores) trabajadores).getApellidoTrabajador());
-        mensaje.setBounds(575, 110, 200, 40);
+        mensaje.setBounds(675, 110, 200, 40);
         mensaje.setFont(nFont18);
         mensaje.setForeground(new Color(255, 255, 255));
         panel.add(mensaje);
@@ -95,10 +95,7 @@ public class GestionTrabajadores extends JFrame {
         });
         panel.getRootPane().setDefaultButton(agregarButton); // Para poderlo pulsar con la tecla "INTRO".
         panel.add(agregarButton);
-
-
     }
-
     
     // Metodo
     private void volverAtras(Trabajadores trabajadores) {
@@ -125,7 +122,7 @@ public class GestionTrabajadores extends JFrame {
                 trabajador.isTrabajadorActivo(),
                 trabajador.isTipoTrabajador(),
                 trabajador.getComision(),
-                "Editar" // Aquí se añade el label "Editar"
+                "Editar"
             };
         }
 

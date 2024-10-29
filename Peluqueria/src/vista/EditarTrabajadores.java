@@ -30,8 +30,12 @@ public class EditarTrabajadores extends JFrame {
     private JTextField telefono_trabajadorField;
     private JLabel contrasenaLabel;
     private JTextField contrasenaField;
+    private JLabel trabajador_activoLabel;
+    private JCheckBox trabajador_activoCheckBox;
     private JLabel tipo_trabajadorLabel;
     private JCheckBox tipo_trabajadorCheckBox;
+    private JLabel comisionLabel;
+    private JTextField comisionField;
     private JLabel missatgeLabel;
     private JButton guardarTrabajadorButton;
     private JButton volverButton;
@@ -61,100 +65,117 @@ public class EditarTrabajadores extends JFrame {
 
 
         dniLabel = new JLabel("DNI: ");
-        dniLabel.setBounds(300, 40, 200, 25);
+        dniLabel.setBounds(50, 40, 200, 25);
         dniLabel.setFont(nFont18);
-        dniLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(dniLabel);
 
-        dniField = new JTextField(20);
-        dniField.setBounds(500, 40, 200, 25);
+        dniField = new JTextField(dni);
+        dniField.setBounds(250, 40, 200, 25);
         dniField.setBackground(new Color(255, 255, 255)); 
         panel.add(dniField);
 
 
         nombre_trabajadorLabel = new JLabel("Nombre Trabajador: ");
-        nombre_trabajadorLabel.setBounds(300, 80, 200, 25);
+        nombre_trabajadorLabel.setBounds(50, 80, 200, 25);
         nombre_trabajadorLabel.setFont(nFont18);
-        nombre_trabajadorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(nombre_trabajadorLabel);
 
         nombre_trabajadorField = new JTextField(20);
-        nombre_trabajadorField.setBounds(500, 80, 200, 25);
+        nombre_trabajadorField.setBounds(250, 80, 200, 25);
         nombre_trabajadorField.setBackground(new Color(255, 255, 255)); 
         panel.add(nombre_trabajadorField);
 
 
         apellido_trabajadorLabel = new JLabel("Apellido Trabajador: ");
-        apellido_trabajadorLabel.setBounds(300, 120, 200, 25);
+        apellido_trabajadorLabel.setBounds(50, 120, 200, 25);
         apellido_trabajadorLabel.setFont(nFont18);
-        apellido_trabajadorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(apellido_trabajadorLabel);
 
         apellido_trabajadorField = new JTextField(20);
-        apellido_trabajadorField.setBounds(500, 120, 200, 25);
+        apellido_trabajadorField.setBounds(250, 120, 200, 25);
         apellido_trabajadorField.setBackground(new Color(255, 255, 255)); 
         panel.add(apellido_trabajadorField);
 
 
         correo_trabajadorLabel = new JLabel("Correo: ");
-        correo_trabajadorLabel.setBounds(300, 160, 200, 25);
+        correo_trabajadorLabel.setBounds(50, 160, 200, 25);
         correo_trabajadorLabel.setFont(nFont18);
-        correo_trabajadorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(correo_trabajadorLabel);
 
         correo_trabajadorField = new JTextField(20);
-        correo_trabajadorField.setBounds(500, 160, 200, 25);
+        correo_trabajadorField.setBounds(250, 160, 200, 25);
         correo_trabajadorField.setBackground(new Color(255, 255, 255)); 
         panel.add(correo_trabajadorField);
 
 
         telefono_trabajadorLabel = new JLabel("Telefono: ");
-        telefono_trabajadorLabel.setBounds(300, 200, 200, 25);
+        telefono_trabajadorLabel.setBounds(50, 200, 200, 25);
         telefono_trabajadorLabel.setFont(nFont18);
-        telefono_trabajadorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(telefono_trabajadorLabel);
 
         telefono_trabajadorField = new JTextField(20);
-        telefono_trabajadorField.setBounds(500, 200, 200, 25);
+        telefono_trabajadorField.setBounds(250, 200, 200, 25);
         telefono_trabajadorField.setBackground(new Color(255, 255, 255)); 
         panel.add(telefono_trabajadorField);
 
 
         contrasenaLabel = new JLabel("Contraseña: ");
-        contrasenaLabel.setBounds(300, 240, 200, 25);
+        contrasenaLabel.setBounds(50, 240, 200, 25);
         contrasenaLabel.setFont(nFont18);
-        contrasenaLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(contrasenaLabel);
 
         contrasenaField = new JTextField(20);
-        contrasenaField.setBounds(500, 240, 200, 25);
+        contrasenaField.setBounds(250, 240, 200, 25);
         contrasenaField.setBackground(new Color(255, 255, 255)); 
         panel.add(contrasenaField);
 
 
+        trabajador_activoLabel = new JLabel("Habiltar / Deshabilitar: ");
+        trabajador_activoLabel.setBounds(50, 280, 200, 25);
+        trabajador_activoLabel.setFont(nFont18);
+        panel.add(trabajador_activoLabel);
+
+        trabajador_activoCheckBox = new JCheckBox();
+        trabajador_activoCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
+        trabajador_activoCheckBox.setBounds(250, 280, 20, 25);
+        trabajador_activoCheckBox.setBackground(new Color(255, 255, 255));
+        panel.add(trabajador_activoCheckBox);
+
+
         tipo_trabajadorLabel = new JLabel("Administrador: ");
-        tipo_trabajadorLabel.setBounds(300, 320, 200, 25);
+        tipo_trabajadorLabel.setBounds(50, 320, 200, 25);
         tipo_trabajadorLabel.setFont(nFont18);
-        tipo_trabajadorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(tipo_trabajadorLabel);
 
         tipo_trabajadorCheckBox = new JCheckBox();
-        tipo_trabajadorCheckBox.setBounds(500, 320, 200, 25);
+        tipo_trabajadorCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
+        tipo_trabajadorCheckBox.setBounds(250, 320, 20, 25);
         tipo_trabajadorCheckBox.setBackground(new Color(255, 255, 255)); 
         panel.add(tipo_trabajadorCheckBox);
 
 
+        comisionLabel = new JLabel("Comisión: ");
+        comisionLabel.setBounds(50, 360, 200, 25);
+        comisionLabel.setFont(nFont18);
+        panel.add(comisionLabel);
+
+        comisionField = new JTextField(20);
+        comisionField.setBounds(250, 360, 200, 25);
+        comisionField.setBackground(new Color(255, 255, 255)); 
+        panel.add(comisionField);
+
+
         missatgeLabel = new JLabel("");
-        missatgeLabel.setBounds(500, 400, 200, 25);
+        missatgeLabel.setBounds(50, 400, 400, 25);
         missatgeLabel.setFont(nFont18);
         missatgeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(missatgeLabel);
 
 
         guardarTrabajadorButton = new JButton("Guardar");
-        guardarTrabajadorButton.setBounds(500, 500, 200, 40);
+        guardarTrabajadorButton.setBounds(150, 450, 200, 40);
         guardarTrabajadorButton.setHorizontalAlignment(SwingConstants.CENTER);
-        guardarTrabajadorButton.setBackground(new Color(206, 63, 86));
+        guardarTrabajadorButton.setBackground(new Color(218, 247, 166));
         guardarTrabajadorButton.setFont(nFont18);
         guardarTrabajadorButton.addActionListener(new ActionListener() {
             @Override
@@ -166,10 +187,10 @@ public class EditarTrabajadores extends JFrame {
         panel.add(guardarTrabajadorButton);
 
         
-        volverButton = new JButton("Cancelar");
-        volverButton.setBounds(50, 20, 200, 40);
+        volverButton = new JButton("Volver");
+        volverButton.setBounds(150, 500, 200, 40);
         volverButton.setHorizontalAlignment(SwingConstants.CENTER);
-        volverButton.setBackground(new Color(105, 123, 86));
+        volverButton.setBackground(new Color(240, 128, 128));
         volverButton.setFont(nFont18);
         volverButton.addActionListener(new ActionListener() {
             @Override
@@ -178,15 +199,105 @@ public class EditarTrabajadores extends JFrame {
             }
         });
         panel.add(volverButton);
+
+
+        mostrarDatosTrabajador(dni); // Para rellenar los campos que ya tiene el Trabajador.
     }
 
     // Metodos
-    private void editarTrabajador() {
+    private void mostrarDatosTrabajador(String dni) {
+        Trabajadores trabajadores = controladorTrabajadores.buscarTrabajador(dni);
 
+        try {
+            if (trabajadores != null) {
+                nombre_trabajadorField.setText(trabajadores.getNombreTrabajador());
+                apellido_trabajadorField.setText(trabajadores.getApellidoTrabajador());
+                correo_trabajadorField.setText(trabajadores.getCorreoTrabajador());
+                telefono_trabajadorField.setText(trabajadores.getTelefonoTrabajador());
+                contrasenaField.setText(trabajadores.getContrasena());
+                trabajador_activoCheckBox.setSelected(trabajadores.isTrabajadorActivo());
+                tipo_trabajadorCheckBox.setSelected(trabajadores.isTipoTrabajador());
+                comisionField.setText(String.valueOf(trabajadores.getComision()));
+            } else {
+                missatgeLabel.setText("Trabajador no encontrado");
+                missatgeLabel.setForeground(Color.BLACK);
+            }
+        } catch (RuntimeException ex) {
+            if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                missatgeLabel.setText("Base de datos no encontrada");
+                missatgeLabel.setForeground(Color.BLACK);
+            } else {
+                ex.printStackTrace();
+            }
+        }
     }
 
-    private  void volverAtras(Trabajadores trabajadores) {
-        new Menu(trabajadores).setVisible(true);
+    private void editarTrabajador() {
+        String dni = dniField.getText();
+        String nombre = nombre_trabajadorField.getText();
+        String apellido = apellido_trabajadorField.getText();
+        String correo = correo_trabajadorField.getText();
+        String telefono = telefono_trabajadorField.getText();
+        String contrasena = contrasenaField.getText();
+        Boolean  trabajadorActivo = trabajador_activoCheckBox.isSelected();
+        Boolean trabajadorTipo = tipo_trabajadorCheckBox.isSelected(); // Jefe / Emlpeado;
+        String comisionText = comisionField.getText();
+        BigDecimal comision = new BigDecimal(comisionText);  
+
+        String missatge = "";
+        Color colorMissatge = Color.BLUE;
+
+
+        // Validar que el texto no esté vacío y sea un número válido
+        if (comisionText != null && !comisionText.trim().isEmpty()) {
+            try {
+                // Intentar convertir el texto a BigDecimal
+                comision = new BigDecimal(comisionText);
+            } catch (NumberFormatException e) {
+                // Si hay un error, comision ya está en 0.00
+
+            }
+        }
+
+        
+        if (dni.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || contrasena.isEmpty()) {
+            missatge = "Tienes que rellenar todos los campos";
+        } else {
+            Trabajadores trabajadores = new Trabajadores();
+            trabajadores.setDni(dni);
+            trabajadores.setNombreTrabajador(nombre);
+            trabajadores.setApellidoTrabajador(apellido);
+            trabajadores.setCorreoTrabajador(correo);
+            trabajadores.setTelefonoTrabajador(telefono);
+            trabajadores.setContrasena(contrasena);
+            trabajadores.setTrabajadorActivo(trabajadorActivo);
+            trabajadores.setTipoTrabajador(trabajadorTipo);
+            trabajadores.setComision(comision);
+
+
+            try {
+                boolean resultat = controladorTrabajadores.modificarTrabajadores(dni, nombre, apellido, correo, telefono, contrasena, trabajadorActivo, trabajadorTipo, comision);
+
+                
+                if (resultat) {
+                    missatge = "¡Tabajador Actualizado!";
+                    colorMissatge = Color.GREEN;
+                }
+            } catch (RuntimeException ex) {
+                if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                    missatge = "Base de datos no encontrada";
+                    colorMissatge = Color.BLACK;
+                } else {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        missatgeLabel.setText(missatge);
+        missatgeLabel.setForeground(colorMissatge);
+    }
+
+    private void volverAtras(Trabajadores trabajadores) {
+        new GestionTrabajadores(trabajadores).setVisible(true);
         dispose();
     }
 }

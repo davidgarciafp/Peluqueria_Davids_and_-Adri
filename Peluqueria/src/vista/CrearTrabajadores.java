@@ -63,7 +63,6 @@ public class CrearTrabajadores extends JFrame {
         dniLabel = new JLabel("DNI: ");
         dniLabel.setBounds(300, 40, 200, 25);
         dniLabel.setFont(nFont18);
-        dniLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(dniLabel);
 
         dniField = new JTextField(20);
@@ -75,7 +74,6 @@ public class CrearTrabajadores extends JFrame {
         nombre_trabajadorLabel = new JLabel("Nombre Trabajador: ");
         nombre_trabajadorLabel.setBounds(300, 80, 200, 25);
         nombre_trabajadorLabel.setFont(nFont18);
-        nombre_trabajadorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(nombre_trabajadorLabel);
 
         nombre_trabajadorField = new JTextField(20);
@@ -87,7 +85,6 @@ public class CrearTrabajadores extends JFrame {
         apellido_trabajadorLabel = new JLabel("Apellido Trabajador: ");
         apellido_trabajadorLabel.setBounds(300, 120, 200, 25);
         apellido_trabajadorLabel.setFont(nFont18);
-        apellido_trabajadorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(apellido_trabajadorLabel);
 
         apellido_trabajadorField = new JTextField(20);
@@ -99,7 +96,6 @@ public class CrearTrabajadores extends JFrame {
         correo_trabajadorLabel = new JLabel("Correo: ");
         correo_trabajadorLabel.setBounds(300, 160, 200, 25);
         correo_trabajadorLabel.setFont(nFont18);
-        correo_trabajadorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(correo_trabajadorLabel);
 
         correo_trabajadorField = new JTextField(20);
@@ -111,7 +107,6 @@ public class CrearTrabajadores extends JFrame {
         telefono_trabajadorLabel = new JLabel("Telefono: ");
         telefono_trabajadorLabel.setBounds(300, 200, 200, 25);
         telefono_trabajadorLabel.setFont(nFont18);
-        telefono_trabajadorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(telefono_trabajadorLabel);
 
         telefono_trabajadorField = new JTextField(20);
@@ -123,7 +118,6 @@ public class CrearTrabajadores extends JFrame {
         contrasenaLabel = new JLabel("Contraseña: ");
         contrasenaLabel.setBounds(300, 240, 200, 25);
         contrasenaLabel.setFont(nFont18);
-        contrasenaLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(contrasenaLabel);
 
         contrasenaField = new JTextField(20);
@@ -135,7 +129,6 @@ public class CrearTrabajadores extends JFrame {
         tipo_trabajadorLabel = new JLabel("Administrador: ");
         tipo_trabajadorLabel.setBounds(300, 320, 200, 25);
         tipo_trabajadorLabel.setFont(nFont18);
-        tipo_trabajadorLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(tipo_trabajadorLabel);
 
         tipo_trabajadorCheckBox = new JCheckBox();
@@ -182,7 +175,7 @@ public class CrearTrabajadores extends JFrame {
 
     // Metodos
     private  void volverAtras(Trabajadores trabajadores) {
-        new Menu(trabajadores).setVisible(true);
+        new GestionTrabajadores(trabajadores).setVisible(true);
         dispose();
     }
 
