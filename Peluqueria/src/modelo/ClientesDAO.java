@@ -1,5 +1,4 @@
 package modelo;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +8,7 @@ import java.util.List;
 
 import basedatos.ConexionBaseDatos;
 
-public class ClientesDAO {
+public class ClientesDAO{
 
     public List<Clientes> mostrarClientes() {
         String sqlMostrarClientes = "SELECT * FROM Clientes";

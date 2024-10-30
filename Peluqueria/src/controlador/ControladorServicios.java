@@ -16,4 +16,7 @@ public class ControladorServicios {
     public List<Servicios> mostrarServicios() {
         return serviciosDAO.mostrarServicios();
     }
+    public boolean anyadirServicioss(Servicios servicios) {
+        return serviciosDAO.agregarServicios(servicios);
+    }
 }

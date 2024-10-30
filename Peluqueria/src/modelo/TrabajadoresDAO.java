@@ -90,7 +90,8 @@ public class TrabajadoresDAO {
             psAgregarTrabajador.setBoolean(7, trabajadores.isTrabajadorActivo());
             psAgregarTrabajador.setBoolean(8, trabajadores.isTipoTrabajador());
             psAgregarTrabajador.setBigDecimal(9, trabajadores.getComision());
-
+            psAgregarTrabajador.executeUpdate();
+            
             resultado = true; // La insercion es correcta
         } catch (SQLException ex) {
             if (ex.getMessage().equals("BaseDatos NO encontrada")) {
