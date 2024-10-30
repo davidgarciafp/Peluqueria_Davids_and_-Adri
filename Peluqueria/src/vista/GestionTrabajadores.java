@@ -121,7 +121,7 @@ public class GestionTrabajadores extends JFrame {
                 trabajador.getTelefonoTrabajador(),
                 trabajador.isTrabajadorActivo(),
                 trabajador.isTipoTrabajador(),
-                trabajador.getComision(),
+                "Comision",
                 "Editar"
             };
         }

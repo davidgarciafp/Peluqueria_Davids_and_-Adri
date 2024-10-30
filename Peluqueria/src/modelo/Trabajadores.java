@@ -12,13 +12,13 @@ public class Trabajadores {
     private String contrasena;
     private boolean trabajadorActivo;
     private boolean tipoTrabajador;
-    private BigDecimal comision;
-
+    private BigDecimal comision_productos;
+    private BigDecimal comision_servicios;
 
     // Constructores
     public Trabajadores(String dni, String nombreTrabajador, String apellidoTrabajador, String correoTrabajador,
-    String telefonoTrabajador, String contrasena, boolean trabajadorActivo, boolean tipoTrabajador,
-    BigDecimal comision) {
+        String telefonoTrabajador, String contrasena, boolean trabajadorActivo, boolean tipoTrabajador,
+        BigDecimal comision_productos, BigDecimal comision_servicios) {
         this.dni = dni;
         this.nombreTrabajador = nombreTrabajador;
         this.apellidoTrabajador = apellidoTrabajador;
@@ -27,7 +27,8 @@ public class Trabajadores {
         this.contrasena = contrasena;
         this.trabajadorActivo = trabajadorActivo;
         this.tipoTrabajador = tipoTrabajador;
-        this.comision = comision;
+        this.comision_productos = comision_productos;
+        this.comision_servicios = comision_servicios;
     }
 
     public Trabajadores() {} 
@@ -65,10 +66,13 @@ public class Trabajadores {
         this.tipoTrabajador = tipoTrabajador;
     }
 
-    public void setComision(BigDecimal comision) {
-        this.comision = comision;
+    public void setComision_productos(BigDecimal comision_productos) {
+        this.comision_productos = comision_productos;
     }
 
+    public void setComision_servicios(BigDecimal comision_servicios) {
+        this.comision_servicios = comision_servicios;
+    }
 
 
     // Getters
@@ -104,7 +108,11 @@ public class Trabajadores {
         return tipoTrabajador;
     }
 
-    public BigDecimal getComision() {
-        return comision;
+    public BigDecimal getComision_productos() {
+        return comision_productos;
+    }
+
+    public BigDecimal getComision_servicios() {
+        return comision_servicios;
     }
 }

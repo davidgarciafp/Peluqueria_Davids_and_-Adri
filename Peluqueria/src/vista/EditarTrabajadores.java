@@ -34,8 +34,10 @@ public class EditarTrabajadores extends JFrame {
     private JCheckBox trabajador_activoCheckBox;
     private JLabel tipo_trabajadorLabel;
     private JCheckBox tipo_trabajadorCheckBox;
-    private JLabel comisionLabel;
-    private JTextField comisionField;
+    private JLabel comision_productosLabel;
+    private JTextField comision_productosField;
+    private JLabel comision_serviciosLabel;
+    private JTextField comision_serviciosField;
     private JLabel missatgeLabel;
     private JButton guardarTrabajadorButton;
     private JButton volverButton;
@@ -136,7 +138,6 @@ public class EditarTrabajadores extends JFrame {
         panel.add(trabajador_activoLabel);
 
         trabajador_activoCheckBox = new JCheckBox();
-        trabajador_activoCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
         trabajador_activoCheckBox.setBounds(250, 280, 20, 25);
         trabajador_activoCheckBox.setBackground(new Color(255, 255, 255));
         panel.add(trabajador_activoCheckBox);
@@ -148,25 +149,35 @@ public class EditarTrabajadores extends JFrame {
         panel.add(tipo_trabajadorLabel);
 
         tipo_trabajadorCheckBox = new JCheckBox();
-        tipo_trabajadorCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
         tipo_trabajadorCheckBox.setBounds(250, 320, 20, 25);
         tipo_trabajadorCheckBox.setBackground(new Color(255, 255, 255)); 
         panel.add(tipo_trabajadorCheckBox);
 
 
-        comisionLabel = new JLabel("Comisión: ");
-        comisionLabel.setBounds(50, 360, 200, 25);
-        comisionLabel.setFont(nFont18);
-        panel.add(comisionLabel);
+        comision_productosLabel = new JLabel("Comisión Productos: ");
+        comision_productosLabel.setBounds(50, 360, 200, 25);
+        comision_productosLabel.setFont(nFont18);
+        panel.add(comision_productosLabel);
 
-        comisionField = new JTextField(20);
-        comisionField.setBounds(250, 360, 200, 25);
-        comisionField.setBackground(new Color(255, 255, 255)); 
-        panel.add(comisionField);
+        comision_productosField = new JTextField(20);
+        comision_productosField.setBounds(250, 360, 200, 25);
+        comision_productosField.setBackground(new Color(255, 255, 255)); 
+        panel.add(comision_productosField);
+
+
+        comision_serviciosLabel = new JLabel("Comisión Servicios: ");
+        comision_serviciosLabel.setBounds(50, 400, 200, 25);
+        comision_serviciosLabel.setFont(nFont18);
+        panel.add(comision_serviciosLabel);
+
+        comision_serviciosField = new JTextField(20);
+        comision_serviciosField.setBounds(250, 400, 200, 25);
+        comision_serviciosField.setBackground(new Color(255, 255, 255)); 
+        panel.add(comision_serviciosField);
 
 
         missatgeLabel = new JLabel("");
-        missatgeLabel.setBounds(50, 400, 400, 25);
+        missatgeLabel.setBounds(50, 425, 400, 25);
         missatgeLabel.setFont(nFont18);
         missatgeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(missatgeLabel);
@@ -217,7 +228,8 @@ public class EditarTrabajadores extends JFrame {
                 contrasenaField.setText(trabajadores.getContrasena());
                 trabajador_activoCheckBox.setSelected(trabajadores.isTrabajadorActivo());
                 tipo_trabajadorCheckBox.setSelected(trabajadores.isTipoTrabajador());
-                comisionField.setText(String.valueOf(trabajadores.getComision()));
+                comision_productosField.setText(String.valueOf(trabajadores.getComision_productos()));
+                comision_serviciosField.setText(String.valueOf(trabajadores.getComision_servicios()));
             } else {
                 missatgeLabel.setText("Trabajador no encontrado");
                 missatgeLabel.setForeground(Color.BLACK);
@@ -239,56 +251,60 @@ public class EditarTrabajadores extends JFrame {
         String correo = correo_trabajadorField.getText();
         String telefono = telefono_trabajadorField.getText();
         String contrasena = contrasenaField.getText();
-        Boolean  trabajadorActivo = trabajador_activoCheckBox.isSelected();
-        Boolean trabajadorTipo = tipo_trabajadorCheckBox.isSelected(); // Jefe / Emlpeado;
-        String comisionText = comisionField.getText();
-        BigDecimal comision = new BigDecimal(comisionText);  
-
+        Boolean trabajadorActivo = trabajador_activoCheckBox.isSelected();
+        Boolean trabajadorTipo = tipo_trabajadorCheckBox.isSelected(); // Jefe / Empleado;
+        String comision_productosText = comision_productosField.getText();
+        String comision_serviciosText = comision_serviciosField.getText();
+    
         String missatge = "";
         Color colorMissatge = Color.BLUE;
-
-
-        // Validar que el texto no esté vacío y sea un número válido
-        if (comisionText != null && !comisionText.trim().isEmpty()) {
-            try {
-                // Intentar convertir el texto a BigDecimal
-                comision = new BigDecimal(comisionText);
-            } catch (NumberFormatException e) {
-                // Si hay un error, comision ya está en 0.00
-
-            }
-        }
-
-        
-        if (dni.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || contrasena.isEmpty()) {
-            missatge = "Tienes que rellenar todos los campos";
+    
+        // Validación de comision_productos
+        if (!comision_productosText.matches("^-?\\d+(\\.\\d+)?$")) {
+            missatge = "La comisión de Productos debe ser N.NN";
+            colorMissatge = new Color(240, 128, 128);
         } else {
-            Trabajadores trabajadores = new Trabajadores();
-            trabajadores.setDni(dni);
-            trabajadores.setNombreTrabajador(nombre);
-            trabajadores.setApellidoTrabajador(apellido);
-            trabajadores.setCorreoTrabajador(correo);
-            trabajadores.setTelefonoTrabajador(telefono);
-            trabajadores.setContrasena(contrasena);
-            trabajadores.setTrabajadorActivo(trabajadorActivo);
-            trabajadores.setTipoTrabajador(trabajadorTipo);
-            trabajadores.setComision(comision);
-
-
-            try {
-                boolean resultat = controladorTrabajadores.modificarTrabajadores(dni, nombre, apellido, correo, telefono, contrasena, trabajadorActivo, trabajadorTipo, comision);
-
-                
-                if (resultat) {
-                    missatge = "¡Tabajador Actualizado!";
-                    colorMissatge = Color.GREEN;
-                }
-            } catch (RuntimeException ex) {
-                if (ex.getMessage().equals("BaseDatos NO encontrada")) {
-                    missatge = "Base de datos no encontrada";
-                    colorMissatge = Color.BLACK;
+            BigDecimal comision_productos = new BigDecimal(comision_productosText);
+    
+            // Validación de comision_servicios
+            if (!comision_serviciosText.matches("^-?\\d+(\\.\\d+)?$")) {
+                missatge = "La comisión de Servicios debe ser N.NN";
+                colorMissatge = new Color(240, 128, 128);
+            } else {
+                BigDecimal comision_servicios = new BigDecimal(comision_serviciosText);
+    
+                // Validar campos obligatorios
+                if (dni.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || contrasena.isEmpty()) {
+                    missatge = "Tienes que rellenar todos los campos";
+                    colorMissatge = new Color(240, 128, 128);
                 } else {
-                    ex.printStackTrace();
+                    Trabajadores trabajadores = new Trabajadores();
+                    trabajadores.setDni(dni);
+                    trabajadores.setNombreTrabajador(nombre);
+                    trabajadores.setApellidoTrabajador(apellido);
+                    trabajadores.setCorreoTrabajador(correo);
+                    trabajadores.setTelefonoTrabajador(telefono);
+                    trabajadores.setContrasena(contrasena);
+                    trabajadores.setTrabajadorActivo(trabajadorActivo);
+                    trabajadores.setTipoTrabajador(trabajadorTipo);
+                    trabajadores.setComision_productos(comision_productos);
+                    trabajadores.setComision_servicios(comision_servicios);
+    
+                    try {
+                        boolean resultat = controladorTrabajadores.modificarTrabajadores(dni, nombre, apellido, correo, telefono, contrasena, trabajadorActivo, trabajadorTipo, comision_productos, comision_servicios);
+    
+                        if (resultat) {
+                            missatge = "¡Trabajador Actualizado!";
+                            colorMissatge = Color.GREEN;
+                        }
+                    } catch (RuntimeException ex) {
+                        if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                            missatge = "Base de datos no encontrada";
+                            colorMissatge = Color.BLACK;
+                        } else {
+                            ex.printStackTrace();
+                        }
+                    }
                 }
             }
         }

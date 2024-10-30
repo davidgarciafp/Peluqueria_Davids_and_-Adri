@@ -29,7 +29,8 @@ public class TrabajadoresDAO {
                     rs.getString("contrasena"),
                     rs.getBoolean("trabajador_activo"),
                     rs.getBoolean("tipo_trabajador"),
-                    rs.getBigDecimal("comision")
+                    rs.getBigDecimal("comision_productos"),
+                    rs.getBigDecimal("comision_servicios")
                 );
                 listaTrabajadores.add(trabajadores); // Els agrreguem al array.
             }
@@ -60,7 +61,8 @@ public class TrabajadoresDAO {
                         rs.getString("contrasena"),
                         rs.getBoolean("trabajador_activo"),
                         rs.getBoolean("tipo_trabajador"),
-                        rs.getBigDecimal("comision")
+                        rs.getBigDecimal("comision_productos"),
+                        rs.getBigDecimal("comision_servicios")
                 );
             } else {
                 trabajadores = null;
@@ -76,7 +78,7 @@ public class TrabajadoresDAO {
     }
 
     public boolean agregarTrabajadores(Trabajadores trabajadores) {
-        String sqlAgregar = "INSERT INTO trabajadores (dni, nombre_trabajador, apellido_trabajador, correo_trabajador, telefono_trabajador, contrasena, trabajador_activo, tipo_trabajador, comision) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlAgregar = "INSERT INTO trabajadores (dni, nombre_trabajador, apellido_trabajador, correo_trabajador, telefono_trabajador, contrasena, trabajador_activo, tipo_trabajador, comision_productos, comision_servicios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         boolean resultado = false;
 
         try (Connection conn = ConexionBaseDatos.getConexion();
@@ -89,7 +91,8 @@ public class TrabajadoresDAO {
             psAgregarTrabajador.setString(6, trabajadores.getContrasena());
             psAgregarTrabajador.setBoolean(7, trabajadores.isTrabajadorActivo());
             psAgregarTrabajador.setBoolean(8, trabajadores.isTipoTrabajador());
-            psAgregarTrabajador.setBigDecimal(9, trabajadores.getComision());
+            psAgregarTrabajador.setBigDecimal(9, trabajadores.getComision_productos());
+            psAgregarTrabajador.setBigDecimal(10, trabajadores.getComision_servicios());
             psAgregarTrabajador.executeUpdate();
 
             resultado = true; // La insercion es correcta
@@ -103,8 +106,8 @@ public class TrabajadoresDAO {
         return resultado;
     }
 
-    public <BigDecimal> boolean actualizarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean trabajadorActivo, Boolean trabajadorTipo, java.math.BigDecimal comision) {
-        String sqlActualizarTrabajadores = "UPDATE trabajadores SET nombre_trabajador = ?, apellido_trabajador = ?, correo_trabajador = ?, telefono_trabajador = ?, contrasena = ?, trabajador_activo = ?, tipo_trabajador = ?, comision = ? WHERE dni = ?";
+    public <BigDecimal> boolean actualizarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean trabajadorActivo, Boolean trabajadorTipo, java.math.BigDecimal comisionProductos, java.math.BigDecimal comisionServicios) {
+        String sqlActualizarTrabajadores = "UPDATE trabajadores SET nombre_trabajador = ?, apellido_trabajador = ?, correo_trabajador = ?, telefono_trabajador = ?, contrasena = ?, trabajador_activo = ?, tipo_trabajador = ?, comision_productos = ?, comision_servicios = ? WHERE dni = ?";
         boolean resultado =  false;
 
         try (Connection conn = ConexionBaseDatos.getConexion();
@@ -117,8 +120,9 @@ public class TrabajadoresDAO {
             pstmt.setString(5, nuevaContrasena);
             pstmt.setBoolean(6, trabajadorActivo);
             pstmt.setBoolean(7, trabajadorTipo);
-            pstmt.setBigDecimal(8, (java.math.BigDecimal) comision);
-            pstmt.setString(9, dni);
+            pstmt.setBigDecimal(8, (java.math.BigDecimal) comisionProductos);
+            pstmt.setBigDecimal(9, (java.math.BigDecimal) comisionServicios);
+            pstmt.setString(10, dni);
             
             int filasActualizadas = pstmt.executeUpdate();
             resultado = filasActualizadas > 0;
@@ -153,7 +157,8 @@ public class TrabajadoresDAO {
                     rs.getString("contrasena"),
                     rs.getBoolean("trabajador_activo"),
                     rs.getBoolean("tipo_trabajador"),
-                    rs.getBigDecimal("comision")
+                    rs.getBigDecimal("comision_productos"),
+                    rs.getBigDecimal("comision_servicios")
                 );
             }
         } catch (Exception e) {

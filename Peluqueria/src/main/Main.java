@@ -1,6 +1,5 @@
 package main;
 
-
 import vista.IniciarSesion;
 
 public class Main {

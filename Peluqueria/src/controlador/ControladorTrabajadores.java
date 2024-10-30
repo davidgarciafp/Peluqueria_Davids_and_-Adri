@@ -25,8 +25,9 @@ public class ControladorTrabajadores {
         return trabajadoresDAO.agregarTrabajadores(trabajadores);
     }
 
-    public <BigDecimal> boolean modificarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean nuevoActivo, Boolean trabajadorTipo, java.math.BigDecimal comision) {
-        return trabajadoresDAO.actualizarTrabajadores(dni, nuevoNombre, nuevoApellido, nuevoCorreo, nuevoTelefono, nuevaContrasena, nuevoActivo, trabajadorTipo, comision);
+    public <BigDecimal> boolean modificarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean nuevoActivo, Boolean trabajadorTipo, java.math.BigDecimal comisionProductos, java.math.BigDecimal comisionServicios) {
+        return trabajadoresDAO.actualizarTrabajadores(dni, nuevoNombre, nuevoApellido, nuevoCorreo, nuevoTelefono, nuevaContrasena, nuevoActivo, trabajadorTipo, comisionProductos, comisionServicios);
+
     }
 
     public Trabajadores buscarTrabajador(String dni) {

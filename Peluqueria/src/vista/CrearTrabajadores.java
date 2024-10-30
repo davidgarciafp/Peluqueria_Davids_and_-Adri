@@ -203,8 +203,8 @@ public class CrearTrabajadores extends JFrame {
             trabajadores.setContrasena(contrasena);
             trabajadores.setTrabajadorActivo(true);
             trabajadores.setTipoTrabajador(trabajadorTipo);
-            trabajadores.setComision(BigDecimal.ZERO);
-
+            trabajadores.setComision_productos(BigDecimal.ZERO);
+            trabajadores.setComision_servicios(BigDecimal.ZERO);
 
             try {
                 boolean resultat = controladorTrabajadores.anyadirTrabajadores(trabajadores);
