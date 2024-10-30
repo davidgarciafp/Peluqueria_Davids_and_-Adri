@@ -22,6 +22,10 @@ public class Clientes {
         this.proteccion_datos = proteccion_datos;
         this.descripcion_cliente = descripcion_cliente;
     }
+
+    public Clientes() {} 
+
+
     //Setters
     public void setId_cliente(Integer id_cliente) {
         this.id_cliente = id_cliente;

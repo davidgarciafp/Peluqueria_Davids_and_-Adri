@@ -17,6 +17,10 @@ public class Servicios {
         this.descripcion_servicio = descripcion_servicio;
         this.servicio_activo = servicio_activo;
     }
+
+    public Servicios() {} 
+
+
     //Setters
     public void setId_servicio(Integer id_servicio) {
         this.id_servicio = id_servicio;

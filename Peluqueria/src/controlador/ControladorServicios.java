@@ -16,7 +16,14 @@ public class ControladorServicios {
     public List<Servicios> mostrarServicios() {
         return serviciosDAO.mostrarServicios();
     }
-    public boolean anyadirServicioss(Servicios servicios) {
+    public boolean anyadirServicios(Servicios servicios) {
         return serviciosDAO.agregarServicios(servicios);
+    }
+    public <BigDecimal> boolean modificarServicios(Integer idServicio, java.math.BigDecimal precioBase, String descripcionServicio, Boolean servicioActivo) {
+        return serviciosDAO.actualizarServicios(idServicio, precioBase, descripcionServicio, servicioActivo);
+    }
+
+    public Servicios buscarServicio(Integer idServicio) {
+        return serviciosDAO.encontrarServicio(idServicio);
     }
 }

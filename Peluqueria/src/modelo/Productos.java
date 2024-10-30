@@ -27,6 +27,9 @@ public class Productos {
         this.producto_activo = producto_activo;
     }
 
+    public Productos() {} 
+
+
     //Setters
     public void setId_producto(Integer id_producto) {
         this.id_producto = id_producto;
