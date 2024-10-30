@@ -11,6 +11,8 @@ CREATE TABLE trabajadores (
     contrasena VARCHAR(4), -- Contraseña del trabajador.
     trabajador_activo BOOLEAN, -- Si el trabajador sigue en la empresa (true) si no (false).
     tipo_trabajador BOOLEAN, -- Jefe (true), traballador normal (false).
+    comision_productos DECIMAL(10,2), -- Comision que recibe el trabajador por cada producto.
+    comision_servicios DECIMAL(10,2), -- Comision que recibe el trabajador por cada servicio.
     comision DECIMAL(10,2) -- Sueldo extra.
 );
 

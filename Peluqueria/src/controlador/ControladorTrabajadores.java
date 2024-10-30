@@ -24,4 +24,12 @@ public class ControladorTrabajadores {
     public boolean anyadirTrabajadores(Trabajadores trabajadores) {
         return trabajadoresDAO.agregarTrabajadores(trabajadores);
     }
+
+    public <BigDecimal> boolean modificarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean nuevoActivo, Boolean trabajadorTipo, java.math.BigDecimal comision) {
+        return trabajadoresDAO.actualizarTrabajadores(dni, nuevoNombre, nuevoApellido, nuevoCorreo, nuevoTelefono, nuevaContrasena, nuevoActivo, trabajadorTipo, comision);
+    }
+
+    public Trabajadores buscarTrabajador(String dni) {
+        return trabajadoresDAO.encontrarTrabajador(dni);
+    }
 }
