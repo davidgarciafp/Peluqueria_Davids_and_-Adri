@@ -142,8 +142,8 @@ public class GestionTrabajadores extends JFrame {
                 int row = tablaTrabajador.rowAtPoint(e.getPoint());
                 int column = tablaTrabajador.columnAtPoint(e.getPoint());
                 if (column == 8) { // Si se clicó en la columna "Editar"
-                    String dni = (String) tablaTrabajador.getValueAt(row, 0); // Obtener el DNI
-                    new EditarTrabajadores(trabajadores, dni).setVisible(true);
+                    int idTrabajador = listaTrabajadores.get(row).getId_trabajador(); // Obtener el ID del trabajador
+                    new EditarTrabajadores(trabajadores, idTrabajador).setVisible(true); // Pasar el ID del trabajador
                     dispose();
                 }
             }

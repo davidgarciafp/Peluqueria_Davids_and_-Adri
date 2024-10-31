@@ -3,20 +3,17 @@ CREATE DATABASE peluqueria;
 USE peluqueria;
 
 CREATE TABLE trabajadores (
-    dni VARCHAR(9) PRIMARY KEY, -- Identificador único por cada servicio.
+    id_trabajador INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único por cada servicio.
+    dni VARCHAR(9), -- dni unico pero sin PK
     nombre_trabajador VARCHAR(50), -- Nombre del trabajador.
     apellido_trabajador VARCHAR(50), -- Apellido del trabajador.
     correo_trabajador VARCHAR(255), -- Correo del trabajador.
     telefono_trabajador VARCHAR(15), -- Telefono del trabajador.
-    contrasena VARCHAR(4), -- Contraseña del trabajador.
+    contrasena VARCHAR(50), -- Contraseña del trabajador.
     trabajador_activo BOOLEAN, -- Si el trabajador sigue en la empresa (true) si no (false).
     tipo_trabajador BOOLEAN, -- Jefe (true), traballador normal (false).
     comision_productos DECIMAL(10,2), -- Comision que recibe el trabajador por cada producto.
-<<<<<<< HEAD
     comision_servicios DECIMAL(10,2) -- Comision que recibe el trabajador por cada servicio.
-=======
-    comision_servicios DECIMAL(10,2), -- Comision que recibe el trabajador por cada servicio.
->>>>>>> 59a189f99dcb3957e22ff98776b362ed3e4edf96
 );
 
 CREATE TABLE productos (
@@ -49,21 +46,21 @@ CREATE TABLE clientes (
 
 CREATE TABLE ventas (
     id_ventas INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único por cada servicio.
-    dni VARCHAR(9), -- Referencia a la tabla trabajadores.
+    id_trabajador INT, -- Referencia a la tabla trabajadores.
     id_producto INT, -- Referencia a la tabla productos.
     id_cliente INT, -- Referencia a la tabla clientes.
     cantidad_vendida INT, -- La cantidad de productos que se han vendido.
     fecha_venta DATE, -- Fecha en la cual se gasto o se compro el producto.
     descripcion_venta TEXT, -- Un comentario que se quiera poner de la venta.
     venta_pagada BOOLEAN, -- Si la venta se ha pagado (true) o esta pendiente (false).
-    FOREIGN KEY (dni) REFERENCES trabajadores(dni),
+    FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
     FOREIGN KEY (id_producto) REFERENCES productos(id_producto),
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
 
 CREATE TABLE servicio_realizados (
     servicio_realizados INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único por cada servicio.
-    dni VARCHAR(9), -- Referencia a la tabla trabajadores.
+    id_trabajador INT, -- Referencia a la tabla trabajadores.
     id_servicio INT, -- Referencia a la tabla servicios.
     id_cliente INT, -- Referencia a la tabla clientes.
     hora_inicio DATETIME, -- Fecha y hora en que el corte empezó.
@@ -73,7 +70,7 @@ CREATE TABLE servicio_realizados (
     comentario TEXT, -- Comentario del servicio realizado.
     realizado BOOLEAN, -- Si el servicio se ha hecho.
     pagado BOOLEAN, -- Si el servicio se ha pagado (true) o esta pendiente (false).
-    FOREIGN KEY (dni) REFERENCES trabajadores(dni),
+    FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
     FOREIGN KEY (id_servicio) REFERENCES servicios(id_servicio),
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );

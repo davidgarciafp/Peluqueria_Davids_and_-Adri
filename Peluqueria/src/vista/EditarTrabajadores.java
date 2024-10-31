@@ -43,7 +43,7 @@ public class EditarTrabajadores extends JFrame {
     private JButton volverButton;
     private ControladorTrabajadores controladorTrabajadores;
 
-    public EditarTrabajadores(Trabajadores trabajadores, String dni) {
+    public EditarTrabajadores(Trabajadores trabajadores, int id_trabajador) {
         controladorTrabajadores = new ControladorTrabajadores(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -53,12 +53,12 @@ public class EditarTrabajadores extends JFrame {
         // Creamos un panel para agregar los componetes que quieras.
         JPanel panel = new JPanel();
         add(panel);
-        posicioBotons(panel, trabajadores, dni);
+        posicioBotons(panel, trabajadores, id_trabajador);
 
         setVisible(true); 
     }
 
-    private void posicioBotons(JPanel panel, Object trabajadores, String dni) {
+    private void posicioBotons(JPanel panel, Object trabajadores, int id_trabajador) {
         panel.setBackground(new Color(139, 137, 137)); // Canviar de color.
         panel.setLayout(null);
 
@@ -71,7 +71,7 @@ public class EditarTrabajadores extends JFrame {
         dniLabel.setFont(nFont18);
         panel.add(dniLabel);
 
-        dniField = new JTextField(dni);
+        dniField = new JTextField(20);
         dniField.setBounds(250, 40, 200, 25);
         dniField.setBackground(new Color(255, 255, 255)); 
         panel.add(dniField);
@@ -191,7 +191,7 @@ public class EditarTrabajadores extends JFrame {
         guardarTrabajadorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editarTrabajador();
+                editarTrabajador(id_trabajador);
             }
         });
         panel.getRootPane().setDefaultButton(guardarTrabajadorButton); // Para poderlo pulsar con la tecla "INTRO".
@@ -212,12 +212,12 @@ public class EditarTrabajadores extends JFrame {
         panel.add(volverButton);
 
 
-        mostrarDatosTrabajador(dni); // Para rellenar los campos que ya tiene el Trabajador.
+        mostrarDatosTrabajador(id_trabajador); // Para rellenar los campos que ya tiene el Trabajador.
     }
 
     // Metodos
-    private void mostrarDatosTrabajador(String dni) {
-        Trabajadores trabajadores = controladorTrabajadores.buscarTrabajador(dni);
+    private void mostrarDatosTrabajador(int id_trabajador) {
+        Trabajadores trabajadores = controladorTrabajadores.buscarTrabajador(id_trabajador);
 
         try {
             if (trabajadores != null) {
@@ -244,7 +244,7 @@ public class EditarTrabajadores extends JFrame {
         }
     }
 
-    private void editarTrabajador() {
+    private void editarTrabajador(int id_trabajador) {
         String dni = dniField.getText();
         String nombre = nombre_trabajadorField.getText();
         String apellido = apellido_trabajadorField.getText();
@@ -259,50 +259,67 @@ public class EditarTrabajadores extends JFrame {
         String missatge = "";
         Color colorMissatge = Color.BLUE;
     
-        // Validación de comision_productos
-        if (!comision_productosText.matches("^-?\\d+(\\.\\d+)?$")) {
-            missatge = "La comisión de Productos debe ser N.NN";
+        // Validar el formato del DNI
+        if (!dni.matches("^[0-9]{8}[A-Z]$")) {
+            missatge = "El DNI incorrecto";
+            colorMissatge = new Color(240, 128, 128);
+        // Verificar si el DNI ya existe
+        } else if (controladorTrabajadores.comprovarDNI(dni)) {
+            missatge = "Este DNI ya está en uso";
             colorMissatge = new Color(240, 128, 128);
         } else {
-            BigDecimal comision_productos = new BigDecimal(comision_productosText);
-    
-            // Validación de comision_servicios
-            if (!comision_serviciosText.matches("^-?\\d+(\\.\\d+)?$")) {
-                missatge = "La comisión de Servicios debe ser N.NN";
+            // Validación de comision_productos
+            if (!comision_productosText.matches("^-?\\d+(\\.\\d+)?$")) {
+                missatge = "La comisión de Productos debe ser N.NN";
                 colorMissatge = new Color(240, 128, 128);
             } else {
-                BigDecimal comision_servicios = new BigDecimal(comision_serviciosText);
-    
-                // Validar campos obligatorios
-                if (dni.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || contrasena.isEmpty()) {
-                    missatge = "Tienes que rellenar todos los campos";
+                BigDecimal comision_productos = new BigDecimal(comision_productosText);
+        
+                // Validación de comision_servicios
+                if (!comision_serviciosText.matches("^-?\\d+(\\.\\d+)?$")) {
+                    missatge = "La comisión de Servicios debe ser N.NN";
                     colorMissatge = new Color(240, 128, 128);
                 } else {
-                    Trabajadores trabajadores = new Trabajadores();
-                    trabajadores.setDni(dni);
-                    trabajadores.setNombreTrabajador(nombre);
-                    trabajadores.setApellidoTrabajador(apellido);
-                    trabajadores.setCorreoTrabajador(correo);
-                    trabajadores.setTelefonoTrabajador(telefono);
-                    trabajadores.setContrasena(contrasena);
-                    trabajadores.setTrabajadorActivo(trabajadorActivo);
-                    trabajadores.setTipoTrabajador(trabajadorTipo);
-                    trabajadores.setComision_productos(comision_productos);
-                    trabajadores.setComision_servicios(comision_servicios);
-    
-                    try {
-                        boolean resultat = controladorTrabajadores.modificarTrabajadores(dni, nombre, apellido, correo, telefono, contrasena, trabajadorActivo, trabajadorTipo, comision_productos, comision_servicios);
-    
-                        if (resultat) {
-                            missatge = "¡Trabajador Actualizado!";
-                            colorMissatge = Color.GREEN;
-                        }
-                    } catch (RuntimeException ex) {
-                        if (ex.getMessage().equals("BaseDatos NO encontrada")) {
-                            missatge = "Base de datos no encontrada";
-                            colorMissatge = Color.BLACK;
-                        } else {
-                            ex.printStackTrace();
+                    BigDecimal comision_servicios = new BigDecimal(comision_serviciosText);
+        
+                    // Validar campos obligatorios
+                    if (dni.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || contrasena.isEmpty()) {
+                        missatge = "Tienes que rellenar todos los campos";
+                        colorMissatge = new Color(240, 128, 128);
+                    } else if (!correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+                        missatge = "El correo incorrecto";
+                        colorMissatge = new Color(240, 128, 128);
+                    } else if (!telefono.matches("[+\\d ]{1,15}") || telefono.length() > 15) {
+                        missatge = "El teléfono incorrecto";
+                        colorMissatge = new Color(240, 128, 128);
+                    } else {
+                        System.out.println("He entrado");
+                        Trabajadores trabajadores = new Trabajadores();
+                        trabajadores.setDni(dni);
+                        trabajadores.setNombreTrabajador(nombre);
+                        trabajadores.setApellidoTrabajador(apellido);
+                        trabajadores.setCorreoTrabajador(correo);
+                        trabajadores.setTelefonoTrabajador(telefono);
+                        trabajadores.setContrasena(contrasena);
+                        trabajadores.setTrabajadorActivo(trabajadorActivo);
+                        trabajadores.setTipoTrabajador(trabajadorTipo);
+                        trabajadores.setComision_productos(comision_productos);
+                        trabajadores.setComision_servicios(comision_servicios);
+        
+                        try {
+                        boolean resultat = controladorTrabajadores.modificarTrabajadores(id_trabajador, dni, nombre, apellido, correo, telefono, contrasena, trabajadorActivo, trabajadorTipo, comision_productos, comision_servicios);
+                        
+                            if (resultat) {
+                                missatge = "¡Trabajador Actualizado!";
+                                colorMissatge = Color.GREEN;
+                            }
+                        } catch (RuntimeException ex) {
+                            if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                                missatge = "Base de datos no encontrada";
+                                colorMissatge = Color.BLACK;
+                            } else {
+                                ex.printStackTrace();
+                            }
                         }
                     }
                 }

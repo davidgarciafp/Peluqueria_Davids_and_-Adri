@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import controlador.ControladorServicios;
 import modelo.Productos;
 import modelo.Servicios;
+import modelo.Trabajadores;
 
 public class GestionServicios extends JFrame {
     private JLabel volverLabel;
@@ -33,7 +34,7 @@ public class GestionServicios extends JFrame {
     private JButton agregarButton;
     private ControladorServicios controladorServicios;
 
-    public GestionServicios(Servicios servicios) {
+    public GestionServicios(Trabajadores trabajadores) {
         controladorServicios = new ControladorServicios(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.

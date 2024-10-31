@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class Trabajadores {
     // Entidades
+    private int id_trabajador;
     private String dni;
     private String nombreTrabajador;
     private String apellidoTrabajador;
@@ -16,9 +17,10 @@ public class Trabajadores {
     private BigDecimal comision_servicios;
 
     // Constructores
-    public Trabajadores(String dni, String nombreTrabajador, String apellidoTrabajador, String correoTrabajador,
+    public Trabajadores(int id_trabajador, String dni, String nombreTrabajador, String apellidoTrabajador, String correoTrabajador,
         String telefonoTrabajador, String contrasena, boolean trabajadorActivo, boolean tipoTrabajador,
         BigDecimal comision_productos, BigDecimal comision_servicios) {
+        this.id_trabajador = id_trabajador;
         this.dni = dni;
         this.nombreTrabajador = nombreTrabajador;
         this.apellidoTrabajador = apellidoTrabajador;
@@ -34,6 +36,10 @@ public class Trabajadores {
     public Trabajadores() {} 
 
     // Setters
+    public void setId_trabajador(int id_trabajador) {
+        this.id_trabajador = id_trabajador;
+    }
+    
     public void setDni(String dni) {
         this.dni = dni;
     }
@@ -76,6 +82,10 @@ public class Trabajadores {
 
 
     // Getters
+    public int getId_trabajador() {
+        return id_trabajador;
+    }
+
     public String getDni() {
         return dni;
     }

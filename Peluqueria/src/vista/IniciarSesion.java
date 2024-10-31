@@ -33,7 +33,7 @@ public class IniciarSesion extends JFrame {
     private JLabel imagenLabel;
     private JLabel nombreUsuarioLabel;
     private JComboBox<String> nombreUsuarioComboBox;
-    private Map<String, String> dniMap = new HashMap<>(); // Mapa para almacenar DNI
+    private Map<String, Integer> id_trabajadorMap = new HashMap<>(); // Mapa para almacenar id_trabajador
     private JLabel contrasenaUsuarioLabel;
     private JPasswordField contrasenaUsuarioField;
     private JLabel missatgeErrorLabel;
@@ -198,7 +198,7 @@ public class IniciarSesion extends JFrame {
             for (Trabajadores trabajador : trabajadoresList) {
                 String displayName = trabajador.getNombreTrabajador() + " " + trabajador.getApellidoTrabajador();
 
-                dniMap.put(displayName, trabajador.getDni()); // Almacenar el DNI en el mapa
+                id_trabajadorMap.put(displayName, trabajador.getId_trabajador()); // Almacenar el id_trabajador en el mapa
                 nombreUsuarioComboBox.addItem(displayName); // Solo mostrar nombre y apellido
             }
         } catch (RuntimeException ex) {
@@ -218,11 +218,11 @@ public class IniciarSesion extends JFrame {
             missatgeErrorLabel.setText("Elige un usuario");
             missatgeErrorLabel.setForeground(Color.BLUE);
         } else {
-            String dni = dniMap.get(selecionarNombre); // Obtener el DNI correspondiente
+            int id_trabajador = id_trabajadorMap.get(selecionarNombre); // Obtener el id_trabajador correspondiente
             String contrasena = new String(contrasenaUsuarioField.getPassword());
             
             try {
-                Trabajadores trabajador = controladorTrabajadores.identificarTrabajador(dni, contrasena);
+                Trabajadores trabajador = controladorTrabajadores.identificarTrabajador(id_trabajador, contrasena);
                 if (trabajador != null) {
                     if (trabajador.isTipoTrabajador()) {
                         // Trabajador és Jefe
