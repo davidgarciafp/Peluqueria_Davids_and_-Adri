@@ -12,7 +12,11 @@ CREATE TABLE trabajadores (
     trabajador_activo BOOLEAN, -- Si el trabajador sigue en la empresa (true) si no (false).
     tipo_trabajador BOOLEAN, -- Jefe (true), traballador normal (false).
     comision_productos DECIMAL(10,2), -- Comision que recibe el trabajador por cada producto.
+<<<<<<< HEAD
     comision_servicios DECIMAL(10,2) -- Comision que recibe el trabajador por cada servicio.
+=======
+    comision_servicios DECIMAL(10,2), -- Comision que recibe el trabajador por cada servicio.
+>>>>>>> 59a189f99dcb3957e22ff98776b362ed3e4edf96
 );
 
 CREATE TABLE productos (

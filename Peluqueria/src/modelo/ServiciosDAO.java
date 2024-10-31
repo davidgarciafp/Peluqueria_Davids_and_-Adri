@@ -55,4 +55,54 @@ public class ServiciosDAO {
         }
         return resultado;
     }
+
+    public <BigDecimal> boolean actualizarServicios(Integer idServicio, BigDecimal precioBase, String descripcionServicio, Boolean servicioActivo) {
+        String sqlActualizarServicios = "UPDATE servicios SET id_servicio = ?, precio_base = ?, descripcion_servicio = ?, servicio_activo = ? WHERE id_servicio = ?";
+        boolean resultado =  false;
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+            PreparedStatement pstmt = conn.prepareStatement(sqlActualizarServicios)) {
+            
+            pstmt.setInt(1, idServicio);
+            pstmt.setBigDecimal(2,(java.math.BigDecimal) precioBase);
+            pstmt.setString(3, descripcionServicio);
+            pstmt.setBoolean(4, servicioActivo);
+            
+            int filasActualizadas = pstmt.executeUpdate();
+            resultado = filasActualizadas > 0;
+
+        } catch (SQLException ex) {
+            if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                throw new RuntimeException("BaseDatos NO encontrada");
+            } else {
+                ex.printStackTrace();
+            }
+        }
+        return resultado;
+    }
+
+    public Servicios encontrarServicio(int idServicio) {
+
+        Servicios servicios = null;
+        String sql = "SELECT * FROM servicios WHERE id_servicio = ?";
+        
+        try (Connection conn = ConexionBaseDatos.getConexion();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                
+            pstmt.setInt(1,idServicio);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                servicios = new Servicios(
+                    rs.getInt("id_servicio"),
+                    rs.getBigDecimal("precio_base"),
+                    rs.getString("descripcion_servicio"),
+                    rs.getBoolean("servicio_activo")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return servicios;
+    }
 }
