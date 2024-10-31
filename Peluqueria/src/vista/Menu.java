@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import modelo.Trabajadores;
+import modelo.Servicios;
 
 public class Menu extends JFrame {
     private JPanel menuBotones;
@@ -132,7 +133,7 @@ public class Menu extends JFrame {
         serviciosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paginaServiciosVista((Trabajadores) trabajadores);
+                paginaGestionServicios((Servicios) servicios);
             }
         });
         layeredPane.add(serviciosButton, Integer.valueOf(1)); // Añadir a la capa superior
@@ -248,9 +249,9 @@ public class Menu extends JFrame {
         }
     }
 
-    private void paginaServiciosVista(Trabajadores trabajadores) {
+    private void paginaGestionServicios(Servicios servicios) {
         try {
-            new GestionServicios(trabajadores).setVisible(true);
+            new GestionServicios(servicios).setVisible(true);
             dispose();
         } catch (RuntimeException ex) {
             if (ex.getMessage().equals("BaseDatos NO encontrada")) {
