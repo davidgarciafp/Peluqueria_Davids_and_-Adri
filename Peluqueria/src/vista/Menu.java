@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import modelo.Trabajadores;
+import modelo.Clientes;
+import modelo.Productos;
 import modelo.Servicios;
 
 public class Menu extends JFrame {
@@ -34,7 +36,10 @@ public class Menu extends JFrame {
     private JLayeredPane layeredPane; // Declarar aquí
 
 
-    public Menu(Object trabajadores) {
+
+    public Menu(Trabajadores trabajadores,Servicios servicios, Productos productos, Clientes  clientes) {
+
+
         // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -45,7 +50,7 @@ public class Menu extends JFrame {
         // Creamos un panel para agregar los componetes que quieras.
         JPanel panel = new JPanel();
         add(panel);
-        posicioBotons(panel, trabajadores);
+        posicioBotons(panel, trabajadores, servicios, productos, clientes);
 
 
         // Ajustar componentes al tamaño inicial
@@ -63,7 +68,8 @@ public class Menu extends JFrame {
         setVisible(true); 
     }
 
-    private void posicioBotons(JPanel panel, Object trabajadores) {
+    private void posicioBotons(JPanel panel, Object trabajadores, Object servicios, Object productos, Object  clientes) {
+
         panel.setBackground(new Color(220, 207, 201)); // Canviar de color.
         panel.setLayout(null);
 
@@ -133,7 +139,7 @@ public class Menu extends JFrame {
         serviciosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paginaGestionServicios((Servicios) servicios);
+                paginaGestionServicios((Trabajadores)trabajadores, (Servicios)servicios);
             }
         });
         layeredPane.add(serviciosButton, Integer.valueOf(1)); // Añadir a la capa superior
@@ -147,7 +153,7 @@ public class Menu extends JFrame {
         clientesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paginaClientesVista((Trabajadores) trabajadores);
+                paginaGestionClientes((Trabajadores) trabajadores, (Clientes) clientes);
             }
         });
         layeredPane.add(clientesButton, Integer.valueOf(1)); // Añadir a la capa superior
@@ -161,7 +167,7 @@ public class Menu extends JFrame {
         productosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paginaProductosVista((Trabajadores) trabajadores);
+                paginaGestionProductos((Trabajadores) trabajadores, (Productos) productos);
             }
         });
         layeredPane.add(productosButton, Integer.valueOf(1)); // Añadir a la capa superior
@@ -175,7 +181,7 @@ public class Menu extends JFrame {
         TrabajadoresButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paginaGestionTrabajadores((Trabajadores) trabajadores);
+                paginaGestionTrabajadores((Trabajadores)trabajadores);
             }
         });
         layeredPane.add(TrabajadoresButton, Integer.valueOf(1)); // Añadir a la capa superior
@@ -235,9 +241,9 @@ public class Menu extends JFrame {
         }
     }
     
-    private void paginaClientesVista(Trabajadores trabajadores) {
+    private void paginaGestionClientes(Trabajadores trabajadores, Clientes clientes) {
         try {
-            new GestionClientes(trabajadores).setVisible(true);
+            new GestionClientes(trabajadores, clientes).setVisible(true);
             dispose();
         } catch (RuntimeException ex) {
             if (ex.getMessage().equals("BaseDatos NO encontrada")) {
@@ -249,9 +255,9 @@ public class Menu extends JFrame {
         }
     }
 
-    private void paginaGestionServicios(Servicios servicios) {
+    private void paginaGestionServicios(Trabajadores trabajadores, Servicios servicios) {
         try {
-            new GestionServicios(servicios).setVisible(true);
+            new GestionServicios(trabajadores, servicios).setVisible(true);
             dispose();
         } catch (RuntimeException ex) {
             if (ex.getMessage().equals("BaseDatos NO encontrada")) {
@@ -263,9 +269,9 @@ public class Menu extends JFrame {
         }
     }
 
-    private void paginaProductosVista(Trabajadores trabajadores) {
+    private void paginaGestionProductos(Trabajadores trabajadores, Productos productos) {
         try {
-            new GestionProductos(trabajadores).setVisible(true);
+            new GestionProductos(trabajadores, productos).setVisible(true);
             dispose();
         } catch (RuntimeException ex) {
             if (ex.getMessage().equals("BaseDatos NO encontrada")) {

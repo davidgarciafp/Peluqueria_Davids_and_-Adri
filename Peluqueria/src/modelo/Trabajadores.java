@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class Trabajadores {
     // Entidades
-    private String dni;
+    private Integer id_trabajador;
     private String nombreTrabajador;
     private String apellidoTrabajador;
     private String correoTrabajador;
@@ -12,14 +12,16 @@ public class Trabajadores {
     private String contrasena;
     private boolean trabajadorActivo;
     private boolean tipoTrabajador;
-    private BigDecimal comision;
+    private BigDecimal comision_producto;
+    private BigDecimal comision_servicio;
 
 
     // Constructores
-    public Trabajadores(String dni, String nombreTrabajador, String apellidoTrabajador, String correoTrabajador,
+    public Trabajadores(Integer id_trabajador, String nombreTrabajador, String apellidoTrabajador, String correoTrabajador,
     String telefonoTrabajador, String contrasena, boolean trabajadorActivo, boolean tipoTrabajador,
-    BigDecimal comision) {
-        this.dni = dni;
+    BigDecimal comision_producto,  BigDecimal comision_servicio) {
+
+        this.id_trabajador = id_trabajador;
         this.nombreTrabajador = nombreTrabajador;
         this.apellidoTrabajador = apellidoTrabajador;
         this.correoTrabajador = correoTrabajador;
@@ -27,14 +29,16 @@ public class Trabajadores {
         this.contrasena = contrasena;
         this.trabajadorActivo = trabajadorActivo;
         this.tipoTrabajador = tipoTrabajador;
-        this.comision = comision;
+        this.comision_producto = comision_producto;
+        this.comision_servicio = comision_servicio;
+
     }
 
     public Trabajadores() {} 
 
     // Setters
-    public void setDni(String dni) {
-        this.dni = dni;
+    public void setIdTrabajador(Integer id_trabajador) {
+        this.id_trabajador = id_trabajador;
     }
 
     public void setNombreTrabajador(String nombreTrabajador) {
@@ -65,15 +69,18 @@ public class Trabajadores {
         this.tipoTrabajador = tipoTrabajador;
     }
 
-    public void setComision(BigDecimal comision) {
-        this.comision = comision;
+    public void setComisionProducto(BigDecimal comision_producto) {
+        this.comision_producto = comision_producto;
+    }
+    public void setComisionServicio(BigDecimal comision_servicio) {
+        this.comision_servicio = comision_servicio;
     }
 
 
 
     // Getters
-    public String getDni() {
-        return dni;
+    public Integer getIdTrabajador() {
+        return id_trabajador;
     }
 
     public String getNombreTrabajador() {
@@ -104,7 +111,11 @@ public class Trabajadores {
         return tipoTrabajador;
     }
 
-    public BigDecimal getComision() {
-        return comision;
+    public BigDecimal getComisionProducto() {
+        return comision_producto;
+    }
+
+    public BigDecimal getComisionServicio() {
+        return comision_servicio;
     }
 }

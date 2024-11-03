@@ -17,19 +17,24 @@ public class ControladorTrabajadores {
         return trabajadoresDAO.mostrarTrabajadores();
     }
 
-    public Trabajadores identificarTrabajador(String dni, String contrasena) {
-        return trabajadoresDAO.identificarTrabajador(dni, contrasena);
+    public Trabajadores identificarTrabajador(Integer idTrabajador, String contrasena) {
+        return trabajadoresDAO.identificarTrabajador(idTrabajador, contrasena);
     }
 
     public boolean anyadirTrabajadores(Trabajadores trabajadores) {
         return trabajadoresDAO.agregarTrabajadores(trabajadores);
     }
 
-    public <BigDecimal> boolean modificarTrabajadores(String dni, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean nuevoActivo, Boolean trabajadorTipo, java.math.BigDecimal comision) {
-        return trabajadoresDAO.actualizarTrabajadores(dni, nuevoNombre, nuevoApellido, nuevoCorreo, nuevoTelefono, nuevaContrasena, nuevoActivo, trabajadorTipo, comision);
+    public boolean modificarTrabajadores(Integer idTrabajador, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean nuevoActivo, Boolean trabajadorTipo, java.math.BigDecimal comision_producto,  java.math.BigDecimal comision_servicio) {
+
+        return trabajadoresDAO.actualizarTrabajadores(idTrabajador, nuevoNombre, nuevoApellido, nuevoCorreo, nuevoTelefono, nuevaContrasena, nuevoActivo, trabajadorTipo, comision_producto, comision_servicio);
     }
 
-    public Trabajadores buscarTrabajador(String dni) {
-        return trabajadoresDAO.encontrarTrabajador(dni);
+    public Trabajadores buscarTrabajador(Integer idTrabajador) {
+        return trabajadoresDAO.encontrarTrabajador(idTrabajador);
+    }
+
+    public List<Trabajadores> mostrarTrabajadoresEliminados() {
+        return trabajadoresDAO.mostrarTrabajadoresEliminados();
     }
 }

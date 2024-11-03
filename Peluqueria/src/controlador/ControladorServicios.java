@@ -20,10 +20,16 @@ public class ControladorServicios {
         return serviciosDAO.agregarServicios(servicios);
     }
     public <BigDecimal> boolean modificarServicios(Integer idServicio, java.math.BigDecimal precioBase, String descripcionServicio, Boolean servicioActivo) {
+            ServiciosDAO serviciosDAO = new ServiciosDAO();
         return serviciosDAO.actualizarServicios(idServicio, precioBase, descripcionServicio, servicioActivo);
     }
 
     public Servicios buscarServicio(Integer idServicio) {
         return serviciosDAO.encontrarServicio(idServicio);
     }
+
+    public List<Servicios> mostrarServiciosEliminados() {
+        return serviciosDAO.mostrarServiciosEliminados();
+    }
+
 }

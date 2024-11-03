@@ -7,12 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.sql.Statement;
+
 import basedatos.ConexionBaseDatos;
 
 public class ProductosDAO {
 
     public List<Productos> mostrarProductos() {
-        String sqlMostrarProductos = "SELECT * FROM Productos";
+        String sqlMostrarProductos = "SELECT * FROM Productos where producto_activo = true";
         List<Productos> listaProductos = new ArrayList<>(); // Creamos un array para todos los trabajadores que existan en la BD.
         
         try (Connection conn = ConexionBaseDatos.getConexion();
@@ -40,21 +42,31 @@ public class ProductosDAO {
 
 
     public boolean agregarProductos(Productos productos) {
-        String sqlAgregar = "INSERT INTO productos (id_producto, nombre_producto, marca, precio_producto, descripcion_producto, cantidad_disponible, producto_gastado, producto_activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlAgregar = "INSERT INTO productos (nombre_producto, marca, precio_producto, descripcion_producto, cantidad_disponible, producto_gastado, producto_activo) VALUES (?, ?, ?, ?, ?, ?, ?)";
         boolean resultado = false;
 
         try (Connection conn = ConexionBaseDatos.getConexion();
-        PreparedStatement psAgregarProductos = conn.prepareStatement(sqlAgregar)) {
-            psAgregarProductos.setInt(1, productos.getId_producto());
-            psAgregarProductos.setString(2, productos.getNombre_producto());
-            psAgregarProductos.setString(3, productos.getMarca());
-            psAgregarProductos.setBigDecimal(4, productos.getPrecio_producto());
-            psAgregarProductos.setString(5, productos.getDescripcion_producto());
-            psAgregarProductos.setInt(7, productos.getCantidad_disponible());
-            psAgregarProductos.setInt(8, productos.getProducto_gastado());
-            psAgregarProductos.setBoolean(9, productos.isProducto_activo());
+        PreparedStatement psAgregarProductos = conn.prepareStatement(sqlAgregar, Statement.RETURN_GENERATED_KEYS)) {
+            //psAgregarProductos.setInt(1, productos.getId_producto());
+            psAgregarProductos.setString(1, productos.getNombre_producto());
+            psAgregarProductos.setString(2, productos.getMarca());
+            psAgregarProductos.setBigDecimal(3, productos.getPrecio_producto());
+            psAgregarProductos.setString(4, productos.getDescripcion_producto());
+            psAgregarProductos.setInt(5, productos.getCantidad_disponible());
+            psAgregarProductos.setInt(6, productos.getProducto_gastado()!= null ? productos.getProducto_gastado() : 0);
+            psAgregarProductos.setBoolean(7, true);
 
-            resultado = true; // La insercion es correcta
+            int filasAfectadas = psAgregarProductos.executeUpdate();
+            resultado = filasAfectadas > 0; // La insercion es correcta
+       
+            if (resultado) {
+                try (ResultSet generatedKeys = psAgregarProductos.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        productos.setId_producto(generatedKeys.getInt(1));
+                    }
+                }
+            }
+       
         } catch (SQLException ex) {
             if (ex.getMessage().equals("BaseDatos NO encontrada")) {
                 throw new RuntimeException("BaseDatos NO encontrada");
@@ -67,20 +79,24 @@ public class ProductosDAO {
 
     public <BigDecimal> boolean actualizarProductos(Integer idProducto, String nombreProducto, String marca, BigDecimal precioProducto, String descripcionProducto,  Integer cantidadDisponible, Integer productoGastado, Boolean productoActivo) {
 
-        String sqlActualizarServicios = "UPDATE productos SET id_producto = ?, nombre_producto = ?, marca = ?, precio_producto = ?, descripcion_producto = ?, cantidad_disponible = ?, producto_gastado = ?, producto_activo WHERE id_producto = ?";
+        String sqlActualizarProductos = "UPDATE productos SET nombre_producto = ?, marca = ?, precio_producto = ?, descripcion_producto = ?, cantidad_disponible = ?, producto_gastado = ?, producto_activo = ? WHERE id_producto = ?";
         boolean resultado =  false;
 
         try (Connection conn = ConexionBaseDatos.getConexion();
-            PreparedStatement pstmt = conn.prepareStatement(sqlActualizarServicios)) {
+            PreparedStatement pstmt = conn.prepareStatement(sqlActualizarProductos)) {
             
-            pstmt.setInt(1, idProducto);
-            pstmt.setString(2, nombreProducto);
-            pstmt.setString(3, marca);
-            pstmt.setBigDecimal(4, (java.math.BigDecimal) precioProducto);
-            pstmt.setString(5, descripcionProducto);
-            pstmt.setInt(6, cantidadDisponible);
-            pstmt.setInt(7, productoGastado);
-            pstmt.setBoolean(8, productoActivo);
+            pstmt.setString(1, nombreProducto);
+            pstmt.setString(2, marca);
+            pstmt.setBigDecimal(3, (java.math.BigDecimal) precioProducto);
+            pstmt.setString(4, descripcionProducto);
+            pstmt.setInt(5, cantidadDisponible);
+            pstmt.setInt(6, productoGastado);
+            pstmt.setBoolean(7, productoActivo);
+            pstmt.setInt(8, idProducto);
+
+            if (productoGastado < 0 || productoGastado > 2) {
+                throw new IllegalArgumentException("El valor de Producto Gastado debe ser 0, 1 o 2");
+            }
 
             
             int filasActualizadas = pstmt.executeUpdate();
@@ -122,5 +138,31 @@ public class ProductosDAO {
             e.printStackTrace();
         }
         return productos;
+    }
+    public List<Productos> mostrarProductosEliminados() {
+        String sqlMostrarProductos = "SELECT * FROM Productos where producto_activo = false";
+        List<Productos> listaProductos = new ArrayList<>(); // Creamos un array para todos los trabajadores que existan en la BD.
+        
+        try (Connection conn = ConexionBaseDatos.getConexion();
+            PreparedStatement sqlMostrarProductosStmt = conn.prepareStatement(sqlMostrarProductos);
+            ResultSet rs = sqlMostrarProductosStmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Productos productos = new Productos(
+                    rs.getInt("id_producto"),
+                    rs.getString("nombre_producto"),
+                    rs.getString("marca"),
+                    rs.getBigDecimal("precio_producto"),
+                    rs.getString("descripcion_producto"),
+                    rs.getInt("cantidad_disponible"),
+                    rs.getInt("producto_gastado"),
+                    rs.getBoolean("producto_activo")
+                );
+                listaProductos.add(productos); // Els agrreguem al array.
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listaProductos;
     }
 }

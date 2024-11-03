@@ -16,24 +16,34 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import com.mysql.cj.util.Base64Decoder.IntWrapper;
-
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
 import javax.swing.JPanel;
 
 import controlador.ControladorServicios;
+import modelo.Clientes;
 import modelo.Productos;
 import modelo.Servicios;
+import modelo.Trabajadores;
 
 public class GestionServicios extends JFrame {
     private JLabel volverLabel;
     private JTable tablaServicio;
     private JButton agregarButton;
+    private JButton eliminadosButton;
     private ControladorServicios controladorServicios;
+    private Trabajadores trabajadores;
+    private Servicios servicios;
+    private Productos productos;
+    private Clientes clientes;
+    private boolean mostrandoDeshabilitados = false;
+    private JLabel titulo;
 
-    public GestionServicios(Servicios servicios) {
+
+    public GestionServicios(Trabajadores trabajadores, Servicios servicios) {
+        this.trabajadores = trabajadores;
+        this.servicios = servicios;
         controladorServicios = new ControladorServicios(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -64,7 +74,7 @@ public class GestionServicios extends JFrame {
         volverLabel.addMouseListener(new MouseAdapter() { // Agregar un MouseListener para manejar clics
             @Override
             public void mouseClicked(MouseEvent e) {
-                volverAtras((Servicios) servicios);
+                volverAtras();
             }
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -77,80 +87,114 @@ public class GestionServicios extends JFrame {
         });
         panel.add(volverLabel);
 
-        JScrollPane scrollPane = mostrarTablaServicios((Servicios) servicios);
+        titulo = new JLabel("Gestión de Servicios");
+        titulo.setBounds(10, 50, 400, 25);
+        titulo.setFont(nFont18);
+        titulo.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(titulo);
+
+        JScrollPane scrollPane = mostrarTablaServicios();
         panel.add(scrollPane);
 
         agregarButton = new JButton("Agregar Servicio");
-        agregarButton.setBounds(250, 500, 200, 40);
+        agregarButton.setBounds(150, 500, 200, 40);
         agregarButton.setHorizontalAlignment(SwingConstants.CENTER);
         agregarButton.setBackground(new Color(206, 123, 86));
         agregarButton.setFont(nFont18);
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                agregarServicio((Servicios) servicios);
+                agregarServicio();
             }
         });
         panel.getRootPane().setDefaultButton(agregarButton); // Para poderlo pulsar con la tecla "INTRO".
         panel.add(agregarButton);
+
+        eliminadosButton = new JButton("Servicios deshabilitados");
+        eliminadosButton.setBounds(400, 500, 300, 40);
+        eliminadosButton.setHorizontalAlignment(SwingConstants.CENTER);
+        eliminadosButton.setBackground(new Color(206, 123, 86));
+        eliminadosButton.setFont(nFont18);
+        eliminadosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!mostrandoDeshabilitados) {
+                    mostrarServiciosDeshabilitados();
+                    eliminadosButton.setText("Mostrar Servicios Activos");
+                    mostrandoDeshabilitados = true;
+                } else {
+                    actualizarTabla(controladorServicios.mostrarServicios());
+                    eliminadosButton.setText("Servicios deshabilitados");
+                    mostrandoDeshabilitados = false;
+                }
+            }
+        });
+        panel.add(eliminadosButton);
     }
     
     // Metodo
-    private void volverAtras(Servicios servicios) {
-        new Menu(servicios).setVisible(true);
+    private void volverAtras() {
+        new Menu(trabajadores, servicios, productos, clientes).setVisible(true);
         dispose();
     }
 
-    private JScrollPane mostrarTablaServicios(Servicios servicios) {
-        List<Servicios> listaServicios = controladorServicios.mostrarServicios(); // Obté la llista de trabajadores del controlador.
-        String[] columnas = {"ID Servicio", "Precio Base de Servicio", "Descripción de Servicio", "Servicio Activo"}; // Defineix les columnes de la taula.
-        Object[][] datos = new Object[listaServicios.size()][5]; // Crar un array de los trabajadores.
-
-        // Omple l'array de dades amb la informació de cada llibre.
-        for (int i = 0; i < listaServicios.size(); i++) {
-
-            Servicios servicio = listaServicios.get(i);
-            
-            datos[i] = new Object[]{
-                servicio.getId_servicio(),
-                servicio.getPrecio_base(),
-                servicio.getDescripcion_servicio(),
-                servicio.isServicio_activo(),
-                "Editar"
-            };
-        }
-
-        // Crea un modelo de tabla personalizado
-        DefaultTableModel opcionesTabla = new DefaultTableModel(datos, columnas) {
+    private JScrollPane mostrarTablaServicios() {
+        String[] columnas = {"Precio Base de Servicio", "Descripción de Servicio", "Servicio Activo", "Editar"}; // Defineix les columnes de la taula.
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 4; // Solo editable la columna "Editar"
+                return column == 3;
             }
         };
+        tablaServicio = new JTable(modelo);
 
-        tablaServicio = new JTable(opcionesTabla);
-    
-        // Añadir un MouseListener para manejar el clic en la columna "Editar"
+        // Añadir el MouseListener para el botón editar
         tablaServicio.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int row = tablaServicio.rowAtPoint(e.getPoint());
                 int column = tablaServicio.columnAtPoint(e.getPoint());
-                if (column == 4) { // Si se clicó en la columna "Editar"
-                    String isServicio = (Int) tablaServicio.getValueAt(row, 0); // Obtener el DNI
-                    new EditarServicios(tablaServicio, idServicio).setVisible(true);
+                if (column == 3) {
+                    List<Servicios> listaServicios = mostrandoDeshabilitados ? 
+                        controladorServicios.mostrarServiciosEliminados() : 
+                        controladorServicios.mostrarServicios();
+                    Servicios servicioSeleccionado = listaServicios.get(row);
+                    int idServicio = servicioSeleccionado.getId_servicio();
+                    new EditarServicios(trabajadores, idServicio).setVisible(true);
                     dispose();
                 }
             }
         });
-
-        JScrollPane scrollPane = new JScrollPane(tablaServicio); // Crea un JScrollPane que contindrà la taula de llibres.
-        scrollPane.setBounds(50, 100, 600, 300); // Ajusteu la posició i la mida del JScrollPane.
     
-        return scrollPane; // Retorna el JScrollPane amb la taula de llibres.
+        // Mostrar los productos activos inicialmente
+        actualizarTabla(controladorServicios.mostrarServicios());
+    
+        JScrollPane scrollPane = new JScrollPane(tablaServicio);
+        scrollPane.setBounds(50, 100, 600, 300);
+        
+        return scrollPane;
     }
 
-    private void agregarServicio(Servicios servicios) {
-        new CrearServicio(servicios).setVisible(true);
+    private void agregarServicio() {
+        new CrearServicios(trabajadores).setVisible(true);
         dispose();
+    }
+
+    private void mostrarServiciosDeshabilitados(){
+        List<Servicios> listaServicios = controladorServicios.mostrarServiciosEliminados(); // Obté la llista de trabajadores del controlador.
+        actualizarTabla(listaServicios);
+    }
+
+    private void actualizarTabla(List<Servicios> listaServicios) {
+        DefaultTableModel modelo = (DefaultTableModel) tablaServicio.getModel();
+        modelo.setRowCount(0); // Limpia la tabla
+    
+        for (Servicios servicio : listaServicios) {
+            modelo.addRow(new Object[]{
+                servicio.getPrecio_base(),
+                servicio.getDescripcion_servicio(), 
+                servicio.isServicio_activo(),
+                "Editar"
+            });
+        }
     }
 }

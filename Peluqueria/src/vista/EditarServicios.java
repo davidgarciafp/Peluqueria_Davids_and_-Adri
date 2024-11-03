@@ -15,13 +15,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import controlador.ControladorServicios;
-import controlador.ControladorTrabajadores;
 import modelo.Servicios;
 import modelo.Trabajadores;
 
 public class EditarServicios extends JFrame {
-    private JLabel idServicioLabel;
-    private JTextField idServicioField;
+    private Integer idServicio;
     private JLabel precioBaseLabel;
     private JTextField precioBaseField;
     private JLabel descripcionServicioLabel;
@@ -33,7 +31,14 @@ public class EditarServicios extends JFrame {
     private JButton volverButton;
     private ControladorServicios controladorServicios;
 
-    public EditarServicios(Servicios servicios, Integer idServicio) {
+    private Trabajadores trabajadores;
+    private Servicios servicios;
+
+    public EditarServicios(Trabajadores trabajadores, Integer idServicio) {
+        this.trabajadores = trabajadores;
+        this.servicios = new Servicios();
+        this.idServicio = idServicio;
+        
         controladorServicios = new ControladorServicios(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -54,17 +59,6 @@ public class EditarServicios extends JFrame {
 
 
         Font nFont18 = new Font(null, Font.PLAIN, 18);
-
-
-        idServicioLabel = new JLabel("ID Servicio: ");
-        idServicioLabel.setBounds(50, 40, 200, 25);
-        idServicioLabel.setFont(nFont18);
-        panel.add(idServicioLabel);
-
-        idServicioField = new JTextField(idServicio);
-        idServicioField.setBounds(250, 40, 200, 25);
-        idServicioField.setBackground(new Color(255, 255, 255)); 
-        panel.add(idServicioField);
 
 
         precioBaseLabel = new JLabel("Precio Base: ");
@@ -90,13 +84,13 @@ public class EditarServicios extends JFrame {
 
 
         servicioActivoLabel = new JLabel("Habiltar / Deshabilitar: ");
-        servicioActivoLabel.setBounds(50, 280, 200, 25);
+        servicioActivoLabel.setBounds(50, 160, 200, 25);
         servicioActivoLabel.setFont(nFont18);
         panel.add(servicioActivoLabel);
 
         servicioActivoCheckBox = new JCheckBox();
         servicioActivoCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
-        servicioActivoCheckBox.setBounds(250, 280, 20, 25);
+        servicioActivoCheckBox.setBounds(250, 160, 20, 25);
         servicioActivoCheckBox.setBackground(new Color(255, 255, 255));
         panel.add(servicioActivoCheckBox);
 
@@ -116,7 +110,7 @@ public class EditarServicios extends JFrame {
         guardarServicioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editarServicio();
+                editarServicios();
             }
         });
         panel.getRootPane().setDefaultButton(guardarServicioButton); // Para poderlo pulsar con la tecla "INTRO".
@@ -131,7 +125,7 @@ public class EditarServicios extends JFrame {
         volverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                volverAtras((Servicios) servicios);
+                volverAtras();
             }
         });
         panel.add(volverButton);
@@ -146,11 +140,11 @@ public class EditarServicios extends JFrame {
 
         try {
             if (servicios != null) {
-                precioBaseField.setText(servicios.getPrecio_base());
+                precioBaseField.setText(servicios.getPrecio_base().toString());
                 descripcionServicioField.setText(servicios.getDescripcion_servicio());
-                servicioActivoCheckBox.setText(servicios.isServicio_activo());
+                servicioActivoCheckBox.setSelected(servicios.isServicio_activo());
             } else {
-                missatgeLabel.setText("Trabajador no encontrado");
+                missatgeLabel.setText("Servicio no encontrado");
                 missatgeLabel.setForeground(Color.BLACK);
             }
         } catch (RuntimeException ex) {
@@ -164,7 +158,6 @@ public class EditarServicios extends JFrame {
     }
 
     private void editarServicios() {
-        Integer idServicio = idServicio.getText();
         String precioBaseText = precioBaseField.getText();
         BigDecimal precioBase = new BigDecimal(precioBaseText);
         String descripcionServicio = descripcionServicioField.getText();
@@ -186,19 +179,18 @@ public class EditarServicios extends JFrame {
         }
 
         
-        if (idServicio.isEmpty() || precioBase.isEmpty() || descripcionServicio.isEmpty() || servicioActivo.isEmpty()) {
+        if (precioBaseText.isEmpty() || descripcionServicio.isEmpty()) {
             missatge = "Tienes que rellenar todos los campos";
         } else {
-            Servicios servicios = new Servicios();
-            servicios.setId_servicio(idServicio);
-            servicios.setPrecio_base(precioBase);
-            servicios.setDescripcion_servicio(descripcionServicio);
-            servicios.setServicio_activo(servicioActivo);
 
 
             try {
-                boolean resultat = controladorServicios.modificarServicios(idServicio, precioBase, descripcionServicio, servicioActivo);
-
+                boolean resultat = controladorServicios.modificarServicios(
+                    this.idServicio,
+                    precioBase,
+                    descripcionServicio,
+                    servicioActivo
+                );
                 
                 if (resultat) {
                     missatge = "¡Servicio Actualizado!";
@@ -217,8 +209,8 @@ public class EditarServicios extends JFrame {
         missatgeLabel.setForeground(colorMissatge);
     }
 
-    private void volverAtras(Servicios servicios) {
-        new GestionServicios(servicios).setVisible(true);
+    private void volverAtras() {
+        new GestionServicios(trabajadores, servicios).setVisible(true);
         dispose();
     }
 }

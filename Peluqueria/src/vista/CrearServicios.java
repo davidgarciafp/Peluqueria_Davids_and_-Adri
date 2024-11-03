@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,22 +15,25 @@ import javax.swing.SwingConstants;
 
 import controlador.ControladorServicios;
 import modelo.Servicios;
+import modelo.Trabajadores;
 
 public class CrearServicios extends JFrame {
-    private JLabel idServicioLabel;
-    private JTextField idServicioField;
     private JLabel precioBaseLabel;
     private JTextField precioBaseField;
     private JLabel descripcionServicioLabel;
     private JTextField descripcionServicioField;
-    private JLabel servicioActivoLabel;
-    private JCheckBox servicioActivoCheckBox;
     private JButton agregarServicioButton;
     private JLabel missatgeLabel;
     private JButton volverButton;
     private ControladorServicios controladorServicios;
 
-    public CrearServicios(Servicios servicios) {
+    private Trabajadores trabajadores;
+    private Servicios servicios;
+
+    public CrearServicios(Trabajadores trabajadores) {
+        this.trabajadores =  trabajadores;
+        this.servicios = new Servicios();
+
         controladorServicios = new ControladorServicios(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -52,17 +54,6 @@ public class CrearServicios extends JFrame {
 
 
         Font nFont18 = new Font(null, Font.PLAIN, 18);
-
-
-        idServicioLabel = new JLabel("ID Servicio: ");
-        idServicioLabel.setBounds(300, 40, 200, 25);
-        idServicioLabel.setFont(nFont18);
-        idServicioLabel.add(idServicioLabel);
-
-        idServicioField = new JTextField(20);
-        idServicioField.setBounds(500, 40, 200, 25);
-        idServicioField.setBackground(new Color(255, 255, 255)); 
-        panel.add(idServicioField);
 
 
         precioBaseLabel = new JLabel("Precio Base: ");
@@ -87,17 +78,12 @@ public class CrearServicios extends JFrame {
         panel.add(descripcionServicioField);
 
 
-        servicioActivoLabel = new JLabel("Servicio Activo: ");
-        servicioActivoLabel.setBounds(300, 320, 200, 25);
-        servicioActivoLabel.setFont(nFont18);
-        panel.add(servicioActivoLabel);
 
-        servicioActivoCheckBox = new JCheckBox();
-        servicioActivoCheckBox.setBounds(500, 320, 200, 25);
-        servicioActivoCheckBox.setBackground(new Color(255, 255, 255)); 
-        panel.add(servicioActivoCheckBox);
-
-
+        missatgeLabel = new JLabel("");
+        missatgeLabel.setBounds(500, 400, 200, 25);
+        missatgeLabel.setFont(nFont18);
+        missatgeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(missatgeLabel);
 
         agregarServicioButton = new JButton("Crear Servicio");
         agregarServicioButton.setBounds(500, 500, 200, 40);
@@ -130,28 +116,25 @@ public class CrearServicios extends JFrame {
 
     // Metodos
     private  void volverAtras(Servicios servicios) {
-        new GestionServicios(servicios).setVisible(true);
+        new GestionServicios(trabajadores, servicios).setVisible(true);
         dispose();
     }
 
     private void crearServicio() {
-        Integer idServicio = idServicioField.getText();
-        BigDecimal precioBase = precioBaseField.getText();
+        BigDecimal precioBase = new BigDecimal(precioBaseField.getText());
         String descripcionServicio = descripcionServicioField.getText();
-        Boolean servicioActivo = servicioActivoCheckBox.isSelected(); // Jefe / Emlpeado;
 
         String missatge = "";
         Color colorMissatge = Color.BLUE;
         
-        if (idServicio.isEmpty() || precioBase.isEmpty() || descripcionServicio.isEmpty()) {
+        if ( precioBaseField.getText().isEmpty() || descripcionServicioField.getText().isEmpty()) {
             missatge = "Tienes que rellenar todos los campos";
         } else {
-            Servicios servicios = new Servicios();
-            servicios.setId_servicio(idServicio);
-            servicios.setPrecio_base(precioBase);
-            servicios.setDescripcion_servicio(descripcionServicio);
-            servicios.setServicio_activo(servicioActivo);
-
+            Servicios servicios = new Servicios(
+            null,
+            precioBase,
+            descripcionServicio,
+            true);
 
             try {
                 boolean resultat = controladorServicios.anyadirServicios(servicios);
@@ -168,8 +151,11 @@ public class CrearServicios extends JFrame {
                     ex.printStackTrace();
                 }
             }
+        }if (missatgeLabel != null) {
+            missatgeLabel.setText(missatge);
+            missatgeLabel.setForeground(colorMissatge);
+        } else {
+            System.out.println("Error: missatgeLabel es nulo");
         }
-        missatgeLabel.setText(missatge);
-        missatgeLabel.setForeground(colorMissatge);
     }
 }

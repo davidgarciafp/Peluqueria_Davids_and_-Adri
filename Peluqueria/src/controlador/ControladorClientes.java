@@ -21,10 +21,11 @@ public class ControladorClientes {
     }
 
     public boolean modificarClientes(Integer idCliente, String nombreCliente, String apellidoCliente, String correoCliente, String telefonoCliente,  Boolean proteccionDatos, String descripcionCliente) {
+        ClientesDAO clientesDAO = new ClientesDAO();
         return clientesDAO.actualizarClientes(idCliente, nombreCliente, apellidoCliente, correoCliente, telefonoCliente, proteccionDatos, descripcionCliente);
     }
 
-    public Clientes buscarClientes(Integer idCliente) {
-        return clientesDAO.encontrarClientes(idCliente);
+    public Clientes buscarCliente(Integer idCliente) {
+        return clientesDAO.encontrarCliente(idCliente);
     }
 }

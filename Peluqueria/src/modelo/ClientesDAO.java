@@ -38,18 +38,20 @@ public class ClientesDAO{
 
 
     public boolean agregarClientes(Clientes clientes) {
-        String sqlAgregar = "INSERT INTO clientes (id_cliente, nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, proteccion_datos, descripcion_cliente) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sqlAgregar = "INSERT INTO clientes (nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, proteccion_datos, descripcion_cliente) VALUES (?, ?, ?, ?, ?, ?)";
         boolean resultado = false;
 
         try (Connection conn = ConexionBaseDatos.getConexion();
         PreparedStatement psAgregarClientes = conn.prepareStatement(sqlAgregar)) {
-            psAgregarClientes.setInt(1, clientes.getId_cliente());
-            psAgregarClientes.setString(2, clientes.getNombre_cliente());
-            psAgregarClientes.setString(3, clientes.getApellido_cliente());
-            psAgregarClientes.setString(4, clientes.getCorreo_cliente());
-            psAgregarClientes.setString(5, clientes.getTelefono_cliente());
-            psAgregarClientes.setBoolean(7, clientes.isProteccion_datos());
-            psAgregarClientes.setString(8, clientes.getDescripcion_cliente());
+            psAgregarClientes.setString(1, clientes.getNombre_cliente());
+            psAgregarClientes.setString(2, clientes.getApellido_cliente());
+            psAgregarClientes.setString(3, clientes.getCorreo_cliente());
+            psAgregarClientes.setString(4, clientes.getTelefono_cliente());
+            psAgregarClientes.setBoolean(5, clientes.isProteccion_datos());
+            psAgregarClientes.setString(6, clientes.getDescripcion_cliente());
+
+            int filasAfectadas = psAgregarClientes.executeUpdate();
+            resultado = filasAfectadas > 0; // La insercion es correcta
 
             resultado = true; // La insercion es correcta
         } catch (SQLException ex) {
@@ -64,19 +66,20 @@ public class ClientesDAO{
 
     public boolean actualizarClientes(Integer idCliente, String nombreCliente, String apellidoCliente, String correoCliente, String telefonoCliente,  Boolean proteccionDatos, String descripcionCliente) {
 
-        String sqlActualizarClientes = "UPDATE clientes SET id_cliente = ?, nombre_cliente = ?, apellido_cliente = ?, correo_cliente = ?, telefono_cliente = ?, proteccion_datos = ?, descripcion_cliente = ? WHERE id_cliente = ?";
+        String sqlActualizarClientes = "UPDATE clientes SET nombre_cliente = ?, apellido_cliente = ?, correo_cliente = ?, telefono_cliente = ?, proteccion_datos = ?, descripcion_cliente = ? WHERE id_cliente = ?";
         boolean resultado =  false;
 
         try (Connection conn = ConexionBaseDatos.getConexion();
             PreparedStatement pstmt = conn.prepareStatement(sqlActualizarClientes)) {
             
-            pstmt.setInt(1, idCliente);
-            pstmt.setString(2, nombreCliente);
-            pstmt.setString(3, apellidoCliente);
-            pstmt.setString(4, correoCliente);
-            pstmt.setString(5, telefonoCliente);
-            pstmt.setBoolean(6, proteccionDatos);
-            pstmt.setString(7, descripcionCliente);
+            pstmt.setString(1, nombreCliente);
+            pstmt.setString(2, apellidoCliente);
+            pstmt.setString(3, correoCliente);
+            pstmt.setString(4, telefonoCliente);
+            pstmt.setBoolean(5, proteccionDatos);
+            pstmt.setString(6, descripcionCliente);
+            pstmt.setInt(7, idCliente);
+
 
             
             int filasActualizadas = pstmt.executeUpdate();
@@ -92,7 +95,7 @@ public class ClientesDAO{
         return resultado;
     }
 
-    public Clientes encontrarClientes(int idCliente) {
+    public Clientes encontrarCliente(int idCliente) {
         Clientes clientes = null;
         String sql = "SELECT * FROM clientes WHERE id_cliente = ?";
         
@@ -104,7 +107,7 @@ public class ClientesDAO{
             
             if (rs.next()) {
                 clientes = new Clientes(
-                    rs.getInt("id_producto"),
+                    rs.getInt("id_cliente"),
                     rs.getString("nombre_cliente"),
                     rs.getString("apellido_cliente"),
                     rs.getString("correo_cliente"),

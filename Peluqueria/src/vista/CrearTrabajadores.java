@@ -18,8 +18,6 @@ import controlador.ControladorTrabajadores;
 import modelo.Trabajadores;
 
 public class CrearTrabajadores extends JFrame {
-    private JLabel dniLabel;
-    private JTextField dniField;
     private JLabel nombre_trabajadorLabel;
     private JTextField nombre_trabajadorField;
     private JLabel apellido_trabajadorLabel;
@@ -36,8 +34,10 @@ public class CrearTrabajadores extends JFrame {
     private JButton agregarTrabajadorButton;
     private JButton volverButton;
     private ControladorTrabajadores controladorTrabajadores;
+    private Trabajadores trabajadores;
 
     public CrearTrabajadores(Trabajadores trabajadores) {
+        this.trabajadores = trabajadores;
         controladorTrabajadores = new ControladorTrabajadores(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -59,16 +59,6 @@ public class CrearTrabajadores extends JFrame {
 
         Font nFont18 = new Font(null, Font.PLAIN, 18);
 
-
-        dniLabel = new JLabel("DNI: ");
-        dniLabel.setBounds(300, 40, 200, 25);
-        dniLabel.setFont(nFont18);
-        panel.add(dniLabel);
-
-        dniField = new JTextField(20);
-        dniField.setBounds(500, 40, 200, 25);
-        dniField.setBackground(new Color(255, 255, 255)); 
-        panel.add(dniField);
 
 
         nombre_trabajadorLabel = new JLabel("Nombre Trabajador: ");
@@ -167,20 +157,24 @@ public class CrearTrabajadores extends JFrame {
         volverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                volverAtras((Trabajadores) trabajadores);
+                volverAtras();
             }
         });
         panel.add(volverButton);
     }
 
     // Metodos
-    private  void volverAtras(Trabajadores trabajadores) {
-        new GestionTrabajadores(trabajadores).setVisible(true);
+    private  void volverAtras() {
+        if (this.trabajadores != null) {
+            new GestionTrabajadores(this.trabajadores).setVisible(true);
+        } else {
+            // Si no hay trabajador, vuelve a la pantalla de inicio de sesión
+            new IniciarSesion().setVisible(true);
+        }
         dispose();
     }
 
     private void crearTrabajador() {
-        String dni = dniField.getText();
         String nombre = nombre_trabajadorField.getText();
         String apellido = apellido_trabajadorField.getText();
         String correo = correo_trabajadorField.getText();
@@ -188,41 +182,36 @@ public class CrearTrabajadores extends JFrame {
         String contrasena = contrasenaField.getText();
         Boolean trabajadorTipo = tipo_trabajadorCheckBox.isSelected(); // Jefe / Emlpeado;
 
-        String missatge = "";
-        Color colorMissatge = Color.BLUE;
-        
-        if (dni.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || contrasena.isEmpty()) {
-            missatge = "Tienes que rellenar todos los campos";
+        if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || contrasena.isEmpty()) {
+            missatgeLabel.setText("Tienes que rellenar todos los campos");
+            missatgeLabel.setForeground(Color.RED);
         } else {
-            Trabajadores trabajadores = new Trabajadores();
-            trabajadores.setDni(dni);
-            trabajadores.setNombreTrabajador(nombre);
-            trabajadores.setApellidoTrabajador(apellido);
-            trabajadores.setCorreoTrabajador(correo);
-            trabajadores.setTelefonoTrabajador(telefono);
-            trabajadores.setContrasena(contrasena);
-            trabajadores.setTrabajadorActivo(true);
-            trabajadores.setTipoTrabajador(trabajadorTipo);
-            trabajadores.setComision(BigDecimal.ZERO);
-
-
+            Trabajadores nuevoTrabajador = new Trabajadores(
+                null,  // El ID será asignado por la base de datos
+                nombre,
+                apellido,
+                correo,
+                telefono,
+                contrasena,
+                true,  // trabajador_activo por defecto true
+                trabajadorTipo,
+                new BigDecimal("0.00"),  // comision_producto
+                new BigDecimal("0.00")   // comision_servicio
+            );
+    
             try {
-                boolean resultat = controladorTrabajadores.anyadirTrabajadores(trabajadores);
-                
-                if (resultat) {
-                    missatge = "¡Tabajador Creado!";
-                    colorMissatge = Color.GREEN;
+                boolean resultado = controladorTrabajadores.anyadirTrabajadores(nuevoTrabajador);
+                if (resultado) {
+                    missatgeLabel.setText("¡Trabajador Creado!");
+                    missatgeLabel.setForeground(Color.GREEN);
+                } else {
+                    missatgeLabel.setText("Error al crear el trabajador");
+                    missatgeLabel.setForeground(Color.RED);
                 }
             } catch (RuntimeException ex) {
-                if (ex.getMessage().equals("BaseDatos NO encontrada")) {
-                    missatge = "Base de datos no encontrada";
-                    colorMissatge = Color.BLACK;
-                } else {
-                    ex.printStackTrace();
-                }
+                missatgeLabel.setText("Error: " + ex.getMessage());
+                missatgeLabel.setForeground(Color.RED);
             }
         }
-        missatgeLabel.setText(missatge);
-        missatgeLabel.setForeground(colorMissatge);
     }
 }

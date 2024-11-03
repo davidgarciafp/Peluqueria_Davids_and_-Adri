@@ -27,18 +27,25 @@ import java.util.List;
 import java.util.Map;
 
 import controlador.ControladorTrabajadores;
+import modelo.Clientes;
+import modelo.Productos;
+import modelo.Servicios;
 import modelo.Trabajadores;
 
 public class IniciarSesion extends JFrame {
     private JLabel imagenLabel;
     private JLabel nombreUsuarioLabel;
     private JComboBox<String> nombreUsuarioComboBox;
-    private Map<String, String> dniMap = new HashMap<>(); // Mapa para almacenar DNI
+    private Map<String, Integer> idTrabajadorMap = new HashMap<>(); // Mapa para almacenar DNI
     private JLabel contrasenaUsuarioLabel;
     private JPasswordField contrasenaUsuarioField;
     private JLabel missatgeErrorLabel;
     private JButton loginButton;
     private ControladorTrabajadores controladorTrabajadores;
+    private Servicios servicios;
+    private Productos  productos;
+    private Clientes clientes;
+
 
     public IniciarSesion() {
         controladorTrabajadores = new ControladorTrabajadores();  // Inicializar el controlador.
@@ -197,9 +204,8 @@ public class IniciarSesion extends JFrame {
             nombreUsuarioComboBox.addItem("--Selecionar--"); // Agregar opción por defecto
             for (Trabajadores trabajador : trabajadoresList) {
                 String displayName = trabajador.getNombreTrabajador() + " " + trabajador.getApellidoTrabajador();
-
-                dniMap.put(displayName, trabajador.getDni()); // Almacenar el DNI en el mapa
-                nombreUsuarioComboBox.addItem(displayName); // Solo mostrar nombre y apellido
+                nombreUsuarioComboBox.addItem(displayName);
+                idTrabajadorMap.put(displayName, trabajador.getIdTrabajador());
             }
         } catch (RuntimeException ex) {
             if (ex.getMessage().equals("BaseDatos NO encontrada")) {
@@ -212,36 +218,41 @@ public class IniciarSesion extends JFrame {
     }
     
     private void identificarUsuario() {
-        String selecionarNombre = (String) nombreUsuarioComboBox.getSelectedItem(); // Obtener nombre seleccionado
+        String selecionarNombre = (String) nombreUsuarioComboBox.getSelectedItem();
         // Verificar si no se ha seleccionado un usuario
         if (selecionarNombre.equals("--Selecionar--")) {
             missatgeErrorLabel.setText("Elige un usuario");
             missatgeErrorLabel.setForeground(Color.BLUE);
         } else {
-            String dni = dniMap.get(selecionarNombre); // Obtener el DNI correspondiente
-            String contrasena = new String(contrasenaUsuarioField.getPassword());
-            
-            try {
-                Trabajadores trabajador = controladorTrabajadores.identificarTrabajador(dni, contrasena);
-                if (trabajador != null) {
-                    if (trabajador.isTipoTrabajador()) {
-                        // Trabajador és Jefe
-                        new Menu(trabajador).setVisible(true);
+            Integer idTrabajador = idTrabajadorMap.get(selecionarNombre);
+            if (idTrabajador == null) {
+                missatgeErrorLabel.setText("Error: Usuario no encontrado");
+                missatgeErrorLabel.setForeground(Color.RED);
+            } else {
+                String contrasena = new String(contrasenaUsuarioField.getPassword());
+                
+                try {
+                    Trabajadores trabajador = controladorTrabajadores.identificarTrabajador(idTrabajador, contrasena);
+                    if (trabajador != null) {
+                        if (trabajador.isTipoTrabajador()) {
+                            // Trabajador es Jefe
+                            new Menu(trabajador, servicios, productos, clientes).setVisible(true);
+                        } else {
+                            // Trabajador es Empleado
+                            new Menu(trabajador, servicios, productos, clientes).setVisible(true);
+                        }
+                        dispose(); // Para cerrar la pestaña actual
                     } else {
-                        // Trabajador és Empleado
-                        new Menu(trabajador).setVisible(true);
+                        missatgeErrorLabel.setText("La contraseña no es correcta");
+                        missatgeErrorLabel.setForeground(Color.RED);
                     }
-                    dispose(); // Per tancar la pestanya actual
-                } else {
-                    missatgeErrorLabel.setText("La contraseña no es correcta");
-                    missatgeErrorLabel.setForeground(Color.RED);
-                }
-            } catch (RuntimeException ex) {
-                if (ex.getMessage().equals("BaseDatos NO encontrada")) {
-                    missatgeErrorLabel.setText("Base de datos no encontrada");
-                    missatgeErrorLabel.setForeground(Color.BLACK);
-                } else {
-                    ex.printStackTrace();
+                } catch (RuntimeException ex) {
+                    if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                        missatgeErrorLabel.setText("Base de datos no encontrada");
+                        missatgeErrorLabel.setForeground(Color.BLACK);
+                    } else {
+                        ex.printStackTrace();
+                    }
                 }
             }
         }
