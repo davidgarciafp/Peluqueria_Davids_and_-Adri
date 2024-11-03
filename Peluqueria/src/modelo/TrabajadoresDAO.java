@@ -52,6 +52,7 @@ public class TrabajadoresDAO {
             PreparedStatement psComprovarTrabajadores = conn.prepareStatement(sqlComprovarTrabajadores)) {
 
             psComprovarTrabajadores.setInt(1, id_trabajador);
+            psComprovarTrabajadores.setInt(1, id_trabajador);
             psComprovarTrabajadores.setString(2, contrasena);
             ResultSet rs = psComprovarTrabajadores.executeQuery();
             if (rs.next()) {
@@ -154,6 +155,7 @@ public class TrabajadoresDAO {
 
     public Trabajadores encontrarTrabajador(Integer idTrabajador) {
         Trabajadores trabajadores = null;
+        String sql = "SELECT * FROM trabajadores WHERE id_trabajador = ?";
         String sql = "SELECT * FROM trabajadores WHERE id_trabajador = ?";
         
         try (Connection conn = ConexionBaseDatos.getConexion();

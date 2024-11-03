@@ -8,7 +8,7 @@ CREATE TABLE trabajadores (
     apellido_trabajador VARCHAR(50), -- Apellido del trabajador.
     correo_trabajador VARCHAR(255), -- Correo del trabajador.
     telefono_trabajador VARCHAR(15), -- Telefono del trabajador.
-    contrasena VARCHAR(4), -- Contraseña del trabajador.
+    contrasena VARCHAR(50), -- Contraseña del trabajador.
     trabajador_activo BOOLEAN, -- Si el trabajador sigue en la empresa (true) si no (false).
     tipo_trabajador BOOLEAN, -- Jefe (true), traballador normal (false).
     comision_producto DECIMAL(10,2), -- Comision que recibe el trabajador por cada producto.
@@ -46,6 +46,7 @@ CREATE TABLE clientes (
 CREATE TABLE ventas (
     id_ventas INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único por cada servicio.
     id_trabajador INT, -- Referencia a la tabla trabajadores.
+    id_trabajador INT, -- Referencia a la tabla trabajadores.
     id_producto INT, -- Referencia a la tabla productos.
     id_cliente INT, -- Referencia a la tabla clientes.
     cantidad_vendida INT, -- La cantidad de productos que se han vendido.
@@ -53,12 +54,14 @@ CREATE TABLE ventas (
     descripcion_venta TEXT, -- Un comentario que se quiera poner de la venta.
     venta_pagada BOOLEAN, -- Si la venta se ha pagado (true) o esta pendiente (false).
     FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
+    FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
     FOREIGN KEY (id_producto) REFERENCES productos(id_producto),
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
 
 CREATE TABLE servicio_realizados (
     servicio_realizados INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único por cada servicio.
+    id_trabajador INT, -- Referencia a la tabla trabajadores.
     id_trabajador INT, -- Referencia a la tabla trabajadores.
     id_servicio INT, -- Referencia a la tabla servicios.
     id_cliente INT, -- Referencia a la tabla clientes.
@@ -69,6 +72,7 @@ CREATE TABLE servicio_realizados (
     comentario TEXT, -- Comentario del servicio realizado.
     realizado BOOLEAN, -- Si el servicio se ha hecho.
     pagado BOOLEAN, -- Si el servicio se ha pagado (true) o esta pendiente (false).
+    FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
     FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
     FOREIGN KEY (id_servicio) REFERENCES servicios(id_servicio),
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)

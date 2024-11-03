@@ -76,6 +76,9 @@ public class Trabajadores {
         this.comision_servicio = comision_servicio;
     }
 
+    public void setComision_servicios(BigDecimal comision_servicios) {
+        this.comision_servicios = comision_servicios;
+    }
 
 
     // Getters
