@@ -128,7 +128,6 @@ public class EditarTrabajadores extends JFrame {
         panel.add(trabajador_activoLabel);
 
         trabajador_activoCheckBox = new JCheckBox();
-        trabajador_activoCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
         trabajador_activoCheckBox.setBounds(250, 280, 20, 25);
         trabajador_activoCheckBox.setBackground(new Color(255, 255, 255));
         panel.add(trabajador_activoCheckBox);
@@ -140,7 +139,6 @@ public class EditarTrabajadores extends JFrame {
         panel.add(tipo_trabajadorLabel);
 
         tipo_trabajadorCheckBox = new JCheckBox();
-        tipo_trabajadorCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
         tipo_trabajadorCheckBox.setBounds(250, 320, 20, 25);
         tipo_trabajadorCheckBox.setBackground(new Color(255, 255, 255)); 
         panel.add(tipo_trabajadorCheckBox);

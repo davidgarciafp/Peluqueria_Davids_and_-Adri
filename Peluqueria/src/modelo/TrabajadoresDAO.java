@@ -156,7 +156,6 @@ public class TrabajadoresDAO {
     public Trabajadores encontrarTrabajador(Integer idTrabajador) {
         Trabajadores trabajadores = null;
         String sql = "SELECT * FROM trabajadores WHERE id_trabajador = ?";
-        String sql = "SELECT * FROM trabajadores WHERE id_trabajador = ?";
         
         try (Connection conn = ConexionBaseDatos.getConexion();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {

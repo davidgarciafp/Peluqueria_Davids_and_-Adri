@@ -26,7 +26,6 @@ import modelo.Clientes;
 import modelo.Productos;
 import modelo.Servicios;
 import modelo.Trabajadores;
-import modelo.Trabajadores;
 
 public class GestionServicios extends JFrame {
     private JLabel volverLabel;

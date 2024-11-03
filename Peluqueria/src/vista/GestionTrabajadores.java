@@ -152,7 +152,7 @@ public class GestionTrabajadores extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int row = tablaTrabajador.rowAtPoint(e.getPoint());
                 int column = tablaTrabajador.columnAtPoint(e.getPoint());
-                if (column == 7) {
+                if (column == 8) {
                     List<Trabajadores> listaProductos = mostrandoDeshabilitados ? 
                     controladorTrabajadores.mostrarTrabajadoresEliminados() : 
                         controladorTrabajadores.mostrarTrabajadores();
