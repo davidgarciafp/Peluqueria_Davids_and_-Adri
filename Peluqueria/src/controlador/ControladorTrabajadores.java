@@ -37,4 +37,8 @@ public class ControladorTrabajadores {
     public List<Trabajadores> mostrarTrabajadoresEliminados() {
         return trabajadoresDAO.mostrarTrabajadoresEliminados();
     }
+
+    // public Trabajadores identificarInicio(String contrasena) {
+    //     return trabajadoresDAO.identificarDreams(contrasena);
+    // }
 }

@@ -52,7 +52,6 @@ public class TrabajadoresDAO {
             PreparedStatement psComprovarTrabajadores = conn.prepareStatement(sqlComprovarTrabajadores)) {
 
             psComprovarTrabajadores.setInt(1, id_trabajador);
-            psComprovarTrabajadores.setInt(1, id_trabajador);
             psComprovarTrabajadores.setString(2, contrasena);
             ResultSet rs = psComprovarTrabajadores.executeQuery();
             if (rs.next()) {
@@ -212,4 +211,44 @@ public class TrabajadoresDAO {
         }
         return listaTrabajadores;
     }
+
+
+    // public Trabajadores identificarDreams(String contrasena) {
+    //     String sqlComprovarTrabajadores = "SELECT * FROM trabajadores WHERE id_trabajador = ? AND contrasena = ?";
+    //     Trabajadores trabajadores = null;
+
+    //     try (Connection conn = ConexionBaseDatos.getConexion();
+    //         PreparedStatement psComprovarTrabajadores = conn.prepareStatement(sqlComprovarTrabajadores)) {
+
+    //         psComprovarTrabajadores.setInt(1, 1);
+    //         psComprovarTrabajadores.setString(2, contrasena);
+    //         ResultSet rs = psComprovarTrabajadores.executeQuery();
+    //         if (rs.next()) {
+    //             // Creamos un nuevo objeto trabajador.
+    //             trabajadores = new Trabajadores(
+    //                     rs.getInt("id_trabajador"),
+    //                     rs.getString("nombre_trabajador"),
+    //                     rs.getString("apellido_trabajador"),
+    //                     rs.getString("correo_trabajador"),
+    //                     rs.getString("telefono_trabajador"),
+    //                     rs.getString("contrasena"),
+    //                     rs.getBoolean("trabajador_activo"),
+    //                     rs.getBoolean("tipo_trabajador"),
+    //                     rs.getBigDecimal("comision_producto"),
+    //                     rs.getBigDecimal("comision_servicio")
+
+
+    //             );
+    //         } else {
+    //             trabajadores = null;
+    //         }
+    //     } catch (SQLException ex) {
+    //         if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+    //             throw new RuntimeException("BaseDatos NO encontrada");
+    //         } else {
+    //             ex.printStackTrace();
+    //         }
+    //     }
+    //     return trabajadores;
+    // }
 }

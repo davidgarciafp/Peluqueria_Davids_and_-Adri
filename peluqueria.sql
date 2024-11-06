@@ -7,7 +7,7 @@ CREATE TABLE trabajadores (
     nombre_trabajador VARCHAR(50), -- Nombre del trabajador.
     apellido_trabajador VARCHAR(50), -- Apellido del trabajador.
     correo_trabajador VARCHAR(255), -- Correo del trabajador.
-    telefono_trabajador VARCHAR(15), -- Telefono del trabajador.
+    telefono_trabajador VARCHAR(20), -- Telefono del trabajador.
     contrasena VARCHAR(50), -- Contraseña del trabajador.
     trabajador_activo BOOLEAN, -- Si el trabajador sigue en la empresa (true) si no (false).
     tipo_trabajador BOOLEAN, -- Jefe (true), traballador normal (false).
@@ -38,7 +38,7 @@ CREATE TABLE clientes (
     nombre_cliente VARCHAR(50), -- Nombre del cliente.
     apellido_cliente VARCHAR(50), -- Apellido del cliente.
     correo_cliente VARCHAR(255),  -- Correo del cliente.
-    telefono_cliente VARCHAR(15), -- Telefono del cliente.
+    telefono_cliente VARCHAR(20), -- Telefono del cliente.
     proteccion_datos BOOLEAN, -- Check de si ha firmado protección de datos.
     descripcion_cliente TEXT -- Que el trabajador pueda escribir lo que quiera del cliente.
 );
@@ -83,3 +83,6 @@ ALTER COLUMN producto_gastado SET DEFAULT 0;
 
 INSERT INTO clientes (nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, proteccion_datos, descripcion_cliente) 
 VALUES ('Otro', '', '', '', false, 'Cliente sin registrar.');
+
+INSERT INTO trabajadores (nombre_trabajador, apellido_trabajador, correo_trabajador, telefono_trabajador, contrasena)
+VALUES ('Dreams', '', '', '', '1234');

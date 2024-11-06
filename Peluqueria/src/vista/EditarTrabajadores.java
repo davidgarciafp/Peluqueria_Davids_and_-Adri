@@ -168,7 +168,7 @@ public class EditarTrabajadores extends JFrame {
 
 
         missatgeLabel = new JLabel("");
-        missatgeLabel.setBounds(400, 400, 400, 25);
+        missatgeLabel.setBounds(400, 450, 400, 50);
         missatgeLabel.setFont(nFont18);
         missatgeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(missatgeLabel);
@@ -241,65 +241,64 @@ public class EditarTrabajadores extends JFrame {
         String correo = correo_trabajadorField.getText();
         String telefono = telefono_trabajadorField.getText();
         String contrasena = contrasenaField.getText();
-        Boolean  trabajadorActivo = trabajador_activoCheckBox.isSelected();
-        Boolean trabajadorTipo = tipo_trabajadorCheckBox.isSelected(); // Jefe / Emlpeado;
-        String comisionProductoText = comisionProductoField.getText();
-        String comisionServicioText = comisionServicioField.getText();
-        BigDecimal comision_producto = new BigDecimal(comisionProductoText);
-        BigDecimal comision_servicio = new BigDecimal(comisionServicioText);
-
-
+        Boolean trabajadorActivo = trabajador_activoCheckBox.isSelected();
+        Boolean trabajadorTipo = tipo_trabajadorCheckBox.isSelected();
+        String comisionProductoText = comisionProductoField.getText().trim();
+        String comisionServicioText = comisionServicioField.getText().trim();
+        
         String missatge = "";
         Color colorMissatge = Color.BLUE;
-
-
-        // Validar que el texto no esté vacío y sea un número válido
-        if (comisionProductoText != null && !comisionProductoText.trim().isEmpty()) {
-            try {
-                // Intentar convertir el texto a BigDecimal
-                comision_producto = new BigDecimal(comisionProductoText);
-            } catch (NumberFormatException e) {
-                // Si hay un error, comision ya está en 0.00
-
-            }
-            
-        }if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || contrasena.isEmpty()) {
-            missatge = "Tienes que rellenar todos los campos";
-        } else {
-            try {
-                boolean resultat = controladorTrabajadores.modificarTrabajadores(
-                    this.idTrabajador,  // Usa this.idTrabajador aquí
-                    nombre,
-                    apellido,
-                    correo,
-                    telefono,
-                    contrasena,
-                    trabajadorActivo,
-                    trabajadorTipo,
-                    comision_producto,
-                    comision_servicio
-                );
     
-                if (resultat) {
-                    missatge = "¡Trabajador Actualizado!";
-                    colorMissatge = Color.GREEN;
-                }
-            } catch (RuntimeException ex) {
-                if (ex.getMessage().equals("BaseDatos NO encontrada")) {
-                    missatge = "Base de datos no encontrada";
-                    colorMissatge = Color.BLACK;
-                } else {
-                    ex.printStackTrace();
+        // Validate numeric fields first
+        try {
+            BigDecimal comision_producto = new BigDecimal(comisionProductoText);
+            BigDecimal comision_servicio = new BigDecimal(comisionServicioText);
+    
+            if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || 
+                telefono.isEmpty() || contrasena.isEmpty()) {
+                missatge = "Tienes que rellenar todos los campos";
+            } else if (!correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+                missatge = "El correo incorrecto";
+                colorMissatge = new Color(240, 128, 128);
+            } else if (!telefono.matches("[+\\d ]{1,20}") || telefono.length() > 15) {
+                missatge = "El teléfono incorrecto";
+                colorMissatge = new Color(240, 128, 128);
+            } else {
+                try {
+                    boolean resultat = controladorTrabajadores.modificarTrabajadores(
+                        this.idTrabajador,
+                        nombre,
+                        apellido,
+                        correo,
+                        telefono,
+                        contrasena,
+                        trabajadorActivo,
+                        trabajadorTipo,
+                        comision_producto,
+                        comision_servicio
+                    );
+    
+                    if (resultat) {
+                        missatge = "¡Trabajador Actualizado!";
+                        colorMissatge = Color.GREEN;
+                    }
+                } catch (RuntimeException ex) {
+                    if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                        missatge = "Base de datos no encontrada";
+                        colorMissatge = Color.BLACK;
+                    } else {
+                        ex.printStackTrace();
+                    }
                 }
             }
+        } catch (NumberFormatException e) {
+            missatge = "<html>Las comisiones deben ser<br>números válidos (ejemplo: 0.00)</html>";            
+            colorMissatge = new Color(240, 128, 128);
         }
-
-        
-        
+    
         missatgeLabel.setText(missatge);
         missatgeLabel.setForeground(colorMissatge);
     }
-
     private void volverAtras() {
         new GestionTrabajadores(trabajadores).setVisible(true);
         dispose();
