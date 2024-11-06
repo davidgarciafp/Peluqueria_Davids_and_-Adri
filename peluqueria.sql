@@ -46,7 +46,6 @@ CREATE TABLE clientes (
 CREATE TABLE ventas (
     id_ventas INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único por cada servicio.
     id_trabajador INT, -- Referencia a la tabla trabajadores.
-    id_trabajador INT, -- Referencia a la tabla trabajadores.
     id_producto INT, -- Referencia a la tabla productos.
     id_cliente INT, -- Referencia a la tabla clientes.
     cantidad_vendida INT, -- La cantidad de productos que se han vendido.
@@ -54,14 +53,12 @@ CREATE TABLE ventas (
     descripcion_venta TEXT, -- Un comentario que se quiera poner de la venta.
     venta_pagada BOOLEAN, -- Si la venta se ha pagado (true) o esta pendiente (false).
     FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
-    FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
     FOREIGN KEY (id_producto) REFERENCES productos(id_producto),
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
 
 CREATE TABLE servicio_realizados (
     servicio_realizados INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único por cada servicio.
-    id_trabajador INT, -- Referencia a la tabla trabajadores.
     id_trabajador INT, -- Referencia a la tabla trabajadores.
     id_servicio INT, -- Referencia a la tabla servicios.
     id_cliente INT, -- Referencia a la tabla clientes.
@@ -73,13 +70,9 @@ CREATE TABLE servicio_realizados (
     realizado BOOLEAN, -- Si el servicio se ha hecho.
     pagado BOOLEAN, -- Si el servicio se ha pagado (true) o esta pendiente (false).
     FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
-    FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
     FOREIGN KEY (id_servicio) REFERENCES servicios(id_servicio),
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
-ALTER TABLE productos 
-ALTER COLUMN producto_activo SET DEFAULT TRUE,
-ALTER COLUMN producto_gastado SET DEFAULT 0;
 
 INSERT INTO clientes (nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, proteccion_datos, descripcion_cliente) 
 VALUES ('Otro', '', '', '', false, 'Cliente sin registrar.');
