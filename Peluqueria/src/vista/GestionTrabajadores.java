@@ -138,7 +138,7 @@ public class GestionTrabajadores extends JFrame {
     }
 
     private JScrollPane mostrarTablaTrabajadores(Trabajadores trabajadores) {
-        String[] columnas = {"Nombre", "Apellido", "Correo", "Telèfon", "Alta", "Rol", "Comisión Producto", "Comisión Servicio", "Editar"}; // Defineix les columnes de la taula.
+        String[] columnas = {"Nombre", "Apellido", "Correo", "Telèfon", "Rol", "Alta", "Comisión Producto", "Comisión Servicio", "Editar"}; // Defineix les columnes de la taula.
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
