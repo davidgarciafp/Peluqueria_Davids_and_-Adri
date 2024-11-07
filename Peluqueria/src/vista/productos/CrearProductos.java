@@ -18,6 +18,8 @@ import modelo.Productos;
 import modelo.Trabajadores;
 
 public class CrearProductos extends JFrame {
+    private JLabel codigoBarrasLabel;
+    private JTextField codigoBarrasField;
     private JLabel nombreLabel;
     private JTextField nombreField;
     private JLabel marcaLabel;
@@ -61,7 +63,15 @@ public class CrearProductos extends JFrame {
 
         Font nFont18 = new Font(null, Font.PLAIN, 18);
 
+        codigoBarrasLabel = new JLabel("Codigo de Barras: ");
+        codigoBarrasLabel.setBounds(300, 40, 200, 25);
+        codigoBarrasLabel.setFont(nFont18);
+        panel.add(codigoBarrasLabel);
 
+        codigoBarrasField = new JTextField(20);
+        codigoBarrasField.setBounds(500, 40, 200, 25);
+        codigoBarrasField.setBackground(new Color(255, 255, 255)); 
+        panel.add(codigoBarrasField);
 
 
         nombreLabel = new JLabel("Nombre: ");
@@ -159,6 +169,7 @@ public class CrearProductos extends JFrame {
     }
 
     private void crearProducto() {
+        String codigoBarras = codigoBarrasField.getText();
         String precioText = precioField.getText().trim();
         String cantidadText = cantidadField.getText().trim();
         String nombreProducto = nombreField.getText();
@@ -178,6 +189,7 @@ public class CrearProductos extends JFrame {
             missatge = "Tienes que rellenar todos los campos";
         } else {
             Productos productos = new Productos();
+            productos.setCodigo_barras(codigoBarras);
             productos.setNombre_producto(nombreProducto);
             productos.setMarca(marca);
             productos.setPrecio_producto(precioProducto);

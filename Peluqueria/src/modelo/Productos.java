@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class Productos {
     //Entidades
     private Integer id_producto; 
+    private String codigo_barras;
     private String nombre_producto;
     private String marca;
     private BigDecimal precio_producto;
@@ -14,10 +15,11 @@ public class Productos {
     private Boolean producto_activo;
 
     //Constructores
-    public Productos(Integer id_producto, String nombre_producto, String marca, BigDecimal precio_producto,
+    public Productos(Integer id_producto, String codigo_barras, String nombre_producto, String marca, BigDecimal precio_producto,
             String descripcion_producto, Integer cantidad_disponible, Integer producto_gastado,
             Boolean producto_activo) {
         this.id_producto = id_producto;
+        this.codigo_barras = codigo_barras;
         this.nombre_producto = nombre_producto;
         this.marca = marca;
         this.precio_producto = precio_producto;
@@ -33,6 +35,9 @@ public class Productos {
     //Setters
     public void setId_producto(Integer id_producto) {
         this.id_producto = id_producto;
+    }
+    public void setCodigo_barras(String codigo_barras) {
+        this.codigo_barras = codigo_barras;
     }
 
     public void setNombre_producto(String nombre_producto) {
@@ -67,6 +72,9 @@ public class Productos {
     //Getters
     public Integer getId_producto() {
         return id_producto;
+    }
+    public String getCodigo_barras() {
+        return codigo_barras;
     }
 
     public String getNombre_producto(){
