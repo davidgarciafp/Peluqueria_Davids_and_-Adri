@@ -18,7 +18,6 @@ import controlador.ControladorTrabajadores;
 import modelo.Trabajadores;
 
 public class EditarTrabajadores extends JFrame {
-    private Integer idTrabajador;
     private JLabel nombre_trabajadorLabel;
     private JTextField nombre_trabajadorField;
     private JLabel apellido_trabajadorLabel;
@@ -41,11 +40,8 @@ public class EditarTrabajadores extends JFrame {
     private JButton guardarTrabajadorButton;
     private JButton volverButton;
     private ControladorTrabajadores controladorTrabajadores;
-    private Trabajadores trabajadores;
 
-    public EditarTrabajadores(Trabajadores trabajadores,Integer idTrabajador) {
-        this.trabajadores = trabajadores;
-        this.idTrabajador = idTrabajador;
+    public EditarTrabajadores(Trabajadores trabajadores, Integer idTrabajador) {
         controladorTrabajadores = new ControladorTrabajadores(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -168,7 +164,7 @@ public class EditarTrabajadores extends JFrame {
 
 
         missatgeLabel = new JLabel("");
-        missatgeLabel.setBounds(400, 450, 400, 50);
+        missatgeLabel.setBounds(400, 450, 400, 25);
         missatgeLabel.setFont(nFont18);
         missatgeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(missatgeLabel);
@@ -182,7 +178,7 @@ public class EditarTrabajadores extends JFrame {
         guardarTrabajadorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editarTrabajador();
+                editarTrabajador(idTrabajador);
             }
         });
         panel.getRootPane().setDefaultButton(guardarTrabajadorButton); // Para poderlo pulsar con la tecla "INTRO".
@@ -197,7 +193,7 @@ public class EditarTrabajadores extends JFrame {
         volverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                volverAtras();
+                volverAtras((Trabajadores) trabajadores);
             }
         });
         panel.add(volverButton);
@@ -235,71 +231,60 @@ public class EditarTrabajadores extends JFrame {
         }
     }
 
-    private void editarTrabajador() {
+    private void editarTrabajador(Integer idTrabajador) {
         String nombre = nombre_trabajadorField.getText();
         String apellido = apellido_trabajadorField.getText();
         String correo = correo_trabajadorField.getText();
         String telefono = telefono_trabajadorField.getText();
         String contrasena = contrasenaField.getText();
         Boolean trabajadorActivo = trabajador_activoCheckBox.isSelected();
-        Boolean trabajadorTipo = tipo_trabajadorCheckBox.isSelected();
+        Boolean trabajadorTipo = tipo_trabajadorCheckBox.isSelected(); // Jefe / Empleado
         String comisionProductoText = comisionProductoField.getText().trim();
         String comisionServicioText = comisionServicioField.getText().trim();
         
         String missatge = "";
         Color colorMissatge = Color.BLUE;
     
-        // Validate numeric fields first
-        try {
-            BigDecimal comision_producto = new BigDecimal(comisionProductoText);
-            BigDecimal comision_servicio = new BigDecimal(comisionServicioText);
-    
-            if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || 
-                telefono.isEmpty() || contrasena.isEmpty()) {
-                missatge = "Tienes que rellenar todos los campos";
-            } else if (!correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
-                missatge = "El correo incorrecto";
-                colorMissatge = new Color(240, 128, 128);
-            } else if (!telefono.matches("[+\\d ]{1,20}") || telefono.length() > 15) {
-                missatge = "El teléfono incorrecto";
-                colorMissatge = new Color(240, 128, 128);
-            } else {
-                try {
-                    boolean resultat = controladorTrabajadores.modificarTrabajadores(
-                        this.idTrabajador,
-                        nombre,
-                        apellido,
-                        correo,
-                        telefono,
-                        contrasena,
-                        trabajadorActivo,
-                        trabajadorTipo,
-                        comision_producto,
-                        comision_servicio
-                    );
-    
-                    if (resultat) {
-                        missatge = "¡Trabajador Actualizado!";
-                        colorMissatge = Color.GREEN;
-                    }
-                } catch (RuntimeException ex) {
-                    if (ex.getMessage().equals("BaseDatos NO encontrada")) {
-                        missatge = "Base de datos no encontrada";
-                        colorMissatge = Color.BLACK;
-                    } else {
-                        ex.printStackTrace();
-                    }
+
+        if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || contrasena.isEmpty()) {
+            missatge = "Tienes que rellenar todos los campos";
+        } else if (!correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            missatge = "El correo incorrecto";
+            colorMissatge = new Color(240, 128, 128);
+        } else if (!telefono.matches("[+\\d ]{1,20}") || telefono.length() > 15) {
+            missatge = "El teléfono incorrecto";
+            colorMissatge = new Color(240, 128, 128);
+        } else if (!comisionProductoText.matches("^-?\\d+(\\.\\d+)?$")) {
+            missatge = "Las comisionesde productos deben ser X.XX";
+            colorMissatge = new Color(240, 128, 128);
+        } else if (!comisionServicioText.matches("^-?\\d+(\\.\\d+)?$")) {
+            missatge = "Las comisiones de servicios deben ser X.XX";
+            colorMissatge = new Color(240, 128, 128);
+        } else {
+            BigDecimal comision_productos = new BigDecimal(comisionProductoText);
+            BigDecimal comision_servicios = new BigDecimal(comisionServicioText);
+
+            try {
+                boolean resultat = controladorTrabajadores.modificarTrabajadores(idTrabajador, nombre, apellido, correo, telefono, contrasena, trabajadorActivo, trabajadorTipo, comision_productos, comision_servicios);
+
+                if (resultat) {
+                    missatge = "¡Trabajador Actualizado!";
+                    colorMissatge = Color.GREEN;
+                }
+            } catch (RuntimeException ex) {
+                if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                    missatge = "Base de datos no encontrada";
+                    colorMissatge = Color.BLACK;
+                } else {
+                    ex.printStackTrace();
                 }
             }
-        } catch (NumberFormatException e) {
-            missatge = "<html>Las comisiones deben ser<br>números válidos (ejemplo: 0.00)</html>";            
-            colorMissatge = new Color(240, 128, 128);
         }
-    
         missatgeLabel.setText(missatge);
         missatgeLabel.setForeground(colorMissatge);
     }
-    private void volverAtras() {
+    
+    private void volverAtras(Trabajadores trabajadores) {
         new GestionTrabajadores(trabajadores).setVisible(true);
         dispose();
     }
