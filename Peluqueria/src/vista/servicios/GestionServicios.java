@@ -1,4 +1,4 @@
-package vista;
+package vista.servicios;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -21,30 +21,31 @@ import javax.swing.JScrollPane;
 
 import javax.swing.JPanel;
 
-import controlador.ControladorProductos;
+import controlador.ControladorServicios;
 import modelo.Clientes;
 import modelo.Productos;
-import modelo.Trabajadores;
 import modelo.Servicios;
+import modelo.Trabajadores;
+import vista.Menu;
 
-public class GestionProductos extends JFrame {
+public class GestionServicios extends JFrame {
     private JLabel volverLabel;
-    private JTable tablaProducto;
+    private JTable tablaServicio;
     private JButton agregarButton;
     private JButton eliminadosButton;
-    private ControladorProductos controladorProductos;
+    private ControladorServicios controladorServicios;
     private Trabajadores trabajadores;
-    private Productos productos;
     private Servicios servicios;
+    private Productos productos;
     private Clientes clientes;
     private boolean mostrandoDeshabilitados = false;
     private JLabel titulo;
 
 
-    public GestionProductos(Trabajadores trabajadores, Productos productos) {
+    public GestionServicios(Trabajadores trabajadores, Servicios servicios) {
         this.trabajadores = trabajadores;
-        this.productos = productos;
-        controladorProductos = new ControladorProductos(); // Inicializar el controlador.
+        this.servicios = servicios;
+        controladorServicios = new ControladorServicios(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Indica que la aplicación se cerrará completamente.
@@ -53,11 +54,11 @@ public class GestionProductos extends JFrame {
         // Creamos un panel para agregar los componetes que quieras.
         JPanel panel = new JPanel();
         add(panel);
-        posicioBotons(panel, productos);
+        posicioBotons(panel, servicios);
 
         setVisible(true); 
     }
-    private void posicioBotons(JPanel panel, Object productos) {
+    private void posicioBotons(JPanel panel, Object servicios) {
 
         panel.setBackground(new Color(139, 137, 137)); // Canviar de color.
         panel.setLayout(null);
@@ -87,16 +88,16 @@ public class GestionProductos extends JFrame {
         });
         panel.add(volverLabel);
 
-        titulo = new JLabel("Gestión de Productos");
+        titulo = new JLabel("Gestión de Servicios");
         titulo.setBounds(10, 50, 400, 25);
         titulo.setFont(nFont18);
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titulo);
 
-        JScrollPane scrollPane = mostrarTablaProductos();
+        JScrollPane scrollPane = mostrarTablaServicios();
         panel.add(scrollPane);
 
-        agregarButton = new JButton("Agregar Producto");
+        agregarButton = new JButton("Agregar Servicio");
         agregarButton.setBounds(150, 500, 200, 40);
         agregarButton.setHorizontalAlignment(SwingConstants.CENTER);
         agregarButton.setBackground(new Color(206, 123, 86));
@@ -104,14 +105,13 @@ public class GestionProductos extends JFrame {
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                agregarProducto();
+                agregarServicio();
             }
         });
         panel.getRootPane().setDefaultButton(agregarButton); // Para poderlo pulsar con la tecla "INTRO".
         panel.add(agregarButton);
-        
 
-        eliminadosButton = new JButton("Productos deshabilitados");
+        eliminadosButton = new JButton("Servicios deshabilitados");
         eliminadosButton.setBounds(400, 500, 300, 40);
         eliminadosButton.setHorizontalAlignment(SwingConstants.CENTER);
         eliminadosButton.setBackground(new Color(206, 123, 86));
@@ -120,12 +120,12 @@ public class GestionProductos extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!mostrandoDeshabilitados) {
-                    mostrarProductosDeshabilitados();
-                    eliminadosButton.setText("Mostrar Productos Activos");
+                    mostrarServiciosDeshabilitados();
+                    eliminadosButton.setText("Mostrar Servicios Activos");
                     mostrandoDeshabilitados = true;
                 } else {
-                    actualizarTabla(controladorProductos.mostrarProductos());
-                    eliminadosButton.setText("Productos deshabilitados");
+                    actualizarTabla(controladorServicios.mostrarServicios());
+                    eliminadosButton.setText("Servicios deshabilitados");
                     mostrandoDeshabilitados = false;
                 }
             }
@@ -139,70 +139,63 @@ public class GestionProductos extends JFrame {
         dispose();
     }
 
-    private JScrollPane mostrarTablaProductos() {
-        // Crear la tabla con las columnas
-        String[] columnas = {"Nombre", "Marca", "Precio", "Descripción", "Cantidad Disponible", "Vendido(1)/Gastado(2)","Producto Activo", "Editar"};
+    private JScrollPane mostrarTablaServicios() {
+        String[] columnas = {"Precio Base de Servicio", "Descripción de Servicio", "Servicio Activo", "Editar"}; // Defineix les columnes de la taula.
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 7;
+                return column == 3;
             }
         };
-        
-        tablaProducto = new JTable(modelo);
-        
+        tablaServicio = new JTable(modelo);
+
         // Añadir el MouseListener para el botón editar
-        tablaProducto.addMouseListener(new MouseAdapter() {
+        tablaServicio.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                int row = tablaProducto.rowAtPoint(e.getPoint());
-                int column = tablaProducto.columnAtPoint(e.getPoint());
-                if (column == 7) {
-                    List<Productos> listaProductos = mostrandoDeshabilitados ? 
-                        controladorProductos.mostrarProductosEliminados() : 
-                        controladorProductos.mostrarProductos();
-                    Productos productoSeleccionado = listaProductos.get(row);
-                    int idProducto = productoSeleccionado.getId_producto();
-                    new EditarProductos(trabajadores, idProducto).setVisible(true);
+                int row = tablaServicio.rowAtPoint(e.getPoint());
+                int column = tablaServicio.columnAtPoint(e.getPoint());
+                if (column == 3) {
+                    List<Servicios> listaServicios = mostrandoDeshabilitados ? 
+                        controladorServicios.mostrarServiciosEliminados() : 
+                        controladorServicios.mostrarServicios();
+                    Servicios servicioSeleccionado = listaServicios.get(row);
+                    int idServicio = servicioSeleccionado.getId_servicio();
+                    new EditarServicios(trabajadores, idServicio).setVisible(true);
                     dispose();
                 }
             }
         });
     
         // Mostrar los productos activos inicialmente
-        actualizarTabla(controladorProductos.mostrarProductos());
+        actualizarTabla(controladorServicios.mostrarServicios());
     
-        JScrollPane scrollPane = new JScrollPane(tablaProducto);
+        JScrollPane scrollPane = new JScrollPane(tablaServicio);
         scrollPane.setBounds(50, 100, 600, 300);
         
         return scrollPane;
     }
 
-    private void agregarProducto() {
-        new CrearProductos(trabajadores).setVisible(true);
+    private void agregarServicio() {
+        new CrearServicios(trabajadores).setVisible(true);
         dispose();
     }
-    private void mostrarProductosDeshabilitados(){
-        List<Productos> listaProductos = controladorProductos.mostrarProductosEliminados(); // Obté la llista de trabajadores del controlador.
-        actualizarTabla(listaProductos);
+
+    private void mostrarServiciosDeshabilitados(){
+        List<Servicios> listaServicios = controladorServicios.mostrarServiciosEliminados(); // Obté la llista de trabajadores del controlador.
+        actualizarTabla(listaServicios);
     }
 
-    private void actualizarTabla(List<Productos> listaProductos) {
-        DefaultTableModel modelo = (DefaultTableModel) tablaProducto.getModel();
+    private void actualizarTabla(List<Servicios> listaServicios) {
+        DefaultTableModel modelo = (DefaultTableModel) tablaServicio.getModel();
         modelo.setRowCount(0); // Limpia la tabla
     
-        for (Productos producto : listaProductos) {
+        for (Servicios servicio : listaServicios) {
             modelo.addRow(new Object[]{
-                producto.getNombre_producto(),
-                producto.getMarca(), 
-                producto.getPrecio_producto(),
-                producto.getDescripcion_producto(),
-                producto.getCantidad_disponible(),
-                producto.getProducto_gastado(),
-                producto.isProducto_activo(),
+                servicio.getPrecio_base(),
+                servicio.getDescripcion_servicio(), 
+                servicio.isServicio_activo(),
                 "Editar"
             });
         }
     }
-
-       
 }

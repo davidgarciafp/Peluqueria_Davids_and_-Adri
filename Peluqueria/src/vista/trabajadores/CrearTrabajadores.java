@@ -1,4 +1,4 @@
-package vista;
+package vista.trabajadores;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 
 import controlador.ControladorTrabajadores;
 import modelo.Trabajadores;
+import vista.IniciarSesion;
 
 public class CrearTrabajadores extends JFrame {
     private JLabel nombre_trabajadorLabel;

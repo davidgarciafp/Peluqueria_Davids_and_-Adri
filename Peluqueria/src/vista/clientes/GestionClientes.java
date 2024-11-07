@@ -1,4 +1,4 @@
-package vista;
+package vista.clientes;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import controlador.ControladorClientes;
 import modelo.Productos;
 import modelo.Trabajadores;
+import vista.Menu;
 import modelo.Servicios;
 import modelo.Clientes;
 

@@ -62,7 +62,6 @@ CREATE TABLE ventas (
 CREATE TABLE servicio_realizados (
     servicio_realizados INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único por cada servicio.
     id_trabajador INT, -- Referencia a la tabla trabajadores.
-    id_trabajador INT, -- Referencia a la tabla trabajadores.
     id_servicio INT, -- Referencia a la tabla servicios.
     id_cliente INT, -- Referencia a la tabla clientes.
     hora_inicio DATETIME, -- Fecha y hora en que el corte empezó.
@@ -72,7 +71,6 @@ CREATE TABLE servicio_realizados (
     comentario TEXT, -- Comentario del servicio realizado.
     realizado BOOLEAN, -- Si el servicio se ha hecho.
     pagado BOOLEAN, -- Si el servicio se ha pagado (true) o esta pendiente (false).
-    FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
     FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
     FOREIGN KEY (id_servicio) REFERENCES servicios(id_servicio),
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)

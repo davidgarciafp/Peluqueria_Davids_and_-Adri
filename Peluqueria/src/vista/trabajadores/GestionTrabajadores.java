@@ -1,4 +1,4 @@
-package vista;
+package vista.trabajadores;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,24 +15,25 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
 import javax.swing.JPanel;
 
-import controlador.ControladorServicios;
+import controlador.ControladorTrabajadores;
+import modelo.Servicios;
 import modelo.Clientes;
 import modelo.Productos;
-import modelo.Servicios;
 import modelo.Trabajadores;
+import vista.Menu;
 
-public class GestionServicios extends JFrame {
+public class GestionTrabajadores extends JFrame {
+    //private JLabel mensaje;
     private JLabel volverLabel;
-    private JTable tablaServicio;
+    private JTable tablaTrabajador;
     private JButton agregarButton;
     private JButton eliminadosButton;
-    private ControladorServicios controladorServicios;
+    private ControladorTrabajadores controladorTrabajadores;
     private Trabajadores trabajadores;
     private Servicios servicios;
     private Productos productos;
@@ -41,10 +42,10 @@ public class GestionServicios extends JFrame {
     private JLabel titulo;
 
 
-    public GestionServicios(Trabajadores trabajadores, Servicios servicios) {
+    public GestionTrabajadores(Trabajadores trabajadores) {
         this.trabajadores = trabajadores;
-        this.servicios = servicios;
-        controladorServicios = new ControladorServicios(); // Inicializar el controlador.
+
+        controladorTrabajadores = new ControladorTrabajadores(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Indica que la aplicación se cerrará completamente.
@@ -53,18 +54,17 @@ public class GestionServicios extends JFrame {
         // Creamos un panel para agregar los componetes que quieras.
         JPanel panel = new JPanel();
         add(panel);
-        posicioBotons(panel, servicios);
+        posicioBotons(panel);
 
         setVisible(true); 
     }
-    private void posicioBotons(JPanel panel, Object servicios) {
+    private void posicioBotons(JPanel panel) {
 
         panel.setBackground(new Color(139, 137, 137)); // Canviar de color.
         panel.setLayout(null);
 
         // Fuentes
         Font nFont18 = new Font(null, Font.PLAIN, 18);
-
 
         ImageIcon originalIcon = new ImageIcon("C:\\xampp\\htdocs\\MP_12 Projecte_1\\Imagenes\\volver.png");
         Image imagenRedimensionada = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -87,16 +87,16 @@ public class GestionServicios extends JFrame {
         });
         panel.add(volverLabel);
 
-        titulo = new JLabel("Gestión de Servicios");
+        titulo = new JLabel("Gestión de Trabajadores");
         titulo.setBounds(10, 50, 400, 25);
         titulo.setFont(nFont18);
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titulo);
 
-        JScrollPane scrollPane = mostrarTablaServicios();
+        JScrollPane scrollPane = mostrarTablaTrabajadores((Trabajadores) trabajadores);
         panel.add(scrollPane);
 
-        agregarButton = new JButton("Agregar Servicio");
+        agregarButton = new JButton("Agregar Trabajador");
         agregarButton.setBounds(150, 500, 200, 40);
         agregarButton.setHorizontalAlignment(SwingConstants.CENTER);
         agregarButton.setBackground(new Color(206, 123, 86));
@@ -104,13 +104,13 @@ public class GestionServicios extends JFrame {
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                agregarServicio();
+                agregarTrabajador((Trabajadores) trabajadores);
             }
         });
         panel.getRootPane().setDefaultButton(agregarButton); // Para poderlo pulsar con la tecla "INTRO".
         panel.add(agregarButton);
 
-        eliminadosButton = new JButton("Servicios deshabilitados");
+        eliminadosButton = new JButton("Trabajadores deshabilitados");
         eliminadosButton.setBounds(400, 500, 300, 40);
         eliminadosButton.setHorizontalAlignment(SwingConstants.CENTER);
         eliminadosButton.setBackground(new Color(206, 123, 86));
@@ -119,12 +119,12 @@ public class GestionServicios extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!mostrandoDeshabilitados) {
-                    mostrarServiciosDeshabilitados();
-                    eliminadosButton.setText("Mostrar Servicios Activos");
+                    mostrarTrabajadoresDeshabilitados();
+                    eliminadosButton.setText("Mostrar Trabajadores Activos");
                     mostrandoDeshabilitados = true;
                 } else {
-                    actualizarTabla(controladorServicios.mostrarServicios());
-                    eliminadosButton.setText("Servicios deshabilitados");
+                    actualizarTabla(controladorTrabajadores.mostrarTrabajadores());
+                    eliminadosButton.setText("Trabajadores deshabilitados");
                     mostrandoDeshabilitados = false;
                 }
             }
@@ -134,65 +134,70 @@ public class GestionServicios extends JFrame {
     
     // Metodo
     private void volverAtras() {
-        new Menu(trabajadores, servicios, productos, clientes).setVisible(true);
+        new Menu(this.trabajadores, this.servicios, productos, clientes).setVisible(true);
         dispose();
     }
 
-    private JScrollPane mostrarTablaServicios() {
-        String[] columnas = {"Precio Base de Servicio", "Descripción de Servicio", "Servicio Activo", "Editar"}; // Defineix les columnes de la taula.
+    private JScrollPane mostrarTablaTrabajadores(Trabajadores trabajadores) {
+        String[] columnas = {"Nombre", "Apellido", "Correo", "Telèfon", "Rol", "Alta", "Comisión Producto", "Comisión Servicio", "Editar"}; // Defineix les columnes de la taula.
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 3;
+                return column == 8;
             }
         };
-        tablaServicio = new JTable(modelo);
-
+        tablaTrabajador = new JTable(modelo);
+        
         // Añadir el MouseListener para el botón editar
-        tablaServicio.addMouseListener(new MouseAdapter() {
+        tablaTrabajador.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                int row = tablaServicio.rowAtPoint(e.getPoint());
-                int column = tablaServicio.columnAtPoint(e.getPoint());
-                if (column == 3) {
-                    List<Servicios> listaServicios = mostrandoDeshabilitados ? 
-                        controladorServicios.mostrarServiciosEliminados() : 
-                        controladorServicios.mostrarServicios();
-                    Servicios servicioSeleccionado = listaServicios.get(row);
-                    int idServicio = servicioSeleccionado.getId_servicio();
-                    new EditarServicios(trabajadores, idServicio).setVisible(true);
+                int row = tablaTrabajador.rowAtPoint(e.getPoint());
+                int column = tablaTrabajador.columnAtPoint(e.getPoint());
+                if (column == 8) {
+                    List<Trabajadores> listaProductos = mostrandoDeshabilitados ? 
+                    controladorTrabajadores.mostrarTrabajadoresEliminados() : 
+                        controladorTrabajadores.mostrarTrabajadores();
+                    Trabajadores productoSeleccionado = listaProductos.get(row);
+                    int idTrabajador = productoSeleccionado.getIdTrabajador();
+                    new EditarTrabajadores(trabajadores, idTrabajador).setVisible(true);
                     dispose();
                 }
             }
         });
     
         // Mostrar los productos activos inicialmente
-        actualizarTabla(controladorServicios.mostrarServicios());
+        actualizarTabla(controladorTrabajadores.mostrarTrabajadores());
     
-        JScrollPane scrollPane = new JScrollPane(tablaServicio);
+        JScrollPane scrollPane = new JScrollPane(tablaTrabajador);
         scrollPane.setBounds(50, 100, 600, 300);
         
         return scrollPane;
     }
 
-    private void agregarServicio() {
-        new CrearServicios(trabajadores).setVisible(true);
+    private void agregarTrabajador(Trabajadores trabajadores) {
+        new CrearTrabajadores(trabajadores).setVisible(true);
         dispose();
     }
 
-    private void mostrarServiciosDeshabilitados(){
-        List<Servicios> listaServicios = controladorServicios.mostrarServiciosEliminados(); // Obté la llista de trabajadores del controlador.
-        actualizarTabla(listaServicios);
+    private void mostrarTrabajadoresDeshabilitados(){
+        List<Trabajadores> listaTrabajadores = controladorTrabajadores.mostrarTrabajadoresEliminados(); // Obté la llista de trabajadores del controlador.
+        actualizarTabla(listaTrabajadores);
     }
 
-    private void actualizarTabla(List<Servicios> listaServicios) {
-        DefaultTableModel modelo = (DefaultTableModel) tablaServicio.getModel();
+    private void actualizarTabla(List<Trabajadores> listaTrabajadores) {
+        DefaultTableModel modelo = (DefaultTableModel) tablaTrabajador.getModel();
         modelo.setRowCount(0); // Limpia la tabla
     
-        for (Servicios servicio : listaServicios) {
+        for (Trabajadores trabajador : listaTrabajadores) {
             modelo.addRow(new Object[]{
-                servicio.getPrecio_base(),
-                servicio.getDescripcion_servicio(), 
-                servicio.isServicio_activo(),
+                trabajador.getNombreTrabajador(),
+                trabajador.getApellidoTrabajador(), 
+                trabajador.getCorreoTrabajador(),
+                trabajador.getTelefonoTrabajador(),
+                trabajador.isTipoTrabajador(),
+                trabajador.isTrabajadorActivo(),
+                trabajador.getComisionProducto(),
+                trabajador.getComisionServicio(),
                 "Editar"
             });
         }

@@ -20,6 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import modelo.Trabajadores;
+import vista.clientes.GestionClientes;
+import vista.productos.GestionProductos;
+import vista.servicios.GestionServicios;
+import vista.trabajadores.GestionTrabajadores;
 import modelo.Clientes;
 import modelo.Productos;
 import modelo.Servicios;

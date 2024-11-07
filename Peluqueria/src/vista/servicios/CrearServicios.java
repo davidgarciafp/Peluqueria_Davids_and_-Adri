@@ -1,4 +1,4 @@
-package vista;
+package vista.servicios;
 
 import java.awt.Color;
 import java.awt.Font;
