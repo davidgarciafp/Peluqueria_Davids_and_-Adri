@@ -20,9 +20,9 @@ public class ControladorProductos {
         return productosDAO.agregarProductos(productos);
     }
 
-    public <BigDecimal> boolean modificarProductos(Integer idProducto, String nombreProducto, String marca, BigDecimal precioProducto, String descripcionProducto,  Integer cantidadDisponible, Integer productoGastado, Boolean productoActivo) {
+    public <BigDecimal> boolean modificarProductos(Integer idProducto, String codigoBarras,String nombreProducto, String marca, BigDecimal precioProducto, String descripcionProducto,  Integer cantidadDisponible, Integer productoGastado, Boolean productoActivo) {
         ProductosDAO productosDAO = new ProductosDAO();
-        return productosDAO.actualizarProductos(idProducto, nombreProducto, marca, precioProducto, descripcionProducto, cantidadDisponible, productoGastado, productoActivo);
+        return productosDAO.actualizarProductos(idProducto, codigoBarras, nombreProducto, marca, precioProducto, descripcionProducto, cantidadDisponible, productoGastado, productoActivo);
     }
 
     public Productos buscarProducto(Integer idProducto) {

@@ -20,6 +20,8 @@ import modelo.Trabajadores;
 
 public class EditarProductos extends JFrame {
     private Integer idProducto;
+    private JLabel codigoBarrasLabel;
+    private JTextField codigoBarrasField;
     private JLabel nombreLabel;
     private JTextField nombreField;
     private JLabel marcaLabel;
@@ -67,6 +69,16 @@ public class EditarProductos extends JFrame {
 
 
         Font nFont18 = new Font(null, Font.PLAIN, 18);
+
+        codigoBarrasLabel = new JLabel("Codigo de Barras: ");
+        codigoBarrasLabel.setBounds(50, 40, 200, 25);
+        codigoBarrasLabel.setFont(nFont18);
+        panel.add(codigoBarrasLabel);
+
+        codigoBarrasField = new JTextField(20);
+        codigoBarrasField.setBounds(250, 40, 200, 25);
+        codigoBarrasField.setBackground(new Color(255, 255, 255)); 
+        panel.add(codigoBarrasField);
 
 
         nombreLabel = new JLabel("Nombre: ");
@@ -190,6 +202,7 @@ public class EditarProductos extends JFrame {
 
         try {
             if (productos != null) {
+                codigoBarrasField.setText(productos.getCodigo_barras());
                 nombreField.setText(productos.getNombre_producto());
                 marcaField.setText(productos.getMarca());
                 precioField.setText(productos.getPrecio_producto().toString());
@@ -212,6 +225,7 @@ public class EditarProductos extends JFrame {
     }
 
     private void editarProductos() {
+        String  codigoBarras = codigoBarrasField.getText();
         String nombreProducto =  nombreField.getText();
         String  marca = marcaField.getText();
         String precioText = precioField.getText();
@@ -261,6 +275,7 @@ public class EditarProductos extends JFrame {
             try {
                 boolean resultat = controladorProductos.modificarProductos(
                     this.idProducto,
+                    codigoBarras,
                     nombreProducto,
                     marca,
                     precioProducto,

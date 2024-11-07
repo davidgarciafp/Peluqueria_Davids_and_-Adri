@@ -142,7 +142,7 @@ public class GestionProductos extends JFrame {
 
     private JScrollPane mostrarTablaProductos() {
         // Crear la tabla con las columnas
-        String[] columnas = {"Nombre", "Marca", "Precio", "Descripción", "Cantidad Disponible", "Vendido(1)/Gastado(2)","Producto Activo", "Editar"};
+        String[] columnas = {"Código de Barras","Nombre", "Marca", "Precio", "Descripción", "Cantidad Disponible","Producto Activo", "Editar"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -193,12 +193,12 @@ public class GestionProductos extends JFrame {
     
         for (Productos producto : listaProductos) {
             modelo.addRow(new Object[]{
+                producto.getCodigo_barras(),
                 producto.getNombre_producto(),
                 producto.getMarca(), 
                 producto.getPrecio_producto(),
                 producto.getDescripcion_producto(),
                 producto.getCantidad_disponible(),
-                producto.getProducto_gastado(),
                 producto.isProducto_activo(),
                 "Editar"
             });

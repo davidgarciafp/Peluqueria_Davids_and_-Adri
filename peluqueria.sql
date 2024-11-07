@@ -17,6 +17,7 @@ CREATE TABLE trabajadores (
 
 CREATE TABLE productos (
     id_producto INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único por cada producto.
+    codigo_barras VARCHAR(50), -- Codigo de barras del producto.
     nombre_producto VARCHAR(50), -- Nombre del producto.
     marca VARCHAR(50), -- Nombre de la marca.
     precio_producto DECIMAL(10,2), -- Precio del producto.
