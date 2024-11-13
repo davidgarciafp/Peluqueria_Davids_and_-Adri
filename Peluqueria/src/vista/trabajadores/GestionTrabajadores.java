@@ -165,7 +165,7 @@ public class GestionTrabajadores extends JFrame {
         DefaultTableModel opcionesTabla = new DefaultTableModel(datos, columnas) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 8; // Solo editable la columna "Editar"
+                return column == 9; // Solo editable la columna "Editar"
             }
         };
 
@@ -176,7 +176,7 @@ public class GestionTrabajadores extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int row = tablaTrabajador.rowAtPoint(e.getPoint());
                 int column = tablaTrabajador.columnAtPoint(e.getPoint());
-                if (column == 8) { // Si se clicó en la columna "Editar"
+                if (column == 9) { // Si se clicó en la columna "Editar"
                     int idTrabajador = (int) tablaTrabajador.getValueAt(row, 0); // Obtener el Id trabajador
                     new EditarTrabajadores(trabajadores, idTrabajador).setVisible(true);
                     dispose();
@@ -208,6 +208,7 @@ public class GestionTrabajadores extends JFrame {
     
         for (Trabajadores trabajador : listaTrabajadores) {
             modelo.addRow(new Object[]{
+                trabajador.getIdTrabajador(),
                 trabajador.getNombreTrabajador(),
                 trabajador.getApellidoTrabajador(), 
                 trabajador.getCorreoTrabajador(),
