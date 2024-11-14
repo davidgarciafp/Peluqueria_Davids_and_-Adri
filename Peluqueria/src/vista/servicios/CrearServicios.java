@@ -27,13 +27,7 @@ public class CrearServicios extends JFrame {
     private JButton volverButton;
     private ControladorServicios controladorServicios;
 
-    private Trabajadores trabajadores;
-    private Servicios servicios;
-
     public CrearServicios(Trabajadores trabajadores) {
-        this.trabajadores =  trabajadores;
-        this.servicios = new Servicios();
-
         controladorServicios = new ControladorServicios(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -43,12 +37,12 @@ public class CrearServicios extends JFrame {
         // Creamos un panel para agregar los componetes que quieras.
         JPanel panel = new JPanel();
         add(panel);
-        posicioBotons(panel, servicios);
+        posicioBotons(panel, trabajadores);
 
         setVisible(true); 
     }
 
-    private void posicioBotons(JPanel panel, Object servicios) {
+    private void posicioBotons(JPanel panel, Trabajadores trabajadores) {
         panel.setBackground(new Color(139, 137, 137)); // Canviar de color.
         panel.setLayout(null);
 
@@ -86,9 +80,9 @@ public class CrearServicios extends JFrame {
         panel.add(missatgeLabel);
 
         agregarServicioButton = new JButton("Crear Servicio");
-        agregarServicioButton.setBounds(500, 500, 200, 40);
+        agregarServicioButton.setBounds(150, 450, 200, 40);
         agregarServicioButton.setHorizontalAlignment(SwingConstants.CENTER);
-        agregarServicioButton.setBackground(new Color(206, 63, 86));
+        agregarServicioButton.setBackground(new Color(218, 247, 166));
         agregarServicioButton.setFont(nFont18);
         agregarServicioButton.addActionListener(new ActionListener() {
             @Override
@@ -101,46 +95,50 @@ public class CrearServicios extends JFrame {
 
         
         volverButton = new JButton("Volver");
-        volverButton.setBounds(50, 20, 200, 40);
+        volverButton.setBounds(150, 500, 200, 40);
         volverButton.setHorizontalAlignment(SwingConstants.CENTER);
-        volverButton.setBackground(new Color(105, 123, 86));
+        volverButton.setBackground(new Color(240, 128, 128));
         volverButton.setFont(nFont18);
         volverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                volverAtras((Servicios) servicios);
+                volverAtras((Trabajadores) trabajadores);
             }
         });
         panel.add(volverButton);
     }
 
     // Metodos
-    private  void volverAtras(Servicios servicios) {
-        new GestionServicios(trabajadores, servicios).setVisible(true);
+    private void volverAtras(Trabajadores trabajadores) {
+        new GestionServicios(trabajadores).setVisible(true);
         dispose();
     }
 
     private void crearServicio() {
-        BigDecimal precioBase = new BigDecimal(precioBaseField.getText());
+        String precioBaseText = precioBaseField.getText();
         String descripcionServicio = descripcionServicioField.getText();
 
         String missatge = "";
         Color colorMissatge = Color.BLUE;
         
-        if ( precioBaseField.getText().isEmpty() || descripcionServicioField.getText().isEmpty()) {
+        if (descripcionServicio.isEmpty()) {
             missatge = "Tienes que rellenar todos los campos";
+        } else if (!precioBaseText.matches("^-?\\d+(\\.\\d+)?$")) {
+            missatge = "El precio base tiene que ser X.XX";
+            colorMissatge = new Color(240, 128, 128);
         } else {
-            Servicios servicios = new Servicios(
-            null,
-            precioBase,
-            descripcionServicio,
-            true);
+            BigDecimal precioBase = new BigDecimal(precioBaseText);
+
+            Servicios servicio = new Servicios();
+            servicio.setPrecio_base(precioBase);
+            servicio.setDescripcion_servicio(descripcionServicio);
+            servicio.setServicio_activo(true);
 
             try {
-                boolean resultat = controladorServicios.anyadirServicios(servicios);
-                
+                boolean resultat = controladorServicios.anyadirServicios(servicio);
+
                 if (resultat) {
-                    missatge = "¡Servicio Creado!";
+                    missatge = "Servicio Creado!";
                     colorMissatge = Color.GREEN;
                 }
             } catch (RuntimeException ex) {
@@ -151,11 +149,8 @@ public class CrearServicios extends JFrame {
                     ex.printStackTrace();
                 }
             }
-        }if (missatgeLabel != null) {
-            missatgeLabel.setText(missatge);
-            missatgeLabel.setForeground(colorMissatge);
-        } else {
-            System.out.println("Error: missatgeLabel es nulo");
         }
+        missatgeLabel.setText(missatge);
+        missatgeLabel.setForeground(colorMissatge);
     }
 }

@@ -39,7 +39,7 @@ public class GestionClientes extends JFrame {
     private Clientes clientes;
     private JLabel titulo;
 
-    public GestionClientes(Trabajadores trabajadores, Clientes clientes) {
+    public GestionClientes(Trabajadores trabajadores) {
         this.trabajadores = trabajadores;
         this.clientes = clientes;
         controladorClientes = new ControladorClientes(); // Inicializar el controlador.

@@ -26,7 +26,6 @@ public class ControladorTrabajadores {
     }
 
     public boolean modificarTrabajadores(Integer idTrabajador, String nuevoNombre, String nuevoApellido, String nuevoCorreo, String nuevoTelefono, String nuevaContrasena, boolean nuevoActivo, Boolean trabajadorTipo, java.math.BigDecimal comision_producto,  java.math.BigDecimal comision_servicio) {
-
         return trabajadoresDAO.actualizarTrabajadores(idTrabajador, nuevoNombre, nuevoApellido, nuevoCorreo, nuevoTelefono, nuevaContrasena, nuevoActivo, trabajadorTipo, comision_producto, comision_servicio);
     }
 

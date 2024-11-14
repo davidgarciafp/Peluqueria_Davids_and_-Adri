@@ -56,7 +56,7 @@ public class EditarTrabajadores extends JFrame {
         setVisible(true); 
     }
 
-    private void posicioBotons(JPanel panel, Object trabajadores, Integer idTrabajador) {
+    private void posicioBotons(JPanel panel, Trabajadores trabajadores, Integer idTrabajador) {
         panel.setBackground(new Color(139, 137, 137)); // Canviar de color.
         panel.setLayout(null);
 

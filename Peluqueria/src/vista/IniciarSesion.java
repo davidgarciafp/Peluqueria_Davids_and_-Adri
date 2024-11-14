@@ -27,9 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import controlador.ControladorTrabajadores;
-import modelo.Clientes;
-import modelo.Productos;
-import modelo.Servicios;
 import modelo.Trabajadores;
 
 public class IniciarSesion extends JFrame {
@@ -42,9 +39,6 @@ public class IniciarSesion extends JFrame {
     private JLabel missatgeErrorLabel;
     private JButton loginButton;
     private ControladorTrabajadores controladorTrabajadores;
-    private Servicios servicios;
-    private Productos  productos;
-    private Clientes clientes;
 
 
     public IniciarSesion() {
@@ -236,10 +230,10 @@ public class IniciarSesion extends JFrame {
                     if (trabajador != null) {
                         if (trabajador.isTipoTrabajador()) {
                             // Trabajador es Jefe
-                            new Menu(trabajador, servicios, productos, clientes).setVisible(true);
+                            new Menu(trabajador).setVisible(true);
                         } else {
                             // Trabajador es Empleado
-                            new Menu(trabajador, servicios, productos, clientes).setVisible(true);
+                            new Menu(trabajador).setVisible(true);
                         }
                         dispose(); // Para cerrar la pestaña actual
                     } else {

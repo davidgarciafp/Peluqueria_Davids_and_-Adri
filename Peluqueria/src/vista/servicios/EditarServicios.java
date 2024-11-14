@@ -19,7 +19,6 @@ import modelo.Servicios;
 import modelo.Trabajadores;
 
 public class EditarServicios extends JFrame {
-    private Integer idServicio;
     private JLabel precioBaseLabel;
     private JTextField precioBaseField;
     private JLabel descripcionServicioLabel;
@@ -31,14 +30,7 @@ public class EditarServicios extends JFrame {
     private JButton volverButton;
     private ControladorServicios controladorServicios;
 
-    private Trabajadores trabajadores;
-    private Servicios servicios;
-
     public EditarServicios(Trabajadores trabajadores, Integer idServicio) {
-        this.trabajadores = trabajadores;
-        this.servicios = new Servicios();
-        this.idServicio = idServicio;
-        
         controladorServicios = new ControladorServicios(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -48,12 +40,12 @@ public class EditarServicios extends JFrame {
         // Creamos un panel para agregar los componetes que quieras.
         JPanel panel = new JPanel();
         add(panel);
-        posicioBotons(panel, servicios, idServicio);
+        posicioBotons(panel, trabajadores, idServicio);
 
         setVisible(true); 
     }
 
-    private void posicioBotons(JPanel panel, Object servicios, Integer idServicio) {
+    private void posicioBotons(JPanel panel, Trabajadores trabajadores, Integer idServicio) {
         panel.setBackground(new Color(139, 137, 137)); // Canviar de color.
         panel.setLayout(null);
 
@@ -110,7 +102,7 @@ public class EditarServicios extends JFrame {
         guardarServicioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editarServicios();
+                editarServicios(idServicio);
             }
         });
         panel.getRootPane().setDefaultButton(guardarServicioButton); // Para poderlo pulsar con la tecla "INTRO".
@@ -125,7 +117,7 @@ public class EditarServicios extends JFrame {
         volverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                volverAtras();
+                volverAtras((Trabajadores) trabajadores);
             }
         });
         panel.add(volverButton);
@@ -157,9 +149,8 @@ public class EditarServicios extends JFrame {
         }
     }
 
-    private void editarServicios() {
+    private void editarServicios(Integer idServicio) {
         String precioBaseText = precioBaseField.getText();
-        BigDecimal precioBase = new BigDecimal(precioBaseText);
         String descripcionServicio = descripcionServicioField.getText();
         Boolean servicioActivo = servicioActivoCheckBox.isSelected();
 
@@ -167,30 +158,16 @@ public class EditarServicios extends JFrame {
         Color colorMissatge = Color.BLUE;
 
 
-        // Validar que el texto no esté vacío y sea un número válido
-        if (precioBaseText != null && !precioBaseText.trim().isEmpty()) {
-            try {
-                // Intentar convertir el texto a BigDecimal
-                precioBase = new BigDecimal(precioBaseText);
-            } catch (NumberFormatException e) {
-                // Si hay un error, comision ya está en 0.00
-
-            }
-        }
-
-        
-        if (precioBaseText.isEmpty() || descripcionServicio.isEmpty()) {
+        if (descripcionServicio.isEmpty()) {
             missatge = "Tienes que rellenar todos los campos";
+        } else if (!precioBaseText.matches("^-?\\d+(\\.\\d+)?$")) {
+            missatge = "El precio base tiene que ser X.XX";
+            colorMissatge = new Color(240, 128, 128);
         } else {
-
+            BigDecimal precioBase = new BigDecimal(precioBaseText);
 
             try {
-                boolean resultat = controladorServicios.modificarServicios(
-                    this.idServicio,
-                    precioBase,
-                    descripcionServicio,
-                    servicioActivo
-                );
+                boolean resultat = controladorServicios.modificarServicios(idServicio, precioBase, descripcionServicio, servicioActivo);
                 
                 if (resultat) {
                     missatge = "¡Servicio Actualizado!";
@@ -209,8 +186,8 @@ public class EditarServicios extends JFrame {
         missatgeLabel.setForeground(colorMissatge);
     }
 
-    private void volverAtras() {
-        new GestionServicios(trabajadores, servicios).setVisible(true);
+    private void volverAtras(Trabajadores trabajadores) {
+        new GestionServicios(trabajadores).setVisible(true);
         dispose();
     }
 }

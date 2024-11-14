@@ -136,7 +136,7 @@ public class CrearTrabajadores extends JFrame {
         panel.add(comisionProductoLabel);
 
         comisionProductoField = new JTextField(20);
-        comisionProductoField.setBounds(250, 320, 20, 25);
+        comisionProductoField.setBounds(250, 320, 200, 25);
         comisionProductoField.setBackground(new Color(255, 255, 255)); 
         panel.add(comisionProductoField);
 
@@ -208,8 +208,8 @@ public class CrearTrabajadores extends JFrame {
         String telefono = telefono_trabajadorField.getText();
         String contrasena = contrasenaField.getText();
         Boolean trabajadorTipo = tipo_trabajadorCheckBox.isSelected(); // Jefe / Empleado
-        String comisionProductoText = comisionProductoField.getText().trim();
-        String comisionServicioText = comisionServicioField.getText().trim();
+        String comisionProductoText = comisionProductoField.getText();
+        String comisionServicioText = comisionServicioField.getText();
         
         String missatge = "";
         Color colorMissatge = Color.BLUE;
@@ -233,11 +233,22 @@ public class CrearTrabajadores extends JFrame {
             BigDecimal comision_productos = new BigDecimal(comisionProductoText);
             BigDecimal comision_servicios = new BigDecimal(comisionServicioText);
 
+            Trabajadores trabajador = new Trabajadores();
+            trabajador.setNombreTrabajador(nombre);
+            trabajador.setApellidoTrabajador(apellido);
+            trabajador.setCorreoTrabajador(correo);
+            trabajador.setTelefonoTrabajador(telefono);
+            trabajador.setContrasena(contrasena);
+            trabajador.setTrabajadorActivo(true);
+            trabajador.setTipoTrabajador(trabajadorTipo);
+            trabajador.setComisionProducto(comision_productos);
+            trabajador.setComisionServicio(comision_servicios);
+
             try {
-                boolean resultat = controladorTrabajadores.modificarTrabajadores(null, nombre, apellido, correo, telefono, contrasena, true, trabajadorTipo, comision_productos, comision_servicios);
+                boolean resultat = controladorTrabajadores.anyadirTrabajadores(trabajador);
 
                 if (resultat) {
-                    missatge = "¡Trabajador Actualizado!";
+                    missatge = "¡Trabajador Creado!";
                     colorMissatge = Color.GREEN;
                 }
             } catch (RuntimeException ex) {

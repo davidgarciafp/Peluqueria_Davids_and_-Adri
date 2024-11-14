@@ -3,30 +3,26 @@ package vista.productos;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-
-import javax.swing.JPanel;
-
 import controlador.ControladorProductos;
-import modelo.Clientes;
 import modelo.Productos;
 import modelo.Trabajadores;
 import vista.Menu;
-import modelo.Servicios;
 
 public class GestionProductos extends JFrame {
     private JLabel volverLabel;
@@ -34,17 +30,10 @@ public class GestionProductos extends JFrame {
     private JButton agregarButton;
     private JButton eliminadosButton;
     private ControladorProductos controladorProductos;
-    private Trabajadores trabajadores;
-    private Productos productos;
-    private Servicios servicios;
-    private Clientes clientes;
     private boolean mostrandoDeshabilitados = false;
     private JLabel titulo;
 
-
-    public GestionProductos(Trabajadores trabajadores, Productos productos) {
-        this.trabajadores = trabajadores;
-        this.productos = productos;
+    public GestionProductos(Trabajadores trabajadores) {
         controladorProductos = new ControladorProductos(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -54,11 +43,11 @@ public class GestionProductos extends JFrame {
         // Creamos un panel para agregar los componetes que quieras.
         JPanel panel = new JPanel();
         add(panel);
-        posicioBotons(panel, productos);
+        posicioBotons(panel, trabajadores);
 
         setVisible(true); 
     }
-    private void posicioBotons(JPanel panel, Object productos) {
+    private void posicioBotons(JPanel panel, Trabajadores trabajadores) {
 
         panel.setBackground(new Color(139, 137, 137)); // Canviar de color.
         panel.setLayout(null);
@@ -75,7 +64,7 @@ public class GestionProductos extends JFrame {
         volverLabel.addMouseListener(new MouseAdapter() { // Agregar un MouseListener para manejar clics
             @Override
             public void mouseClicked(MouseEvent e) {
-                volverAtras();
+                volverAtras((Trabajadores) trabajadores);
             }
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -94,7 +83,7 @@ public class GestionProductos extends JFrame {
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titulo);
 
-        JScrollPane scrollPane = mostrarTablaProductos();
+        JScrollPane scrollPane = mostrarTablaProductos((Trabajadores) trabajadores);
         panel.add(scrollPane);
 
         agregarButton = new JButton("Agregar Producto");
@@ -105,7 +94,7 @@ public class GestionProductos extends JFrame {
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                agregarProducto();
+                agregarProducto((Trabajadores) trabajadores);
             }
         });
         panel.getRootPane().setDefaultButton(agregarButton); // Para poderlo pulsar con la tecla "INTRO".
@@ -135,54 +124,70 @@ public class GestionProductos extends JFrame {
     }
     
     // Metodo
-    private void volverAtras() {
-        new Menu(trabajadores, servicios, productos, clientes).setVisible(true);
+    private void volverAtras(Trabajadores trabajadores) {
+        new Menu(trabajadores).setVisible(true);
         dispose();
     }
 
-    private JScrollPane mostrarTablaProductos() {
-        // Crear la tabla con las columnas
-        String[] columnas = {"Código de Barras","Nombre", "Marca", "Precio", "Descripción", "Cantidad Disponible","Producto Activo", "Editar"};
-        DefaultTableModel modelo = new DefaultTableModel(columnas, 0) {
+    private JScrollPane mostrarTablaProductos(Trabajadores trabajadores) {
+        List<Productos> listaProductos = controladorProductos.mostrarProductos();
+        String[] columnas = {"ID", "Código de Barras", "Nombre", "Marca", "Precio", "Descripción", "Cantidad Disponible", "Producto Activo", "Editar"};
+        Object[][] datos = new Object[listaProductos.size()][9]; // Crar un array de los trabajadores.
+
+        // Omple l'array de dades amb la informació de cada llibre.
+        for (int i = 0; i < listaProductos.size(); i++) {
+
+            Productos producto = listaProductos.get(i);
+            
+            datos[i] = new Object[]{
+                producto.getId_producto(),
+                producto.getCodigo_barras(),
+                producto.getNombre_producto(),
+                producto.getMarca(),
+                producto.getPrecio_producto(),
+                producto.getDescripcion_producto(),
+                producto.getCantidad_disponible(),
+                producto.isProducto_activo(),
+                "Editar"
+            };
+        }
+        
+        
+        
+        DefaultTableModel opcionesTabla = new DefaultTableModel(datos, columnas) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 7;
+                return column == 8;
             }
         };
         
-        tablaProducto = new JTable(modelo);
-        
+        tablaProducto = new JTable(opcionesTabla);
+
         // Añadir el MouseListener para el botón editar
         tablaProducto.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int row = tablaProducto.rowAtPoint(e.getPoint());
                 int column = tablaProducto.columnAtPoint(e.getPoint());
-                if (column == 7) {
-                    List<Productos> listaProductos = mostrandoDeshabilitados ? 
-                        controladorProductos.mostrarProductosEliminados() : 
-                        controladorProductos.mostrarProductos();
-                    Productos productoSeleccionado = listaProductos.get(row);
-                    int idProducto = productoSeleccionado.getId_producto();
+                if (column == 8) { // Si se clicó en la columna "Editar"
+                    int idProducto = (int) tablaProducto.getValueAt(row, 0); // Obtener el Id trabajador
                     new EditarProductos(trabajadores, idProducto).setVisible(true);
                     dispose();
                 }
             }
         });
-    
-        // Mostrar los productos activos inicialmente
-        actualizarTabla(controladorProductos.mostrarProductos());
-    
+        
         JScrollPane scrollPane = new JScrollPane(tablaProducto);
         scrollPane.setBounds(50, 100, 600, 300);
         
         return scrollPane;
     }
 
-    private void agregarProducto() {
+    private void agregarProducto(Trabajadores trabajadores) {
         new CrearProductos(trabajadores).setVisible(true);
         dispose();
     }
-    private void mostrarProductosDeshabilitados(){
+    
+    private void mostrarProductosDeshabilitados() {
         List<Productos> listaProductos = controladorProductos.mostrarProductosEliminados(); // Obté la llista de trabajadores del controlador.
         actualizarTabla(listaProductos);
     }
@@ -193,6 +198,7 @@ public class GestionProductos extends JFrame {
     
         for (Productos producto : listaProductos) {
             modelo.addRow(new Object[]{
+                producto.getId_producto(),
                 producto.getCodigo_barras(),
                 producto.getNombre_producto(),
                 producto.getMarca(), 
@@ -204,6 +210,4 @@ public class GestionProductos extends JFrame {
             });
         }
     }
-
-       
 }

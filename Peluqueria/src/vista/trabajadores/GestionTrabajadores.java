@@ -21,9 +21,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 
 import controlador.ControladorTrabajadores;
-import modelo.Servicios;
-import modelo.Clientes;
-import modelo.Productos;
 import modelo.Trabajadores;
 import vista.Menu;
 
@@ -33,17 +30,11 @@ public class GestionTrabajadores extends JFrame {
     private JButton agregarButton;
     private JButton eliminadosButton;
     private ControladorTrabajadores controladorTrabajadores;
-    private Trabajadores trabajadores;
-    private Servicios servicios;
-    private Productos productos;
-    private Clientes clientes;
     private boolean mostrandoDeshabilitados = false;
     private JLabel titulo;
 
 
     public GestionTrabajadores(Trabajadores trabajadores) {
-        this.trabajadores = trabajadores;
-
         controladorTrabajadores = new ControladorTrabajadores(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
         setSize(800, 600); // Configuracion del tamaño de la pantalla.
@@ -53,11 +44,11 @@ public class GestionTrabajadores extends JFrame {
         // Creamos un panel para agregar los componetes que quieras.
         JPanel panel = new JPanel();
         add(panel);
-        posicioBotons(panel);
+        posicioBotons(panel, trabajadores);
 
         setVisible(true); 
     }
-    private void posicioBotons(JPanel panel) {
+    private void posicioBotons(JPanel panel, Trabajadores trabajadores) {
 
         panel.setBackground(new Color(139, 137, 137)); // Canviar de color.
         panel.setLayout(null);
@@ -73,7 +64,7 @@ public class GestionTrabajadores extends JFrame {
         volverLabel.addMouseListener(new MouseAdapter() { // Agregar un MouseListener para manejar clics
             @Override
             public void mouseClicked(MouseEvent e) {
-                volverAtras();
+                volverAtras((Trabajadores) trabajadores);
             }
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -132,8 +123,8 @@ public class GestionTrabajadores extends JFrame {
     }
     
     // Metodo
-    private void volverAtras() {
-        new Menu(trabajadores, servicios, productos, clientes).setVisible(true);
+    private void volverAtras(Trabajadores trabajadores) {
+        new Menu(trabajadores).setVisible(true);
         dispose();
     }
 
@@ -189,8 +180,6 @@ public class GestionTrabajadores extends JFrame {
     
         return scrollPane; // Retorna el JScrollPane amb la taula de llibres.
     }
-
-
 
     private void agregarTrabajador(Trabajadores trabajadores) {
         new CrearTrabajadores(trabajadores).setVisible(true);

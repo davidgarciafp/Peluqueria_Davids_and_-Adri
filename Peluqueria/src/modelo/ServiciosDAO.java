@@ -14,7 +14,7 @@ import basedatos.ConexionBaseDatos;
 public class ServiciosDAO {
 
     public List<Servicios> mostrarServicios() {
-        String sqlMostrarServicios = "SELECT * FROM Servicios WHERE servicio_activo = true";
+        String sqlMostrarServicios = "SELECT * FROM servicios WHERE servicio_activo = true";
         List<Servicios> listaServicios = new ArrayList<>(); // Creamos un array para todos los trabajadores que existan en la BD.
         
         try (Connection conn = ConexionBaseDatos.getConexion();

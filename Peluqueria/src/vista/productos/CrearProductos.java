@@ -35,28 +35,23 @@ public class CrearProductos extends JFrame {
     private JButton volverButton;
     private ControladorProductos controladorProductos;
 
-    private Trabajadores trabajadores;
-    private Productos productos;
-
     public CrearProductos(Trabajadores trabajadores) {
-        this.trabajadores =  trabajadores;
-        this.productos = new Productos();
 
         controladorProductos = new ControladorProductos(); // Inicializar el controlador.
         setTitle("Peluqueria"); // Pon un titulo a la pagina.
-        setSize(800, 600); // Configuracion del tamaño de la pantalla.
+        setSize(1336, 768); // Configuracion del tamaño de la pantalla.
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Indica que la aplicación se cerrará completamente.
         setLocationRelativeTo(null); // Centra la ventana en la pantalla.
 
         // Creamos un panel para agregar los componetes que quieras.
         JPanel panel = new JPanel();
         add(panel);
-        posicioBotons(panel, productos);
+        posicioBotons(panel, trabajadores);
 
         setVisible(true); 
     }
 
-    private void posicioBotons(JPanel panel, Object productos) {
+    private void posicioBotons(JPanel panel, Trabajadores trabajadores) {
         panel.setBackground(new Color(139, 137, 137)); // Canviar de color.
         panel.setLayout(null);
 
@@ -134,9 +129,9 @@ public class CrearProductos extends JFrame {
         panel.add(missatgeLabel);
 
         agregarProductoButton = new JButton("Crear Producto");
-        agregarProductoButton.setBounds(500, 500, 200, 40);
+        agregarProductoButton.setBounds(150, 450, 200, 40);
         agregarProductoButton.setHorizontalAlignment(SwingConstants.CENTER);
-        agregarProductoButton.setBackground(new Color(206, 63, 86));
+        agregarProductoButton.setBackground(new Color(218, 247, 166));
         agregarProductoButton.setFont(nFont18);
         agregarProductoButton.addActionListener(new ActionListener() {
             @Override
@@ -149,36 +144,35 @@ public class CrearProductos extends JFrame {
 
         
         volverButton = new JButton("Volver");
-        volverButton.setBounds(50, 20, 200, 40);
+        volverButton.setBounds(150, 500, 200, 40);
         volverButton.setHorizontalAlignment(SwingConstants.CENTER);
-        volverButton.setBackground(new Color(105, 123, 86));
+        volverButton.setBackground(new Color(240, 128, 128));
         volverButton.setFont(nFont18);
         volverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                volverAtras((Productos) productos);
+                volverAtras((Trabajadores) trabajadores);
             }
         });
         panel.add(volverButton);
     }
 
     // Metodos
-    private  void volverAtras(Productos productos) {
-        new GestionProductos(trabajadores, productos).setVisible(true);
+    private  void volverAtras(Trabajadores trabajadores) {
+        new GestionProductos(trabajadores).setVisible(true);
         dispose();
     }
 
     private void crearProducto() {
         String codigoBarras = codigoBarrasField.getText();
-        String precioText = precioField.getText().trim();
-        String cantidadText = cantidadField.getText().trim();
+        String precioText = precioField.getText();
+        String cantidadText = cantidadField.getText();
         String nombreProducto = nombreField.getText();
         String marca =  marcaField.getText();
         BigDecimal precioProducto = precioText.isEmpty() ? BigDecimal.ZERO : new BigDecimal(precioText);
         String descripcionProducto = descripcionField.getText();
         Integer cantidadDisponible = cantidadText.isEmpty() ? 0 : Integer.parseInt(cantidadText);
         Integer productoGastado = 0;
-        Boolean productoActivo = true; // Jefe / Emlpeado;
         
 
         String missatge = "";
@@ -188,27 +182,23 @@ public class CrearProductos extends JFrame {
 
             missatge = "Tienes que rellenar todos los campos";
         } else {
-            Productos productos = new Productos();
-            productos.setCodigo_barras(codigoBarras);
-            productos.setNombre_producto(nombreProducto);
-            productos.setMarca(marca);
-            productos.setPrecio_producto(precioProducto);
-            productos.setDescripcion_producto(descripcionProducto);
-            productos.setCantidad_disponible(cantidadDisponible);
-            productos.setProducto_gastado(productoGastado);
-            productos.setProducto_activo(productoActivo);
+            Productos producto = new Productos();
+            producto.setCodigo_barras(codigoBarras);
+            producto.setNombre_producto(nombreProducto);
+            producto.setMarca(marca);
+            producto.setPrecio_producto(precioProducto);
+            producto.setDescripcion_producto(descripcionProducto);
+            producto.setCantidad_disponible(cantidadDisponible);
+            producto.setProducto_gastado(productoGastado);
+            producto.setProducto_activo(true);
 
 
             try {
-                boolean resultat = controladorProductos.anyadirProductos(productos);
+                boolean resultat = controladorProductos.anyadirProductos(producto);
                 
                 if (resultat) {
                     missatge = "Producto Creado!";
                     colorMissatge = Color.GREEN;
-                }
-                else {
-                    missatge = "Error al crear el producto";
-                    colorMissatge = Color.RED;
                 }
             } catch (RuntimeException ex) {
                 if (ex.getMessage().equals("BaseDatos NO encontrada")) {
@@ -218,11 +208,8 @@ public class CrearProductos extends JFrame {
                     ex.printStackTrace();
                 }
             }
-        }if (missatgeLabel != null) {
-            missatgeLabel.setText(missatge);
-            missatgeLabel.setForeground(colorMissatge);
-        } else {
-            System.out.println("Error: missatgeLabel es nulo");
         }
+        missatgeLabel.setText(missatge);
+        missatgeLabel.setForeground(colorMissatge);
     }
 }
