@@ -31,6 +31,7 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private Label mensaje;
     @FXML private Button btnTrabajadores;
     @FXML private ImageView volverTabla;
+    @FXML private ImageView iconoCerrarSesion;
     @FXML private TableView<Trabajadores> tablaTrabajadores;
     @FXML private TableColumn<Trabajadores, String> columnaNombre;
     @FXML private TableColumn<Trabajadores, String> columnaApellido;
@@ -39,7 +40,7 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private TableColumn<Trabajadores, Boolean> columnaRol;
     @FXML private TableColumn<Trabajadores, BigDecimal> columnaComisionServicio;
     @FXML private TableColumn<Trabajadores, BigDecimal> columnaComisionProducto;
-    @FXML private Label etiquetaAccion;
+    @FXML private Button anadir;
     @FXML private Button crear;
     @FXML private Button editar;
     @FXML private TextField campoNombre;
@@ -49,7 +50,6 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private TextField campoTelefono;
     @FXML private CheckBox checkboxAdmin;
     @FXML private CheckBox checkboxActivo;
-    @FXML private RowConstraints camposComisiones;
     @FXML private Label etiquetaComisionServicio;
     @FXML private Label etiquetaComisionProducto;
     @FXML private TextField campoComisionServicio;
@@ -83,16 +83,14 @@ public class ControladorTrabajadores implements Initializable{
     }
 
     public void identificarTrabajador() {
-        //String inputUsuario = this.usuario.getValue();
-        Integer inputUsuario = 1;
         String inputPassword = this.password.getText();
-        Trabajadores trabajador = this.trabajadoresDAO.identificarTrabajador(inputUsuario, inputPassword);
+        Trabajadores trabajador = this.trabajadoresDAO.identificarDreams(inputPassword);
         if (trabajador != null) {
             vista.redirigir("MenuAdmin");
         }
         else {
             this.mensaje.setVisible(true);
-            this.usuario.setValue("");
+            this.usuario.setValue("Dreams");
             this.password.setText("");
         }
     }
@@ -129,7 +127,7 @@ public class ControladorTrabajadores implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(acceder != null){
             try {
-                this.usuario.setValue("--Seleccionar--");
+                this.usuario.setValue("Dreams");
                 mostrarNombresTrabajadores();
                 acceder.setOnAction(event -> {
                     identificarTrabajador();
@@ -139,6 +137,9 @@ public class ControladorTrabajadores implements Initializable{
             }
         }
         if (btnTrabajadores != null) {
+            iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
+                vista.redirigir("Login");
+            });
             try {
                 btnTrabajadores.setOnAction(event -> {
                     vista.redirigir("Trabajadores");
@@ -149,33 +150,31 @@ public class ControladorTrabajadores implements Initializable{
         }
         if (tablaTrabajadores != null) {
             mostrarTrabajadores();
-            etiquetaAccion.setText("CREAR");
-            etiquetaAccion.setVisible(true);
+            anadir.setVisible(false);
             editar.setVisible(false);
             checkboxActivo.setVisible(false);
+            checkboxAdmin.setVisible(false);
             etiquetaComisionServicio.setVisible(false);
             campoComisionServicio.setVisible(false);
             etiquetaComisionProducto.setVisible(false);
             campoComisionProducto.setVisible(false);
-            camposComisiones.setPrefHeight(0);
-            camposComisiones.setMinHeight(0);
-            camposComisiones.setMaxHeight(0);
             try {
                 tablaTrabajadores.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
                     if (newSelection != null) {
                         trabajadorSeleccionado = newSelection;
 
-                        etiquetaAccion.setText("EDITAR");
+                        anadir.setVisible(true);
+                        anadir.setOnAction(event -> {
+                            vista.redirigir("Trabajadores");
+                        });
                         crear.setVisible(false);
                         editar.setVisible(true);
                         checkboxActivo.setVisible(true);
+                        checkboxAdmin.setVisible(true);
                         etiquetaComisionServicio.setVisible(true);
                         campoComisionServicio.setVisible(true);
                         etiquetaComisionProducto.setVisible(true);
                         campoComisionProducto.setVisible(true);
-                        camposComisiones.setPrefHeight(30);
-                        camposComisiones.setMinHeight(10);
-                        camposComisiones.setMaxHeight(Region.USE_COMPUTED_SIZE);
 
                         campoNombre.setText(trabajadorSeleccionado.getNombreTrabajador());
                         campoApellido.setText(trabajadorSeleccionado.getApellidoTrabajador());
@@ -214,7 +213,7 @@ public class ControladorTrabajadores implements Initializable{
                     mensajeError.setVisible(true);
                 }
                 else {
-                    boolean insercionExitosa = trabajadoresDAO.agregarTrabajadores(new Trabajadores(campoNombre.getText(), campoApellido.getText(), campoCorreo.getText(), campoTelefono.getText(), campoContrasena.getText(), true, checkboxAdmin.isSelected()));
+                    boolean insercionExitosa = trabajadoresDAO.agregarTrabajadores(new Trabajadores(campoNombre.getText(), campoApellido.getText(), campoCorreo.getText(), campoTelefono.getText(), campoContrasena.getText(), true, false));
                     if (insercionExitosa) {
                         System.out.println("Trabajador creado con éxito");
                         vista.redirigir("Trabajadores");

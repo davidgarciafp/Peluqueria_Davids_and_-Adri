@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -19,29 +20,48 @@
       <URL value="@../Styles/menu.css" />
    </stylesheets>
    <children>
-      <VBox alignment="CENTER" layoutX="1218.0" prefHeight="768.0" prefWidth="148.0" spacing="15.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 0px 1px;">
+      <VBox alignment="BASELINE_CENTER" layoutX="1218.0" prefHeight="768.0" prefWidth="148.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 0px 1px;">
          <children>
-            <Button fx:id="btnTrabajadores" mnemonicParsing="false" prefWidth="105.0" text="Trabajadores">
-               <styleClass>
-                  <String fx:value="tamano_fuente1" />
-                  <String fx:value="boton" />
-               </styleClass>
-            </Button>
-            <Button mnemonicParsing="false" prefWidth="105.0" text="Clientes">
-               <styleClass>
-                  <String fx:value="tamano_fuente1" />
-                  <String fx:value="boton" />
-               </styleClass></Button>
-            <Button mnemonicParsing="false" prefWidth="105.0" text="Productos">
-               <styleClass>
-                  <String fx:value="tamano_fuente1" />
-                  <String fx:value="boton" />
-               </styleClass></Button>
-            <Button mnemonicParsing="false" prefWidth="105.0" text="Servicios">
-               <styleClass>
-                  <String fx:value="tamano_fuente1" />
-                  <String fx:value="boton" />
-               </styleClass></Button>
+            <VBox alignment="CENTER">
+               <children>
+                  <ImageView fx:id="iconoCerrarSesion" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
+                     <image>
+                        <Image url="@../Images/cerrar-sesion.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefWidth="100.0" spacing="20.0">
+               <children>
+                  <Button fx:id="btnTrabajadores" mnemonicParsing="false" prefWidth="105.0" text="Trabajadores">
+                     <styleClass>
+                        <String fx:value="tamano_fuente1" />
+                        <String fx:value="boton" />
+                     </styleClass>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="105.0" text="Clientes">
+                     <styleClass>
+                        <String fx:value="tamano_fuente1" />
+                        <String fx:value="boton" />
+                     </styleClass>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="105.0" text="Productos">
+                     <styleClass>
+                        <String fx:value="tamano_fuente1" />
+                        <String fx:value="boton" />
+                     </styleClass>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="105.0" text="Servicios">
+                     <styleClass>
+                        <String fx:value="tamano_fuente1" />
+                        <String fx:value="boton" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </VBox>
          </children>
       </VBox>
       <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="583.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">

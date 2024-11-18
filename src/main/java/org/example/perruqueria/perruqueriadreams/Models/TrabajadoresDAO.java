@@ -212,7 +212,7 @@ public class TrabajadoresDAO {
 
 
     public Trabajadores identificarDreams(String contrasena) {
-        String sqlComprovarTrabajadores = "SELECT * FROM trabajadores WHERE id_trabajador = 1 AND contrasena = ?";
+        String sqlComprovarTrabajadores = "SELECT * FROM trabajadores WHERE nombre_trabajador = 'Dreams' AND contrasena = ?";
         Trabajadores trabajadores = null;
 
         try (Connection conn = ConexionBaseDatos.getConexion();

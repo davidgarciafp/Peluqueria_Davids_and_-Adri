@@ -31,6 +31,10 @@
     -fx-background-color: #d2d2d4;
 }
 
+.cursorPointer:hover {
+    -fx-cursor: hand;
+}
+
 .negrita {
     -fx-font-weight: bold;
 }
