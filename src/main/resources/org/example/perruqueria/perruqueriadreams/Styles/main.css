@@ -1,0 +1,46 @@
+.fondoOscuro {
+    -fx-background-color: #1E212D;
+}
+
+.fondoClaro1 {
+    -fx-background-color: #F4DFC8;
+}
+
+.fondoClaro2 {
+    -fx-background-color: #F4EAE0;
+}
+
+.fondoClaro3 {
+    -fx-background-color: #FAF6F0;
+}
+
+.fondoRojo {
+    -fx-background-color: #FFD1D1;
+}
+
+.fondoVerde {
+    -fx-background-color: #D4FFD6;
+}
+
+.fondoAplicacion {
+    -fx-background-color:  rgb(220, 207, 201);
+}
+
+.boton:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #d2d2d4;
+}
+
+.negrita {
+    -fx-font-weight: bold;
+}
+
+.tituloApartado {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.mensajeError {
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+}
