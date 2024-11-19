@@ -97,10 +97,10 @@
             </VBox>
          </children>
       </GridPane>
-      <Button fx:id="crear" layoutX="833.0" layoutY="678.0" mnemonicParsing="false" styleClass="boton" text="CREAR" />
+      <Button fx:id="crear" layoutX="720.0" layoutY="678.0" mnemonicParsing="false" styleClass="boton" text="CREAR" />
       <Button fx:id="editar" layoutX="892.0" layoutY="678.0" mnemonicParsing="false" styleClass="boton" text="EDITAR" />
        <Label fx:id="mensajeError" layoutX="865.0" layoutY="720.0" styleClass="mensajeError" visible="false" />
-      <Button fx:id="anadir" layoutX="983.0" layoutY="678.0" mnemonicParsing="false" text="AÑADIR" />
+      <Button fx:id="anadir" layoutX="1110.0" layoutY="675.0" mnemonicParsing="false" text="NUEVO" />
 
    </children>
 </AnchorPane>

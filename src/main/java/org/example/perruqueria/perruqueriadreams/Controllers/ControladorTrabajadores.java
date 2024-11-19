@@ -48,8 +48,8 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private TextField campoContrasena;
     @FXML private TextField campoCorreo;
     @FXML private TextField campoTelefono;
-    @FXML private CheckBox checkboxAdmin;
     @FXML private CheckBox checkboxActivo;
+    @FXML private CheckBox checkboxAdmin;
     @FXML private Label etiquetaComisionServicio;
     @FXML private Label etiquetaComisionProducto;
     @FXML private TextField campoComisionServicio;
