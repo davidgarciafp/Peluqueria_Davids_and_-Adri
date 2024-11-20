@@ -30,6 +30,7 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private Button acceder;
     @FXML private Label mensaje;
     @FXML private Button btnTrabajadores;
+    @FXML private Button btnServicios;
     @FXML private ImageView volverTabla;
     @FXML private ImageView iconoCerrarSesion;
     @FXML private TableView<Trabajadores> tablaTrabajadores;
@@ -143,6 +144,18 @@ public class ControladorTrabajadores implements Initializable{
             try {
                 btnTrabajadores.setOnAction(event -> {
                     vista.redirigir("Trabajadores");
+                });
+            } catch (Exception error) {
+                throw new RuntimeException("Error" + error.getMessage());
+            }
+        }
+        if (btnServicios != null) {
+            iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
+                vista.redirigir("Login");
+            });
+            try {
+                btnServicios.setOnAction(event -> {
+                    vista.redirigir("Servicios");
                 });
             } catch (Exception error) {
                 throw new RuntimeException("Error" + error.getMessage());

@@ -133,8 +133,8 @@ public class TrabajadoresDAO {
             pstmt.setString(5, nuevaContrasena);
             pstmt.setBoolean(6, trabajadorActivo);
             pstmt.setBoolean(7, trabajadorTipo);
-            pstmt.setBigDecimal(8, (java.math.BigDecimal) comisionServicio);
-            pstmt.setBigDecimal(9, (java.math.BigDecimal) comisionProducto);
+            pstmt.setBigDecimal(8, (java.math.BigDecimal) comisionProducto);
+            pstmt.setBigDecimal(9, (java.math.BigDecimal) comisionServicio);
             pstmt.setInt(10, idTrabajador);
             
             int filasActualizadas = pstmt.executeUpdate();
@@ -212,7 +212,7 @@ public class TrabajadoresDAO {
 
 
     public Trabajadores identificarDreams(String contrasena) {
-        String sqlComprovarTrabajadores = "SELECT * FROM trabajadores WHERE nombre_trabajador = 'Dreams' AND contrasena = ?";
+        String sqlComprovarTrabajadores = "SELECT * FROM trabajadores WHERE id_trabajador = 1 AND contrasena = ?";
         Trabajadores trabajadores = null;
 
         try (Connection conn = ConexionBaseDatos.getConexion();
