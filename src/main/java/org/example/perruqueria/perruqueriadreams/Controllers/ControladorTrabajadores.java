@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.util.Callback;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.BooleanStringConverter;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -105,6 +109,22 @@ public class ControladorTrabajadores implements Initializable{
         columnaCorreo.setCellValueFactory(new PropertyValueFactory<>("correoTrabajador"));
         columnaTelefono.setCellValueFactory(new PropertyValueFactory<>("telefonoTrabajador"));
         columnaRol.setCellValueFactory(new PropertyValueFactory<>("tipoTrabajador"));
+        columnaRol.setCellFactory(new Callback<TableColumn<Trabajadores, Boolean>, TableCell<Trabajadores, Boolean>>() {
+            @Override
+            public TableCell<Trabajadores, Boolean> call(TableColumn<Trabajadores, Boolean> param) {
+                return new TableCell<Trabajadores, Boolean>() {
+                    @Override
+                    protected void updateItem(Boolean item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(item ? "Administrador" : "Técnico");
+                        }
+                    }
+                };
+            }
+        });
         columnaComisionServicio.setCellValueFactory(new PropertyValueFactory<>("comisionServicio"));
         columnaComisionProducto.setCellValueFactory(new PropertyValueFactory<>("comisionProducto"));
         tablaTrabajadores.setItems(datosTrabajadores);
@@ -119,6 +139,22 @@ public class ControladorTrabajadores implements Initializable{
         columnaCorreo.setCellValueFactory(new PropertyValueFactory<>("correoTrabajador"));
         columnaTelefono.setCellValueFactory(new PropertyValueFactory<>("telefonoTrabajador"));
         columnaRol.setCellValueFactory(new PropertyValueFactory<>("tipoTrabajador"));
+        columnaRol.setCellFactory(new Callback<TableColumn<Trabajadores, Boolean>, TableCell<Trabajadores, Boolean>>() {
+            @Override
+            public TableCell<Trabajadores, Boolean> call(TableColumn<Trabajadores, Boolean> param) {
+                return new TableCell<Trabajadores, Boolean>() {
+                    @Override
+                    protected void updateItem(Boolean item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(item ? "Administrador" : "Técnico");
+                        }
+                    }
+                };
+            }
+        });
         columnaComisionServicio.setCellValueFactory(new PropertyValueFactory<>("comisionServicio"));
         columnaComisionProducto.setCellValueFactory(new PropertyValueFactory<>("comisionProducto"));
         tablaTrabajadores.setItems(datosTrabajadores);
