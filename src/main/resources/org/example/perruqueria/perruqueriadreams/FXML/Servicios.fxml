@@ -61,20 +61,3 @@
 
     </children>
 </AnchorPane>
-
-        columnaRol.setCellFactory(new Callback<TableColumn<Trabajadores, Boolean>, TableCell<Trabajadores, Boolean>>() {
-        @Override
-        public TableCell<Trabajadores, Boolean> call(TableColumn<Trabajadores, Boolean> param) {
-        return new TableCell<Trabajadores, Boolean>() {
-        @Override
-        protected void updateItem(Boolean item, boolean empty) {
-        super.updateItem(item, empty);
-        if (empty || item == null) {
-        setText(null);
-        } else {
-        setText(item ? "Administrador" : "Técnico");
-        }
-        }
-        };
-        }
-        });
