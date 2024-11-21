@@ -4,57 +4,62 @@ import java.math.BigDecimal;
 
 public class Servicios {
     //Entidades
-    private Integer id_servicio; 
-    private BigDecimal precio_base;
-    private String descripcion_servicio;
-    private Boolean servicio_activo;
+    private Integer idServicio;
+    private BigDecimal precioBase;
+    private String descripcionServicio;
+    private Boolean servicioActivo;
 
 
     //Constructores
-    public Servicios(Integer id_servicio, BigDecimal precio_base, String descripcion_servicio, Boolean servicio_activo) {
-        this.id_servicio = id_servicio;
-        this.precio_base = precio_base;
-        this.descripcion_servicio = descripcion_servicio;
-        this.servicio_activo = servicio_activo;
+    public Servicios(Integer idServicio, BigDecimal precioBase, String descripcionServicio, Boolean servicioActivo) {
+        this.idServicio = idServicio;
+        this.precioBase = precioBase;
+        this.descripcionServicio = descripcionServicio;
+        this.servicioActivo = servicioActivo;
+    }
+    public Servicios(BigDecimal precioBase, String descripcionServicio, Boolean servicioActivo) {
+        this.precioBase = precioBase;
+        this.descripcionServicio = descripcionServicio;
+        this.servicioActivo = servicioActivo;
     }
 
     public Servicios() {} 
 
 
     //Setters
-    public void setId_servicio(Integer id_servicio) {
-        this.id_servicio = id_servicio;
+    public void setIdServicio(Integer idServicio) {
+        this.idServicio = idServicio;
     }
 
-    public void setPrecio_base(BigDecimal precio_servicio) {
-        this.precio_base = precio_servicio;
+    public void setPrecioBase(BigDecimal precio_servicio) {
+        this.precioBase = precio_servicio;
     }
 
-    public void setDescripcion_servicio(String descripcion_servicio) {
-        this.descripcion_servicio = descripcion_servicio;
+    public void setDescripcionServicio(String descripcionServicio) {
+        this.descripcionServicio = descripcionServicio;
     }
 
-    public void setServicio_activo (Boolean servicio_activo) {
-        this.servicio_activo = servicio_activo;
+    public void setServicioActivo(Boolean servicioActivo) {
+        this.servicioActivo = servicioActivo;
     }
 
     
 
     //Getters
-    public Integer getId_servicio() {
-        return id_servicio;
+    public Integer getIdServicio() {
+        return idServicio;
     }
 
-    public BigDecimal getPrecio_base(){
-        return precio_base;
+    public BigDecimal getPrecioBase(){
+        return precioBase;
     }
 
-    public String getDescripcion_servicio(){
-        return descripcion_servicio;
+    public String getDescripcionServicio(){
+        return descripcionServicio;
     }
 
     public Boolean isServicio_activo(){
-        return  servicio_activo;
+        return servicioActivo;
     }
 
     
