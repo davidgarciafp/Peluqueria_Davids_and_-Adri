@@ -8,10 +8,13 @@ import java.util.ResourceBundle;
 
 
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
@@ -30,6 +33,7 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private Button acceder;
     @FXML private Label mensaje;
     @FXML private Button btnTrabajadores;
+    @FXML private Button btnProductos;
     @FXML private ImageView volverTabla;
     @FXML private ImageView iconoCerrarSesion;
     @FXML private TableView<Trabajadores> tablaTrabajadores;
@@ -56,7 +60,7 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private TextField campoComisionProducto;
     @FXML private Label mensajeError;
     @FXML private Button mostrarInhabilitados;
-    @FXML private Label nombreAdmin;
+    @FXML private Label nombreUsuario;
 
     private static Trabajadores trabajadorSeleccionado;
     private static boolean tablaActivos;
@@ -87,6 +91,7 @@ public class ControladorTrabajadores implements Initializable{
         Trabajadores trabajador = this.trabajadoresDAO.identificarDreams(inputPassword);
         if (trabajador != null) {
             vista.redirigir("MenuAdmin");
+            DatosGlobales.setNombreUsuario("Dreams");
         }
         else {
             this.mensaje.setVisible(true);
@@ -137,12 +142,16 @@ public class ControladorTrabajadores implements Initializable{
             }
         }
         if (btnTrabajadores != null) {
+            nombreUsuario.setText(DatosGlobales.getNombreUsuario());
             iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
                 vista.redirigir("Login");
             });
             try {
                 btnTrabajadores.setOnAction(event -> {
                     vista.redirigir("Trabajadores");
+                });
+                btnProductos.setOnAction(event -> {
+                    vista.redirigir("Productos");
                 });
             } catch (Exception error) {
                 throw new RuntimeException("Error" + error.getMessage());
@@ -225,6 +234,7 @@ public class ControladorTrabajadores implements Initializable{
             });
             editar.setOnAction(event -> {
                 if (campoNombre.getText().isBlank() || campoContrasena.getText().isBlank()) {
+                    mensajeError.setText("*Ni el nombre ni la contraseña pueden estar vacíos*");
                     mensajeError.setVisible(true);
                 }
                 else {

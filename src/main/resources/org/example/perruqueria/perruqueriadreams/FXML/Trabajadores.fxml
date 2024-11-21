@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -15,17 +16,17 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" stylesheets="@../Styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorTrabajadores">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorTrabajadores">
    <children>
       <TableView fx:id="tablaTrabajadores" layoutX="33.0" layoutY="73.0" prefHeight="556.0" prefWidth="1300.0" style="-fx-font-size: 15px;" styleClass="fondoClaro2">
         <columns>
-          <TableColumn fx:id="columnaNombre" prefWidth="169.60000228881836" text="Nombre" />
-            <TableColumn fx:id="columnaApellido" prefWidth="208.8000030517578" text="Apellidos" />
-            <TableColumn fx:id="columnaCorreo" minWidth="0.0" prefWidth="280.79998779296875" text="Correo electrónico" />
-            <TableColumn fx:id="columnaTelefono" prefWidth="175.2000732421875" text="Teléfono" />
-            <TableColumn fx:id="columnaRol" prefWidth="112.79998779296875" text="Rol" />
-            <TableColumn fx:id="columnaComisionServicio" prefWidth="179.2000732421875" text="Comisión Servicio" />
-            <TableColumn fx:id="columnaComisionProducto" prefWidth="175.9998779296875" text="Comisión Producto" />
+          <TableColumn fx:id="columnaNombre" prefWidth="169.60000228881836" styleClass="celdasCentradas" text="Nombre" />
+            <TableColumn fx:id="columnaApellido" prefWidth="208.8000030517578" styleClass="celdasCentradas" text="Apellidos" />
+            <TableColumn fx:id="columnaCorreo" minWidth="0.0" prefWidth="280.79998779296875" styleClass="celdasCentradas" text="Correo electrónico" />
+            <TableColumn fx:id="columnaTelefono" prefWidth="175.2000732421875" styleClass="celdasCentradas" text="Teléfono" />
+            <TableColumn fx:id="columnaRol" prefWidth="112.79998779296875" styleClass="celdasCentradas" text="Rol" />
+            <TableColumn fx:id="columnaComisionServicio" prefWidth="179.2000732421875" styleClass="celdasCentradas" text="Comisión Servicio" />
+            <TableColumn fx:id="columnaComisionProducto" prefWidth="175.9998779296875" styleClass="celdasCentradas" text="Comisión Producto" />
         </columns>
       </TableView>
       <ImageView fx:id="volverTabla" fitHeight="50.0" fitWidth="100.0" layoutX="1283.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -103,4 +104,8 @@
       <Button fx:id="anadir" layoutX="1110.0" layoutY="675.0" mnemonicParsing="false" text="NUEVO" />
 
    </children>
+   <stylesheets>
+      <URL value="@../Styles/main.css" />
+      <URL value="@../Styles/trabajadores.css" />
+   </stylesheets>
 </AnchorPane>

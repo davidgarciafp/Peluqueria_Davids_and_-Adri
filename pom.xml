@@ -134,7 +134,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                org.example.perruqueria.perruqueriadreams/org.example.perruqueria.perruqueriadreams.HelloApplication
+                                org.example.perruqueria.perruqueriadreams/org.example.perruqueria.perruqueriadreams.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
