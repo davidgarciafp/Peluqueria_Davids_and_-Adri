@@ -42,7 +42,7 @@
                         <String fx:value="boton" />
                      </styleClass>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="105.0" text="Clientes">
+                  <Button fx:id="btnClientes" mnemonicParsing="false" prefWidth="105.0" text="Clientes">
                      <styleClass>
                         <String fx:value="tamano_fuente1" />
                         <String fx:value="boton" />

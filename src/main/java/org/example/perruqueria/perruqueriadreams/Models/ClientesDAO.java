@@ -42,12 +42,12 @@ public class ClientesDAO{
 
         try (Connection conn = ConexionBaseDatos.getConexion();
         PreparedStatement psAgregarClientes = conn.prepareStatement(sqlAgregar)) {
-            psAgregarClientes.setString(1, clientes.getNombre_cliente());
-            psAgregarClientes.setString(2, clientes.getApellido_cliente());
-            psAgregarClientes.setString(3, clientes.getCorreo_cliente());
-            psAgregarClientes.setString(4, clientes.getTelefono_cliente());
-            psAgregarClientes.setBoolean(5, clientes.isProteccion_datos());
-            psAgregarClientes.setString(6, clientes.getDescripcion_cliente());
+            psAgregarClientes.setString(1, clientes.getNombreCliente());
+            psAgregarClientes.setString(2, clientes.getApellidoCliente());
+            psAgregarClientes.setString(3, clientes.getCorreoCliente());
+            psAgregarClientes.setString(4, clientes.getTelefonoCliente());
+            psAgregarClientes.setBoolean(5, clientes.isProteccionDatos());
+            psAgregarClientes.setString(6, clientes.getDescripcionCliente());
 
             int filasAfectadas = psAgregarClientes.executeUpdate();
             resultado = filasAfectadas > 0; // La insercion es correcta

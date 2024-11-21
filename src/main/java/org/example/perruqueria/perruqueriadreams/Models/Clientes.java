@@ -2,89 +2,97 @@ package org.example.perruqueria.perruqueriadreams.Models;
 
 public class Clientes {
     //Entidades
-    private Integer id_cliente; 
-    private String nombre_cliente;
-    private String apellido_cliente;
-    private String correo_cliente;
-    private String telefono_cliente;
-    private Boolean proteccion_datos;
-    private String descripcion_cliente;
+    private Integer idCliente;
+    private String nombreCliente;
+    private String apellidoCliente;
+    private String correoCliente;
+    private String telefonoCliente;
+    private Boolean proteccionDatos;
+    private String descripcionCliente;
 
     //Constructores
-    public Clientes(Integer id_cliente, String nombre_cliente, String apellido_cliente,
-            String correo_cliente, String telefono_cliente, Boolean proteccion_datos,
-            String descripcion_cliente) {
-        this.id_cliente = id_cliente;
-        this.nombre_cliente = nombre_cliente;
-        this.apellido_cliente = apellido_cliente;
-        this.correo_cliente = correo_cliente;
-        this.telefono_cliente = telefono_cliente;
-        this.proteccion_datos = proteccion_datos;
-        this.descripcion_cliente = descripcion_cliente;
+    public Clientes(Integer idCliente, String nombreCliente, String apellidoCliente,
+                    String correoCliente, String telefonoCliente, Boolean proteccionDatos,
+                    String descripcionCliente) {
+        this.idCliente = idCliente;
+        this.nombreCliente = nombreCliente;
+        this.apellidoCliente = apellidoCliente;
+        this.correoCliente = correoCliente;
+        this.telefonoCliente = telefonoCliente;
+        this.proteccionDatos = proteccionDatos;
+        this.descripcionCliente = descripcionCliente;
     }
 
-    public Clientes() {} 
+    public Clientes(String nombreCliente, String apellidoCliente,
+                    String correoCliente, String telefonoCliente, Boolean proteccionDatos,
+                    String descripcionCliente) {
+        this.nombreCliente = nombreCliente;
+        this.apellidoCliente = apellidoCliente;
+        this.correoCliente = correoCliente;
+        this.telefonoCliente = telefonoCliente;
+        this.proteccionDatos = proteccionDatos;
+        this.descripcionCliente = descripcionCliente;
+    }
+
+    public Clientes() {}
 
 
     //Setters
-    public void setId_cliente(Integer id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public void setNombre_cliente(String nombre_cliente) {
-        this.nombre_cliente = nombre_cliente;
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
     }
 
-    public void setApellido_cliente(String apellido_cliente) {
-        this.apellido_cliente = apellido_cliente;
+    public void setApellidoCliente(String apellidoCliente) {
+        this.apellidoCliente = apellidoCliente;
     }
 
-    public void setCorreo_cliente(String  correo_cliente) {
-        this.correo_cliente = correo_cliente;
+    public void setCorreoCliente(String correoCliente) {
+        this.correoCliente = correoCliente;
     }
 
-    public void setTelefono_cliente(String  telefono_cliente) {
-        this.telefono_cliente = telefono_cliente;
+    public void setTelefonoCliente(String telefonoCliente) {
+        this.telefonoCliente = telefonoCliente;
     }
 
-    public void setProteccion_datos (Boolean proteccion_datos) {
-        this.proteccion_datos = proteccion_datos;
+    public void setProteccionDatos(Boolean proteccionDatos) {
+        this.proteccionDatos = proteccionDatos;
     }
 
-    public void setDescripcion_cliente (String  descripcion_cliente) {
-        this.descripcion_cliente = descripcion_cliente;
+    public void setDescripcionCliente(String descripcionCliente) {
+        this.descripcionCliente = descripcionCliente;
     }
     
 
     //Getters
-    public Integer getId_cliente() {
-        return id_cliente;
+    public Integer getIdCliente() {
+        return idCliente;
     }
 
-    public String getNombre_cliente(){
-        return nombre_cliente;
+    public String getNombreCliente(){
+        return nombreCliente;
     }
 
-    public String getApellido_cliente(){
-        return apellido_cliente;
+    public String getApellidoCliente(){
+        return apellidoCliente;
     }
 
-    public String getCorreo_cliente(){
-        return correo_cliente;
+    public String getCorreoCliente(){
+        return correoCliente;
     }
 
-    public String getTelefono_cliente(){
-        return telefono_cliente;
+    public String getTelefonoCliente(){
+        return telefonoCliente;
     }
 
-    public Boolean isProteccion_datos(){
-        return  proteccion_datos;
+    public Boolean isProteccionDatos(){
+        return proteccionDatos;
     }
 
-    public String  getDescripcion_cliente(){
-        return descripcion_cliente;
+    public String getDescripcionCliente(){
+        return descripcionCliente;
     }
-
-    
-
 }
