@@ -39,8 +39,8 @@ public class ServiciosDAO {
 
         try (Connection conn = ConexionBaseDatos.getConexion();
             PreparedStatement psAgregarServicio = conn.prepareStatement(sqlAgregar, Statement.RETURN_GENERATED_KEYS)) { 
-            psAgregarServicio.setBigDecimal(1, servicios.getPrecio_base());
-            psAgregarServicio.setString(2, servicios.getDescripcion_servicio());
+            psAgregarServicio.setBigDecimal(1, servicios.getPrecioBase());
+            psAgregarServicio.setString(2, servicios.getDescripcionServicio());
             psAgregarServicio.setBoolean(3, servicios.isServicio_activo());
             // Ejecutar la inserción
             int filasAfectadas = psAgregarServicio.executeUpdate();
@@ -50,7 +50,7 @@ public class ServiciosDAO {
             if (resultado) {
                 try (ResultSet generatedKeys = psAgregarServicio.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        servicios.setId_servicio(generatedKeys.getInt(1));
+                        servicios.setIdServicio(generatedKeys.getInt(1));
                     }
                 }
             }

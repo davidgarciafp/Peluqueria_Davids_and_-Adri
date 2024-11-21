@@ -4,104 +4,104 @@ import java.math.BigDecimal;
 
 public class Productos {
     //Entidades
-    private Integer id_producto; 
-    private String codigo_barras;
-    private String nombre_producto;
+    private Integer idProducto;
+    private String codigoBarras;
+    private String nombreProducto;
     private String marca;
-    private BigDecimal precio_producto;
-    private String descripcion_producto;
-    private Integer cantidad_disponible;
-    private Integer producto_gastado;
-    private Boolean producto_activo;
+    private BigDecimal precioProducto;
+    private String descripcionProducto;
+    private Integer cantidadDisponible;
+    private Integer productoGastado;
+    private Boolean productoActivo;
 
     //Constructores
-    public Productos(Integer id_producto, String codigo_barras, String nombre_producto, String marca, BigDecimal precio_producto,
-            String descripcion_producto, Integer cantidad_disponible, Integer producto_gastado,
-            Boolean producto_activo) {
-        this.id_producto = id_producto;
-        this.codigo_barras = codigo_barras;
-        this.nombre_producto = nombre_producto;
+    public Productos(Integer idProducto, String codigoBarras, String nombreProducto, String marca, BigDecimal precioProducto,
+                     String descripcionProducto, Integer cantidadDisponible, Integer productoGastado,
+                     Boolean productoActivo) {
+        this.idProducto = idProducto;
+        this.codigoBarras = codigoBarras;
+        this.nombreProducto = nombreProducto;
         this.marca = marca;
-        this.precio_producto = precio_producto;
-        this.descripcion_producto = descripcion_producto;
-        this.cantidad_disponible = cantidad_disponible;
-        this.producto_gastado = producto_gastado;
-        this.producto_activo = producto_activo;
+        this.precioProducto = precioProducto;
+        this.descripcionProducto = descripcionProducto;
+        this.cantidadDisponible = cantidadDisponible;
+        this.productoGastado = productoGastado;
+        this.productoActivo = productoActivo;
     }
 
     public Productos() {} 
 
 
     //Setters
-    public void setId_producto(Integer id_producto) {
-        this.id_producto = id_producto;
+    public void setId_producto(Integer idProducto) {
+        this.idProducto = idProducto;
     }
-    public void setCodigo_barras(String codigo_barras) {
-        this.codigo_barras = codigo_barras;
+    public void setCodigoBarras(String codigoBarras) {
+        this.codigoBarras = codigoBarras;
     }
 
-    public void setNombre_producto(String nombre_producto) {
-        this.nombre_producto = nombre_producto;
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = this.nombreProducto;
     }
 
     public void setMarca(String marca) {
         this.marca = marca;
     }
 
-    public void setPrecio_producto(BigDecimal  precio_producto) {
-        this.precio_producto = precio_producto;
+    public void setPrecioProducto(BigDecimal precioProducto) {
+        this.precioProducto = precioProducto;
     }
 
-    public void setDescripcion_producto(String  descripcion_producto) {
-        this.descripcion_producto = descripcion_producto;
+    public void setDescripcionProducto(String descripcionProducto) {
+        this.descripcionProducto = descripcionProducto;
     }
 
-    public void setCantidad_disponible (Integer cantidad_disponible) {
-        this.cantidad_disponible = cantidad_disponible;
+    public void setCantidadDisponible(Integer cantidadDisponible) {
+        this.cantidadDisponible = cantidadDisponible;
     }
 
-    public void setProducto_gastado (Integer producto_gastado){
-        this.producto_gastado = producto_gastado;
+    public void setProductoGastado(Integer productoGastado){
+        this.productoGastado = productoGastado;
     }
 
-    public void setProducto_activo (Boolean  producto_activo) {
-        this.producto_activo = producto_activo;
+    public void setProductoActivo(Boolean productoActivo) {
+        this.productoActivo = productoActivo;
     }
     
 
     //Getters
-    public Integer getId_producto() {
-        return id_producto;
+    public Integer getIdProducto() {
+        return idProducto;
     }
-    public String getCodigo_barras() {
-        return codigo_barras;
+    public String getCodigoBarras() {
+        return codigoBarras;
     }
 
-    public String getNombre_producto(){
-        return nombre_producto;
+    public String getNombreProducto(){
+        return nombreProducto;
     }
 
     public String getMarca(){
         return marca;
     }
 
-    public BigDecimal getPrecio_producto(){
-        return precio_producto;
+    public BigDecimal getPrecioProducto(){
+        return precioProducto;
     }
 
-    public String getDescripcion_producto(){
-        return descripcion_producto;
+    public String getDescripcionProducto(){
+        return descripcionProducto;
     }
 
-    public Integer getCantidad_disponible(){
-        return cantidad_disponible;
+    public Integer getCantidadDisponible(){
+        return cantidadDisponible;
     }
 
-    public Integer getProducto_gastado(){
-        return  producto_gastado;
+    public Integer getProductoGastado(){
+        return productoGastado;
     }
 
-    public Boolean  isProducto_activo(){
-        return producto_activo;
+    public Boolean  isProductoActivo(){
+        return productoActivo;
     }
 }

@@ -12,7 +12,7 @@ import java.sql.Statement;
 public class ProductosDAO {
 
     public List<Productos> mostrarProductos() {
-        String sqlMostrarProductos = "SELECT * FROM Productos where producto_activo = true";
+        String sqlMostrarProductos = "SELECT * FROM Productos WHERE producto_activo = true";
         List<Productos> listaProductos = new ArrayList<>(); // Creamos un array para todos los trabajadores que existan en la BD.
         
         try (Connection conn = ConexionBaseDatos.getConexion();
@@ -46,13 +46,13 @@ public class ProductosDAO {
 
         try (Connection conn = ConexionBaseDatos.getConexion();
         PreparedStatement psAgregarProductos = conn.prepareStatement(sqlAgregar, Statement.RETURN_GENERATED_KEYS)) {
-            psAgregarProductos.setString(1, productos.getCodigo_barras());
-            psAgregarProductos.setString(2, productos.getNombre_producto());
+            psAgregarProductos.setString(1, productos.getCodigoBarras());
+            psAgregarProductos.setString(2, productos.getNombreProducto());
             psAgregarProductos.setString(3, productos.getMarca());
-            psAgregarProductos.setBigDecimal(4, productos.getPrecio_producto());
-            psAgregarProductos.setString(5, productos.getDescripcion_producto());
-            psAgregarProductos.setInt(6, productos.getCantidad_disponible());
-            psAgregarProductos.setInt(7, productos.getProducto_gastado()!= null ? productos.getProducto_gastado() : 0);
+            psAgregarProductos.setBigDecimal(4, productos.getPrecioProducto());
+            psAgregarProductos.setString(5, productos.getDescripcionProducto());
+            psAgregarProductos.setInt(6, productos.getCantidadDisponible());
+            psAgregarProductos.setInt(7, productos.getProductoGastado()!= null ? productos.getProductoGastado() : 0);
             psAgregarProductos.setBoolean(8, true);
 
             int filasAfectadas = psAgregarProductos.executeUpdate();
@@ -140,7 +140,7 @@ public class ProductosDAO {
         return productos;
     }
     public List<Productos> mostrarProductosEliminados() {
-        String sqlMostrarProductos = "SELECT * FROM Productos where producto_activo = false";
+        String sqlMostrarProductos = "SELECT * FROM productos WHERE producto_activo = false";
         List<Productos> listaProductos = new ArrayList<>(); // Creamos un array para todos los trabajadores que existan en la BD.
         
         try (Connection conn = ConexionBaseDatos.getConexion();

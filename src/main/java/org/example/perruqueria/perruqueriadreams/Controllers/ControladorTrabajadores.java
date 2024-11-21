@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
+import javafx.util.Callback;
 import org.example.perruqueria.perruqueriadreams.Models.Trabajadores;
 import org.example.perruqueria.perruqueriadreams.Models.TrabajadoresDAO;
 import javafx.fxml.FXML;
@@ -30,6 +31,8 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private Button acceder;
     @FXML private Label mensaje;
     @FXML private Button btnTrabajadores;
+    @FXML private Button btnServicios;
+    @FXML private Button btnProductos;
     @FXML private Button btnClientes;
     @FXML private ImageView volverTabla;
     @FXML private ImageView iconoCerrarSesion;
@@ -105,6 +108,22 @@ public class ControladorTrabajadores implements Initializable{
         columnaCorreo.setCellValueFactory(new PropertyValueFactory<>("correoTrabajador"));
         columnaTelefono.setCellValueFactory(new PropertyValueFactory<>("telefonoTrabajador"));
         columnaRol.setCellValueFactory(new PropertyValueFactory<>("tipoTrabajador"));
+        columnaRol.setCellFactory(new Callback<TableColumn<Trabajadores, Boolean>, TableCell<Trabajadores, Boolean>>() {
+            @Override
+            public TableCell<Trabajadores, Boolean> call(TableColumn<Trabajadores, Boolean> param) {
+                return new TableCell<Trabajadores, Boolean>() {
+                    @Override
+                    protected void updateItem(Boolean item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(item ? "Administrador" : "Técnico");
+                        }
+                    }
+                };
+            }
+        });
         columnaComisionServicio.setCellValueFactory(new PropertyValueFactory<>("comisionServicio"));
         columnaComisionProducto.setCellValueFactory(new PropertyValueFactory<>("comisionProducto"));
         tablaTrabajadores.setItems(datosTrabajadores);
@@ -119,6 +138,22 @@ public class ControladorTrabajadores implements Initializable{
         columnaCorreo.setCellValueFactory(new PropertyValueFactory<>("correoTrabajador"));
         columnaTelefono.setCellValueFactory(new PropertyValueFactory<>("telefonoTrabajador"));
         columnaRol.setCellValueFactory(new PropertyValueFactory<>("tipoTrabajador"));
+        columnaRol.setCellFactory(new Callback<TableColumn<Trabajadores, Boolean>, TableCell<Trabajadores, Boolean>>() {
+            @Override
+            public TableCell<Trabajadores, Boolean> call(TableColumn<Trabajadores, Boolean> param) {
+                return new TableCell<Trabajadores, Boolean>() {
+                    @Override
+                    protected void updateItem(Boolean item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(item ? "Administrador" : "Técnico");
+                        }
+                    }
+                };
+            }
+        });
         columnaComisionServicio.setCellValueFactory(new PropertyValueFactory<>("comisionServicio"));
         columnaComisionProducto.setCellValueFactory(new PropertyValueFactory<>("comisionProducto"));
         tablaTrabajadores.setItems(datosTrabajadores);
@@ -149,6 +184,30 @@ public class ControladorTrabajadores implements Initializable{
                 throw new RuntimeException("Error" + error.getMessage());
             }
         }
+        if (btnServicios != null) {
+            iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
+                vista.redirigir("Login");
+            });
+            try {
+                btnServicios.setOnAction(event -> {
+                    vista.redirigir("Servicios");
+                });
+            } catch (Exception error) {
+                throw new RuntimeException("Error" + error.getMessage());
+            }
+        }
+        if (btnProductos != null) {
+            iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
+                vista.redirigir("Login");
+            });
+            try {
+                btnProductos.setOnAction(event -> {
+                    vista.redirigir("Productos");
+                });
+            } catch (Exception error) {
+                throw new RuntimeException("Error" + error.getMessage());
+            }
+        }
         if (btnClientes != null) {
             iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
                 vista.redirigir("Login");
@@ -161,6 +220,7 @@ public class ControladorTrabajadores implements Initializable{
                 throw new RuntimeException("Error" + error.getMessage());
             }
         }
+
         if (tablaTrabajadores != null) {
             mostrarTrabajadores();
             anadir.setVisible(false);
