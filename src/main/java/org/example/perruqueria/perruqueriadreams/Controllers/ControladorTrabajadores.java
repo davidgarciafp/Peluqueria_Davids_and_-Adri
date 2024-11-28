@@ -90,7 +90,7 @@ public class ControladorTrabajadores implements Initializable{
         String inputPassword = this.password.getText();
         Trabajadores trabajador = this.trabajadoresDAO.identificarDreams(inputPassword);
         if (trabajador != null) {
-            vista.redirigir("MenuAdmin");
+            vista.redirigir("Agenda");
         }
         else {
             this.mensaje.setVisible(true);

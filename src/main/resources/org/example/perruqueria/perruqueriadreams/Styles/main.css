@@ -48,3 +48,7 @@
     -fx-text-fill: red;
     -fx-font-weight: bold;
 }
+
+.celdasCentradas {
+    -fx-alignment: center;
+}

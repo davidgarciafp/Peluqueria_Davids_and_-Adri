@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" stylesheets="@../Styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorAgenda">
+   <children>
+      <VBox alignment="BASELINE_CENTER" layoutX="1164.0" prefHeight="768.0" prefWidth="200.0" spacing="20.0" styleClass="fondoClaro2">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/cerrar-sesion.png" />
+               </image>
+            </ImageView>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Usuario" />
+               </children>
+            </VBox>
+            <DatePicker fx:id="calendario" />
+         </children>
+         <padding>
+            <Insets top="25.0" />
+         </padding>
+      </VBox>
+      <TableView fx:id="tablaAgenda" layoutY="80.0" prefHeight="688.0" prefWidth="1162.0">
+        <columns>
+          <TableColumn fx:id="hora" prefWidth="75.0" style="-fx-font-size: 14px;" text="HORA">
+               <styleClass>
+                  <String fx:value="celdasCentradas" />
+                  <String fx:value="negrita" />
+               </styleClass></TableColumn>
+        </columns>
+      </TableView>
+      <Label fx:id="dia" layoutX="1053.0" layoutY="40.0" text="Dia dd/mm/YYYY" />
+      <ImageView fitHeight="88.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/Dreams_Logo.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
