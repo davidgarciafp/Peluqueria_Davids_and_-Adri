@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import org.example.perruqueria.perruqueriadreams.Controllers.ControladorAgenda;
 import org.example.perruqueria.perruqueriadreams.Controllers.ControladorTrabajadores;
 import org.example.perruqueria.perruqueriadreams.Controllers.DatosGlobales;
 
