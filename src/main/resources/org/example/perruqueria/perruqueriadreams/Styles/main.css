@@ -14,12 +14,12 @@
     -fx-background-color: #FAF6F0;
 }
 
-.fondoRojo {
-    -fx-background-color: #FFD1D1;
+.fondoVerde {
+    -fx-control-inner-background: #D4FFD6;
 }
 
-.fondoVerde {
-    -fx-background-color: #D4FFD6;
+.fondoRojo {
+    -fx-control-inner-background: #FFD1D1;
 }
 
 .fondoAplicacion {

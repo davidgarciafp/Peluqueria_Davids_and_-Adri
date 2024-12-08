@@ -9,28 +9,20 @@ import java.util.List;
 
 public class AgendaDAO {
 
-    public List<Agenda> mostrarAgenda() {
-        String sqlMostrarAgenda = "SELECT * FROM agenda";
-        List<Agenda> listaAgenda = new ArrayList<>();
-        
+    public String mostrarAgenda(String fecha, String hora, Integer idTrabajador) {
+        String sqlMostrarAgenda = "SELECT texto FROM agenda WHERE dia = '" + fecha + "' AND hora = '" + hora + "' AND id_trabajador = " + idTrabajador;
+        String texto = "";
         try (Connection conn = ConexionBaseDatos.getConexion();
             PreparedStatement sqlMostrarAgendaStmt = conn.prepareStatement(sqlMostrarAgenda);
             ResultSet rs = sqlMostrarAgendaStmt.executeQuery()) {
             
             while (rs.next()) {
-                Agenda agenda = new Agenda(
-                    rs.getInt("id_agenda"),
-                    rs.getString("dia"),
-                    rs.getString("hora"),
-                    rs.getString("texto"),
-                    rs.getInt("id_trabajador")
-                );
-                listaAgenda.add(agenda);
+                texto = rs.getString("texto");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return listaAgenda;
+        return texto;
     }
 
     public boolean encontrarDia(String dia, String hora, Integer idTrabajador) {
@@ -104,6 +96,28 @@ public class AgendaDAO {
                 throw new RuntimeException("BaseDatos NO encontrada");
             } else {
                 ex.printStackTrace();
+            }
+        }
+        return resultado;
+    }
+
+    public boolean eliminarAgenda(String dia, String hora, Integer idTrabajador) {
+        String sqlEliminarAgenda = "DELETE FROM agenda WHERE dia = ? AND hora = ? AND id_trabajador = ?";
+        boolean resultado = false;
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sqlEliminarAgenda)) {
+
+            pstmt.setString(1, dia);
+            pstmt.setString(2, hora);
+            pstmt.setInt(3, idTrabajador);
+            resultado = pstmt.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                throw new RuntimeException("BaseDatos NO encontrada");
+            } else {
+                ex.printStackTrace();
+                resultado = false;
             }
         }
         return resultado;

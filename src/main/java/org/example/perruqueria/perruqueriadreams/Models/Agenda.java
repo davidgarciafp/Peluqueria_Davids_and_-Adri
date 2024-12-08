@@ -21,6 +21,9 @@ public class Agenda {
         this.hora = hora;
     }
 
+    public Agenda() {
+    }
+
     // Setters
     public void setIdAgenda(Integer idAgenda) {
         this.idAgenda = idAgenda;

@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.perruqueria.perruqueriadreams.Models.Agenda;
@@ -27,8 +28,6 @@ public class ControladorAgenda implements Initializable {
     private TrabajadoresDAO trabajadoresDAO = new TrabajadoresDAO();
     private HashMap<String, String> agendaMap = new HashMap<String, String>();
     @FXML private HBox agenda;
-    @FXML private VBox columnaHoras;
-    @FXML private HBox columnasTrabajadores;
     @FXML private DatePicker calendario;
     @FXML private TableView<String> tabla;
 
@@ -58,24 +57,6 @@ public class ControladorAgenda implements Initializable {
     }
 
     public void generarAgenda() {
-        LocalDate fechaActual = LocalDate.now();
-        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        calendario.setValue(fechaActual);
-        calendario.setOnAction(event -> {
-            LocalDate fechaSeleccionada = calendario.getValue();
-            calendario.setValue(fechaSeleccionada);
-            /*agendaMap.forEach((clave, valor) -> {
-                String[] valoresId = clave.split("|");
-                String fecha = valoresId[0];
-                agendaMap.remove(clave);
-                agendaMap.put(calendario.getValue() + valoresId[1] + valoresId[2], "");
-            });
-            agendaMap.forEach((clave, valor) -> {
-                System.out.println("Clave: " + clave + " " + "Valor: " + valor);
-            });*/
-
-        });
 
         String[] horas = {"08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
                 "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
@@ -83,11 +64,18 @@ public class ControladorAgenda implements Initializable {
 
         List<Trabajadores> trabajadores = trabajadoresDAO.mostrarTrabajadores();
 
-
+        VBox columnaHoras = new VBox();
+        columnaHoras.setPrefWidth(100);
+        columnaHoras.setStyle("-fx-font-size: 17px");
+        columnaHoras.getStyleClass().add("negrita");
+        columnaHoras.setAlignment(Pos.TOP_CENTER);
+        columnaHoras.setSpacing(13);
+        columnaHoras.setPadding(new Insets(45, 0, 0, 0));
         for (String hora : horas) {
             Label labelHora = new Label(hora);
             columnaHoras.getChildren().add(labelHora);
         }
+        agenda.getChildren().add(columnaHoras);
         for (Trabajadores trabajador : trabajadores) {
             Label nombreTrabajador = new Label(trabajador.getNombreTrabajador());
             nombreTrabajador.getStyleClass().add("negrita");
@@ -98,31 +86,41 @@ public class ControladorAgenda implements Initializable {
             for (String hora : horas) {
                 TextArea inputTexto = new TextArea();
                 inputTexto.setId(calendario.getValue() + "/" + hora + "/" + trabajador.getIdTrabajador());
-                inputTexto.focusedProperty().addListener((observable, antiguoValor, nuevoValor) -> {
-                    if (!inputTexto.getText().isEmpty()) {
-                        if (antiguoValor) {
-                            String nuevoTexto = inputTexto.getText();
-                            System.out.println(nuevoTexto + " " + "ID: " + inputTexto.getId());
-                            String[] datosId = inputTexto.getId().split("/");
-                            for (String dato : datosId) {
-                                System.out.println(dato);
-                            }
-                            String fecha = datosId[0];
-                            String horaId = datosId[1];
-                            Integer idTrabajador = Integer.parseInt(datosId[2]);
-                            boolean existeRegistro = agendaDAO.encontrarDia(fecha, horaId, idTrabajador);
-                            if (existeRegistro) {
-                                boolean edicionExitosa = agendaDAO.actualizarAgenda(fecha, horaId, idTrabajador, inputTexto.getText());
-                            }
-                            else {
-                                boolean insercionExitosa = agendaDAO.agregarAgenda(new Agenda(0, fecha, horaId, inputTexto.getText(), idTrabajador));
-                            }
-                        }
+                String[] datosId = inputTexto.getId().split("/");
+                for (String dato : datosId) {
+                    System.out.println(dato);
+                }
+                String fecha = datosId[0];
+                String horaId = datosId[1];
+                Integer idTrabajador = Integer.parseInt(datosId[2]);
+                String texto = agendaDAO.mostrarAgenda(fecha, horaId, idTrabajador); //Obtenemos el texto de la cita para ese dia a esa hora y para ese trabajador
+                if (texto != null) { //Comprobamos que la consulta haya obtenido un registro, ya que puede ser que el registro para ese campo aún no esté creado
+                    inputTexto.setText(texto);
+                    if (inputTexto.getText().isEmpty()) { //Si está vacío el campo, le ponemos un fondo verde, si no, rojo
+                        inputTexto.getStyleClass().add("fondoVerde");
                     }
+                    else {
+                        inputTexto.getStyleClass().add("fondoRojo");
+                    }
+                }
+                inputTexto.focusedProperty().addListener((observable, antiguoValor, nuevoValor) -> {
+                    if (antiguoValor && !inputTexto.getText().isEmpty()) { //Si se han hecho cambios y el contenido no se ha dejado vacío
+                        System.out.println(inputTexto.getText() + " " + "ID: " + inputTexto.getId());
+                        boolean existeRegistro = agendaDAO.encontrarDia(fecha, horaId, idTrabajador); //Verificar si ya existe el registro para ese dia, hora y trabajador
+                        if (existeRegistro) {
+                            boolean edicionExitosa = agendaDAO.actualizarAgenda(fecha, horaId, idTrabajador, inputTexto.getText());
+                        }
+                        else {
+                            boolean insercionExitosa = agendaDAO.agregarAgenda(new Agenda(0, fecha, horaId, inputTexto.getText(), idTrabajador));
+                        }
+                    } else if (antiguoValor && inputTexto.getText().isEmpty()) { //Si se han hecho cambios pero se ha dejado el campo vacío
+                        boolean eliminacionExitosa = agendaDAO.eliminarAgenda(fecha, horaId, idTrabajador);
+                    }
+
                 });
                 agendaMap.put(inputTexto.getId(), inputTexto.getText());
                 inputTexto.setPrefWidth(200);
-                columnaNueva.getChildren().add(inputTexto);
+                columnaNueva.getChildren().add(inputTexto); //Metemos ese input a la columna del trabajador actual
             }
             columnaNueva.setAlignment(Pos.CENTER);
             agenda.getChildren().add(columnaNueva);
@@ -164,7 +162,16 @@ public class ControladorAgenda implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (agenda != null) {
-            generarAgenda();
+            LocalDate fechaActual = LocalDate.now();
+            DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            calendario.setValue(fechaActual);
+            calendario.setOnAction(event -> {
+                LocalDate fechaSeleccionada = calendario.getValue();
+                calendario.setValue(fechaSeleccionada);
+                agenda.getChildren().clear(); //Si se ha cambiado el dia en el calendario, borramos todos los elementos de la agenda y la volvemos a generar
+                generarAgenda();
+            });
+            generarAgenda(); //La generamos en cuanto se haya cargado la vista
         }
     }
 }
