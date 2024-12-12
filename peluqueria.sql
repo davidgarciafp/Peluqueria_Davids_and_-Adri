@@ -81,7 +81,7 @@ CREATE TABLE cobros (
     deudas DECIMAL(10,2),
     pagado BOOLEAN, -- Si el servicio se ha pagado (true) o esta pendiente (false).
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
-)
+);
 
 CREATE TABLE agenda (
     id_agenda INT AUTO_INCREMENT PRIMARY KEY,
@@ -90,7 +90,7 @@ CREATE TABLE agenda (
     texto TEXT,
     id_trabajador INT,
     FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador)
-)
+);
 
 INSERT INTO clientes (nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, proteccion_datos, descripcion_cliente) 
 VALUES ('Otro', '', '', '', false, 'Cliente sin registrar.');
