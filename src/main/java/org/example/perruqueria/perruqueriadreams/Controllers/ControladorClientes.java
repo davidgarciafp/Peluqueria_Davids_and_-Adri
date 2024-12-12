@@ -90,7 +90,7 @@ public class ControladorClientes implements Initializable{
                 System.out.println("Error: " + error.getMessage());
             }
             volverTabla.setOnMouseClicked((MouseEvent event) -> {
-                vista.redirigir("MenuAdmin");
+                vista.redirigir("Agenda");
             });
             crear.setOnAction(event -> {
                 if (campoNombre.getText().isBlank() || campoTelefono.getText().isBlank()) {

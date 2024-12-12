@@ -161,7 +161,7 @@ public class ControladorAgenda implements Initializable {
                 calendario.setValue(calendario.getValue().minusDays(1));
             });
             btnClientes.setOnAction(event -> {
-                vista.redirigir("ClientesGeneral");
+                vista.redirigir("Clientes");
             });
             btnCobros.setOnAction(event -> {
                 vista.redirigir("Cobros");

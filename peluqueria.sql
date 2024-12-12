@@ -95,5 +95,5 @@ CREATE TABLE agenda (
 INSERT INTO clientes (nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, proteccion_datos, descripcion_cliente) 
 VALUES ('Otro', '', '', '', false, 'Cliente sin registrar.');
 
-INSERT INTO trabajadores (nombre_trabajador, apellido_trabajador, correo_trabajador, telefono_trabajador, contrasena)
-VALUES ('Dreams', '', '', '', '1234');
+INSERT INTO trabajadores (nombre_trabajador, apellido_trabajador, correo_trabajador, telefono_trabajador, contrasena, trabajador_activo)
+VALUES ('Dreams', '', '', '', '1234', 1);

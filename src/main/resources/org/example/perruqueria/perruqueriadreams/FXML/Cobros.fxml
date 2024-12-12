@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorCobros">
+    <children>
+        <!-- Fecha de hoy en la esquina superior izquierda -->
+        <Text fx:id="fechaHoy" text="Fecha: " style="-fx-font-size: 14px;" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10"/>
+
+        <!-- Botón de volver atrás en la esquina superior derecha -->
+        <Button text="Volver" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10"/>
+
+        <!-- Botones de Productos y Servicios -->
+        <HBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="50" AnchorPane.leftAnchor="50" AnchorPane.rightAnchor="50">
+            <Button text="Productos"/>
+            <Button text="Servicios"/>
+        </HBox>
+
+        <!-- Barra para seleccionar cliente -->
+        <Label text="Seleccionar Cliente:" AnchorPane.topAnchor="100" AnchorPane.leftAnchor="10"/>
+        <ComboBox fx:id="comboClientes" promptText="Escribe para buscar..." AnchorPane.topAnchor="120" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"/>
+
+        <!-- Barra para seleccionar trabajador -->
+        <Label text="Seleccionar Trabajador:" AnchorPane.topAnchor="160" AnchorPane.leftAnchor="10"/>
+        <ComboBox fx:id="comboTrabajadores" promptText="Escribe para buscar..." AnchorPane.topAnchor="180" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"/>
+
+        <!-- Casilla para el importe a pagar -->
+        <Label text="Importe a Pagar:" AnchorPane.topAnchor="220" AnchorPane.leftAnchor="10"/>
+        <TextField fx:id="campoImporte" promptText="0.00" AnchorPane.topAnchor="240" AnchorPane.leftAnchor="10" prefWidth="100.0"/>
+
+        <!-- Casilla de pago pendiente -->
+        <Label text="Pago Pendiente:" AnchorPane.topAnchor="240" AnchorPane.leftAnchor="220"/>
+        <TextField fx:id="campoPagoPendiente" promptText="0.00" editable="false" AnchorPane.topAnchor="240" AnchorPane.leftAnchor="320" prefWidth="100.0"/>
+
+        <!-- Casillas de pago -->
+        <Label text="Método de Pago:" AnchorPane.topAnchor="280" AnchorPane.leftAnchor="10"/>
+        <HBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="300" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+            <TextField fx:id="campoBizum" promptText="Bizum" prefWidth="80.0"/>
+            <TextField fx:id="campoTarjeta" promptText="Tarjeta" prefWidth="80.0"/>
+            <TextField fx:id="campoEfectivo" promptText="Efectivo" prefWidth="80.0"/>
+        </HBox>
+
+        <!-- Botones de guardar e imprimir -->
+        <HBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="380" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+            <Button text="Guardar"/>
+            <Button text="Imprimir"/>
+        </HBox>
+    </children>
+</AnchorPane>
