@@ -139,7 +139,6 @@ public class ControladorClientes implements Initializable{
         }
         if (seccionFicha != null) {
             btnNuevaSesion.setOnAction(event -> {
-                System.out.println("llego");
                 vista.redirigir("Cobros");
             });
             flechaVolver.setOnMouseClicked((MouseEvent event) -> {
@@ -147,4 +146,5 @@ public class ControladorClientes implements Initializable{
             });
         }
     }
+
 }
