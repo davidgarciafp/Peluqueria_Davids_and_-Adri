@@ -86,6 +86,14 @@ public class ControladorClientes implements Initializable{
                         campoDescripcion.setText(clienteSeleccionado.getDescripcionCliente());
                     }
                 });
+                tablaClientes.setOnMouseClicked(event -> {
+                    if (event.getClickCount() == 2) { // Doble clic
+                        if (clienteSeleccionado != null) {
+                            // Redirigir a FichaCliente.fxml
+                            vista.redirigir("FichaCliente");
+                        }
+                    }
+                });
             } catch (NullPointerException error) {
                 System.out.println("Error: " + error.getMessage());
             }
