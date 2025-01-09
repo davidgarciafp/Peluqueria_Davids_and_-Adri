@@ -18,7 +18,7 @@
          <children>
             <VBox alignment="TOP_RIGHT" prefWidth="100.0">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="iconoCerrarSesion" fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
                      <image>
                         <Image url="@../Images/cerrar-sesion.png" />
                      </image>

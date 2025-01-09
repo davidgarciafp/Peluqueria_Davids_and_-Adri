@@ -3,14 +3,15 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.FXML.FichaCliente">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" stylesheets="@../Styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorClientes">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="98.0" layoutY="137.0" prefHeight="481.0" prefWidth="1158.0">
+      <VBox fx:id="seccionFicha" alignment="TOP_CENTER" layoutX="98.0" layoutY="137.0" prefHeight="481.0" prefWidth="1158.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 25px;" text="FICHA: " />
             <ScrollPane prefHeight="180.0" prefWidth="506.0">
@@ -21,8 +22,12 @@
             <TextArea prefHeight="152.0" prefWidth="528.0" />
          </children>
       </VBox>
-      <Button layoutX="572.0" layoutY="662.0" mnemonicParsing="false" text="GUARDAR" />
-      <Button layoutX="1198.0" layoutY="57.0" mnemonicParsing="false" text="VOLVER" />
-      <Button layoutX="1151.0" layoutY="674.0" mnemonicParsing="false" text="NUEVA SESIÓN" />
+      <Button layoutX="572.0" layoutY="662.0" mnemonicParsing="false" styleClass="cursorPointer" text="GUARDAR" />
+      <Button fx:id="btnNuevaSesion" layoutX="1151.0" layoutY="674.0" mnemonicParsing="false" styleClass="cursorPointer" text="NUEVA SESIÓN" />
+      <ImageView fx:id="flechaVolver" fitWidth="50.0" layoutX="1290.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
+         <image>
+            <Image url="@../Images/volver.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

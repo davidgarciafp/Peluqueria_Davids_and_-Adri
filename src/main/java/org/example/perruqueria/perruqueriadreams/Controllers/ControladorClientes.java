@@ -8,7 +8,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import org.example.perruqueria.perruqueriadreams.Models.Clientes;
 import org.example.perruqueria.perruqueriadreams.Models.ClientesDAO;
 import javafx.fxml.FXML;
@@ -20,7 +22,7 @@ public class ControladorClientes implements Initializable{
     private ControladorVentana vista = new ControladorVentana();
 
     @FXML private ImageView volverTabla;
-    @FXML private ImageView iconoCerrarSesion;
+    @FXML private ImageView flechaVolver;
     @FXML private TableView<Clientes> tablaClientes;
     @FXML private TableColumn<Clientes, String> columnaNombre;
     @FXML private TableColumn<Clientes, String> columnaApellido;
@@ -38,6 +40,8 @@ public class ControladorClientes implements Initializable{
     @FXML private CheckBox checkboxProteccionDatos;
     @FXML private TextArea campoDescripcion;
     @FXML private Label mensajeError;
+    @FXML private VBox seccionFicha;
+    @FXML private Button btnNuevaSesion;
 
     private static Clientes clienteSeleccionado;
 
@@ -86,6 +90,13 @@ public class ControladorClientes implements Initializable{
                         campoDescripcion.setText(clienteSeleccionado.getDescripcionCliente());
                     }
                 });
+                tablaClientes.setOnMouseClicked((MouseEvent event) -> {
+                    if (event.getClickCount() == 2) {
+                        clienteSeleccionado = tablaClientes.getSelectionModel().getSelectedItem();
+                        vista.redirigir("FichaCliente");
+                        System.out.println("Has pulsado en " + clienteSeleccionado.getNombreCliente());
+                    }
+                });
             } catch (NullPointerException error) {
                 System.out.println("Error: " + error.getMessage());
             }
@@ -124,6 +135,15 @@ public class ControladorClientes implements Initializable{
                         System.out.println("Error al editar el cliente");
                     }
                 }
+            });
+        }
+        if (seccionFicha != null) {
+            btnNuevaSesion.setOnAction(event -> {
+                System.out.println("llego");
+                vista.redirigir("Cobros");
+            });
+            flechaVolver.setOnMouseClicked((MouseEvent event) -> {
+                vista.redirigir("Clientes");
             });
         }
     }
