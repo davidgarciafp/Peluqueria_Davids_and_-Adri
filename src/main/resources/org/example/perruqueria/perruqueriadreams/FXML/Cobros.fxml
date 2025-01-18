@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
@@ -73,7 +72,6 @@
                   <ChoiceBox fx:id="trabajadorServicio" prefWidth="150.0" />
                   <TextField fx:id="precioServicio" />
                   <TextArea fx:id="comentarioServicio" prefHeight="200.0" prefWidth="200.0" />
-                  <CheckBox fx:id="servicioPagado" mnemonicParsing="false" text="Pagado" />
                   <ImageView fx:id="anadirServicio" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/boton-agregar.png" />
@@ -92,7 +90,6 @@
                   <ChoiceBox fx:id="trabajadorProducto" prefWidth="150.0" />
                   <TextField fx:id="precioProducto" />
                   <TextField fx:id="cantidadProducto" />
-                  <CheckBox fx:id="productoPagado" mnemonicParsing="false" text="Pagado" />
                   <ImageView fx:id="anadirProducto" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/boton-agregar.png" />
