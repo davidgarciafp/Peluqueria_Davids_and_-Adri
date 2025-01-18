@@ -45,6 +45,14 @@ public class ControladorClientes implements Initializable{
 
     private static Clientes clienteSeleccionado;
 
+    public static Clientes getClienteSeleccionado() {
+        return clienteSeleccionado;
+    }
+
+    public static void setClienteSeleccionado(Clientes clienteSeleccionado) {
+        ControladorClientes.clienteSeleccionado = clienteSeleccionado;
+    }
+
     public ControladorClientes() {
         //Constructor
     }
@@ -92,7 +100,7 @@ public class ControladorClientes implements Initializable{
                 });
                 tablaClientes.setOnMouseClicked((MouseEvent event) -> {
                     if (event.getClickCount() == 2) {
-                        clienteSeleccionado = tablaClientes.getSelectionModel().getSelectedItem();
+                        setClienteSeleccionado(tablaClientes.getSelectionModel().getSelectedItem());
                         vista.redirigir("FichaCliente");
                         System.out.println("Has pulsado en " + clienteSeleccionado.getNombreCliente());
                     }

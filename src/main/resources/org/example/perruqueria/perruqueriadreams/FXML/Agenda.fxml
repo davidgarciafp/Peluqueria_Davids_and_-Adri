@@ -36,12 +36,6 @@
                         <String fx:value="cursorPointer" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="btnCobros" mnemonicParsing="false" prefHeight="35.0" prefWidth="216.0" text="COBROS">
-                     <styleClass>
-                        <String fx:value="botones" />
-                        <String fx:value="cursorPointer" />
-                     </styleClass>
-                  </Button>
                </children>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />

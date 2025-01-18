@@ -1,54 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.text.Text?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorCobros">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorCobros">
     <children>
-        <!-- Fecha de hoy en la esquina superior izquierda -->
-        <Text fx:id="fechaHoy" text="Fecha: " style="-fx-font-size: 14px;" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10"/>
+      <VBox fx:id="camposCobros" alignment="TOP_CENTER" layoutX="521.0" prefHeight="766.0" prefWidth="400.0" spacing="50.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="COBRO" />
 
-        <!-- Botón de volver atrás en la esquina superior derecha -->
-        <Button text="Volver" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10"/>
+              <HBox alignment="CENTER">
+                 <Text fx:id="fechaHoy" style="-fx-font-size: 14px;" text="Fecha: " />
+                 <Button text="Volver" />
+              </HBox>
+            <VBox alignment="CENTER">
+               <children>
+                   <Label text="Cliente:" />
+                  <Text fx:id="nombreCliente" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                    <Label text="Seleccionar Trabajador:" />
+                    <ChoiceBox fx:id="selectTrabajadores" prefWidth="120.0" />
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                    <Label text="Importe a Pagar:" />
+                    <TextField fx:id="campoImporte" prefWidth="100.0" promptText="0.00" />
 
-        <!-- Botones de Productos y Servicios -->
-        <HBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="50" AnchorPane.leftAnchor="50" AnchorPane.rightAnchor="50">
-            <Button text="Productos"/>
-            <Button text="Servicios"/>
-        </HBox>
+                    <Label text="Pago Pendiente:" />
+                    <TextField fx:id="campoPagoPendiente" editable="false" prefWidth="100.0" promptText="0.00" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="15.0">
+               <children>
 
-        <!-- Barra para seleccionar cliente -->
-        <Label text="Seleccionar Cliente:" AnchorPane.topAnchor="100" AnchorPane.leftAnchor="10"/>
-        <ComboBox fx:id="comboClientes" promptText="Escribe para buscar..." AnchorPane.topAnchor="120" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"/>
+                    <Label text="Método de Pago:" />
+                  <TextField fx:id="campoBizum" prefWidth="80.0" promptText="Bizum" />
+                  <TextField fx:id="campoTarjeta" prefWidth="80.0" promptText="Tarjeta" />
+                  <TextField fx:id="campoEfectivo" prefWidth="80.0" promptText="Efectivo" />
+               </children>
+            </HBox>
 
-        <!-- Barra para seleccionar trabajador -->
-        <Label text="Seleccionar Trabajador:" AnchorPane.topAnchor="160" AnchorPane.leftAnchor="10"/>
-        <ComboBox fx:id="comboTrabajadores" promptText="Escribe para buscar..." AnchorPane.topAnchor="180" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"/>
-
-        <!-- Casilla para el importe a pagar -->
-        <Label text="Importe a Pagar:" AnchorPane.topAnchor="220" AnchorPane.leftAnchor="10"/>
-        <TextField fx:id="campoImporte" promptText="0.00" AnchorPane.topAnchor="240" AnchorPane.leftAnchor="10" prefWidth="100.0"/>
-
-        <!-- Casilla de pago pendiente -->
-        <Label text="Pago Pendiente:" AnchorPane.topAnchor="240" AnchorPane.leftAnchor="220"/>
-        <TextField fx:id="campoPagoPendiente" promptText="0.00" editable="false" AnchorPane.topAnchor="240" AnchorPane.leftAnchor="320" prefWidth="100.0"/>
-
-        <!-- Casillas de pago -->
-        <Label text="Método de Pago:" AnchorPane.topAnchor="280" AnchorPane.leftAnchor="10"/>
-        <HBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="300" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
-            <TextField fx:id="campoBizum" promptText="Bizum" prefWidth="80.0"/>
-            <TextField fx:id="campoTarjeta" promptText="Tarjeta" prefWidth="80.0"/>
-            <TextField fx:id="campoEfectivo" promptText="Efectivo" prefWidth="80.0"/>
-        </HBox>
-
-        <!-- Botones de guardar e imprimir -->
-        <HBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="380" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
-            <Button text="Guardar"/>
-            <Button text="Imprimir"/>
-        </HBox>
+              <HBox alignment="CENTER" spacing="10">
+                  <Button fx:id="btnGuardar" text="Guardar" />
+                  <Button fx:id="btnImprimir" text="Imprimir" />
+              </HBox>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" prefHeight="766.0" prefWidth="499.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SERVICIOS" />
+            <VBox fx:id="camposServicios" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ChoiceBox fx:id="selectServicio" prefWidth="150.0" />
+                  <ChoiceBox fx:id="trabajadorServicio" prefWidth="150.0" />
+                  <TextField fx:id="precioServicio" />
+                  <TextArea fx:id="comentarioServicio" prefHeight="200.0" prefWidth="200.0" />
+                  <CheckBox fx:id="servicioPagado" mnemonicParsing="false" text="Pagado" />
+                  <ImageView fx:id="anadirServicio" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/boton-agregar.png" />
+                     </image>
+                  </ImageView>
+               </children></VBox>
+            <VBox fx:id="serviciosAnadidos" prefHeight="200.0" prefWidth="100.0" />
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="928.0" prefHeight="766.0" prefWidth="449.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUCTOS" />
+            <VBox fx:id="camposProductos" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
+         </children>
+      </VBox>
     </children>
 </AnchorPane>
