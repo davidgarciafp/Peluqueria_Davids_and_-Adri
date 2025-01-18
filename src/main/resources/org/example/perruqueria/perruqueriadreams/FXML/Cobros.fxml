@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorCobros">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorCobros">
     <children>
       <VBox fx:id="camposCobros" alignment="TOP_CENTER" layoutX="521.0" prefHeight="766.0" prefWidth="400.0" spacing="50.0">
          <children>
@@ -86,7 +86,20 @@
       <VBox alignment="TOP_CENTER" layoutX="928.0" prefHeight="766.0" prefWidth="449.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUCTOS" />
-            <VBox fx:id="camposProductos" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
+            <VBox fx:id="camposProductos" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ChoiceBox fx:id="selectProducto" prefWidth="150.0" />
+                  <ChoiceBox fx:id="trabajadorProducto" prefWidth="150.0" />
+                  <TextField fx:id="precioProducto" />
+                  <TextField fx:id="cantidadProducto" />
+                  <CheckBox fx:id="productoPagado" mnemonicParsing="false" text="Pagado" />
+                  <ImageView fx:id="anadirProducto" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/boton-agregar.png" />
+                     </image>
+                  </ImageView>
+               </children></VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" />
          </children>
       </VBox>
     </children>
