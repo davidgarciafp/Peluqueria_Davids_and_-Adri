@@ -16,10 +16,10 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("FXML/Login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("FXML/Clientes.fxml"));
         DatosGlobales.setMystage(stage);
         Scene scene = new Scene(fxmlLoader.load(), 1366, 768);
-        ControladorTrabajadores trabajadores = fxmlLoader.getController();
+        /*ControladorTrabajadores trabajadores = fxmlLoader.getController();
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -27,7 +27,7 @@ public class Main extends Application {
                     case ENTER -> trabajadores.identificarTrabajador();
                 }
             }
-        });
+        });*/
         stage.setTitle("Login");
         stage.setScene(scene);
         stage.show();

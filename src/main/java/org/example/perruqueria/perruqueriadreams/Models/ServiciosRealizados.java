@@ -1,18 +1,20 @@
 package org.example.perruqueria.perruqueriadreams.Models;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 
-public class ServicioRealizados {
+public class ServiciosRealizados {
     // Entidades
     private Integer idServicioRealizados;
-    private Integer idTrabajador;
     private Integer idServicio;
-    private Integer diaServicioRealizados;
+    private Integer idTrabajador;
+    private LocalDate diaServicioRealizados;
     private BigDecimal precioFinal;
     private String comentario;
 
     // Constructores
-    public ServicioRealizados(Integer idServicioRealizados, Integer idTrabajador, Integer idServicio, Integer diaServicioRealizados, BigDecimal precioFinal, String comentario) {
+    public ServiciosRealizados(Integer idServicioRealizados, Integer idServicio, Integer idTrabajador, LocalDate diaServicioRealizados, BigDecimal precioFinal, String comentario) {
         this.idServicioRealizados = idServicioRealizados;
         this.idTrabajador = idTrabajador;
         this.idServicio = idServicio;
@@ -21,7 +23,15 @@ public class ServicioRealizados {
         this.comentario = comentario;
     }
 
-    public ServicioRealizados() {}
+    public ServiciosRealizados(Integer idServicio, Integer idTrabajador, LocalDate diaServicioRealizados, BigDecimal precioFinal, String comentario) {
+        this.idTrabajador = idTrabajador;
+        this.idServicio = idServicio;
+        this.diaServicioRealizados = diaServicioRealizados;
+        this.precioFinal = precioFinal;
+        this.comentario = comentario;
+    }
+
+    public ServiciosRealizados() {}
 
     // Setters
     public void setIdServicioRealizados(Integer idServicioRealizados) {
@@ -36,7 +46,7 @@ public class ServicioRealizados {
         this.idServicio = idServicio;
     }
 
-    public void setDiaServicioRealizados(Integer diaServicioRealizados) {
+    public void setDiaServicioRealizados(LocalDate diaServicioRealizados) {
         this.diaServicioRealizados = diaServicioRealizados;
     }
 
@@ -62,7 +72,7 @@ public class ServicioRealizados {
         return idServicio;
     }
 
-    public Integer getDiaServicioRealizados() {
+    public LocalDate getDiaServicioRealizados() {
         return diaServicioRealizados;
     }
 

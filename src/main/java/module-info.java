@@ -11,6 +11,7 @@ module org.example.perruqueria.perruqueriadreams {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires java.desktop;
 
     opens org.example.perruqueria.perruqueriadreams to javafx.fxml;
     opens org.example.perruqueria.perruqueriadreams.Models to javafx.base;
