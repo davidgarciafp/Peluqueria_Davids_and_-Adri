@@ -7,7 +7,7 @@ public class Cobros {
     // Atributos
     private Integer idCobros; // Identificador único por cada cobro.
     private Integer idCliente; // Referencia a la tabla clientes.
-    private Date diaCobro; // Fecha del cobro.
+    private String diaCobro; // Fecha del cobro.
     private BigDecimal importe; // Importe total del cobro.
     private BigDecimal efectivo; // Importe pagado en efectivo.
     private BigDecimal tarjeta; // Importe pagado con tarjeta.
@@ -16,8 +16,19 @@ public class Cobros {
     private boolean pagado; // Estado del pago (true si se ha pagado, false si está pendiente).
 
     // Constructor
-    public Cobros(Integer idCobros, Integer idCliente, Date diaCobro, BigDecimal importe, BigDecimal efectivo, BigDecimal tarjeta, BigDecimal bizum, BigDecimal deudas, boolean pagado) {
+    public Cobros(Integer idCobros, Integer idCliente, String diaCobro, BigDecimal importe, BigDecimal efectivo, BigDecimal tarjeta, BigDecimal bizum, BigDecimal deudas, boolean pagado) {
         this.idCobros = idCobros;
+        this.idCliente = idCliente;
+        this.diaCobro = diaCobro;
+        this.importe = importe;
+        this.efectivo = efectivo;
+        this.tarjeta = tarjeta;
+        this.bizum = bizum;
+        this.deudas = deudas;
+        this.pagado = pagado;
+    }
+
+    public Cobros(Integer idCliente, String diaCobro, BigDecimal importe, BigDecimal efectivo, BigDecimal tarjeta, BigDecimal bizum, BigDecimal deudas, boolean pagado) {
         this.idCliente = idCliente;
         this.diaCobro = diaCobro;
         this.importe = importe;
@@ -47,11 +58,11 @@ public class Cobros {
         this.idCliente = idCliente;
     }
 
-    public Date getDiaCobro() {
+    public String getDiaCobro() {
         return diaCobro;
     }
 
-    public void setDiaCobro(Date diaCobro) {
+    public void setDiaCobro(String diaCobro) {
         this.diaCobro = diaCobro;
     }
 

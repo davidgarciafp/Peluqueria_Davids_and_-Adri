@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -19,7 +20,6 @@ import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.example.perruqueria.perruqueriadreams.Models.*;
 
-import java.awt.*;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
@@ -37,13 +37,50 @@ public class ControladorCobros implements Initializable {
     @FXML private TextArea comentarioServicio;
     @FXML private ImageView anadirServicio;
     @FXML private VBox serviciosAnadidos;
+    @FXML private ChoiceBox<Productos> selectProducto;
+    @FXML private ChoiceBox<Trabajadores> trabajadorProducto;
+    @FXML private TextField precioProducto;
+    @FXML private TextField cantidadProducto;
+    @FXML private TextArea descripcionVenta;
+    @FXML private ImageView anadirProducto;
+    @FXML private VBox productosAnadidos;
     @FXML private Text fechaHoy;
     @FXML private Text nombreCliente;
     @FXML private ChoiceBox<Trabajadores> selectTrabajadores;
     @FXML private TextField campoImporte;
+    @FXML private TextField campoPagoPendiente;
+    @FXML private TextField campoEfectivo;
+    @FXML private TextField campoTarjeta;
+    @FXML private TextField campoBizum;
+    @FXML private Button btnRealizar;
+    @FXML private Button btnImprimir;
     private TrabajadoresDAO modeloTrabajadores = new TrabajadoresDAO();
     private ServiciosDAO modeloServicios = new ServiciosDAO();
+    private ProductosDAO modeloProductos = new ProductosDAO();
+    private ServiciosRealizadosDAO modeloServiciosRealizados = new ServiciosRealizadosDAO();
+    private VentasDAO modeloVentas = new VentasDAO();
+    private CobrosDAO modeloCobros = new CobrosDAO();
+
+    private List<Servicios> listaServicios = modeloServicios.mostrarServicios();
+    private List<Productos> listaProductos = modeloProductos.mostrarProductos();
+    private List<Trabajadores> listaTrabajadores = modeloTrabajadores.mostrarTrabajadores();
+
     private ArrayList<ServiciosRealizados> serviciosRealizados = new ArrayList<>();
+    private ArrayList<Ventas> productosVendidos = new ArrayList<>();
+
+    private ControladorVentana vista = new ControladorVentana();
+
+    public List<Servicios> getListaServicios() {
+        return listaServicios;
+    }
+
+    public List<Productos> getListaProductos() {
+        return listaProductos;
+    }
+
+    public List<Trabajadores> getListaTrabajadores() {
+        return listaTrabajadores;
+    }
 
     public void mostrarValoresTrabajadores(ChoiceBox<Trabajadores> select) {
         select.setConverter(new StringConverter<>() {
@@ -73,18 +110,48 @@ public class ControladorCobros implements Initializable {
         });
     }
 
+    public void mostrarValoresProductos(ChoiceBox<Productos> select) {
+        select.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Productos producto) {
+                return producto != null ? producto.getNombreProducto() : "";
+            }
+
+            @Override
+            public Productos fromString(String string) {
+                return null;
+            }
+        });
+    }
+
     public void cargarSelectTrabajador(ChoiceBox<Trabajadores> select) {
-        List<Trabajadores> trabajadores = modeloTrabajadores.mostrarTrabajadores();
-        ObservableList<Trabajadores> listaTrabajadores = FXCollections.observableList(trabajadores);
-        select.setItems(listaTrabajadores);
+        ObservableList<Trabajadores> trabajadores = FXCollections.observableList(getListaTrabajadores());
+        select.setItems(trabajadores);
         mostrarValoresTrabajadores(select);
     }
 
     public void cargarSelectServicio(ChoiceBox<Servicios> select) {
-        List<Servicios> servicios = modeloServicios.mostrarServicios();
-        ObservableList<Servicios> listaServicios = FXCollections.observableList(servicios);
-        select.setItems(listaServicios);
+        ObservableList<Servicios> servicios = FXCollections.observableList(getListaServicios());
+        select.setItems(servicios);
         mostrarValoresServicios(select);
+    }
+
+    public void cargarSelectProducto(ChoiceBox<Productos> select) {
+        ObservableList<Productos> productos = FXCollections.observableList(getListaProductos());
+        select.setItems(productos);
+        mostrarValoresProductos(select);
+    }
+
+    public void sumarImporte(BigDecimal precio) {
+        BigDecimal precioImporte = new BigDecimal(campoImporte.getText());
+        precioImporte = precioImporte.add(precio);
+        campoImporte.setText(String.valueOf(precioImporte));
+    }
+
+    public void restarImporte(BigDecimal precio) {
+        BigDecimal precioImporte = new BigDecimal(campoImporte.getText());
+        precioImporte = precioImporte.subtract(precio);
+        campoImporte.setText(String.valueOf(precioImporte));
     }
 
     public StackPane crearIcono(String ruta, String id) {
@@ -101,7 +168,7 @@ public class ControladorCobros implements Initializable {
         return contenedorImagen;
     }
 
-    public void anadirServicios(Servicios servicio, Trabajadores trabajador, BigDecimal precio, String comentario) {
+    public void anadirServicios(Servicios servicio, Clientes cliente, Trabajadores trabajador, BigDecimal precio, String comentario) {
         HBox servicioAnadido = new HBox();
         servicioAnadido.setAlignment(Pos.TOP_CENTER);
         servicioAnadido.setSpacing(20);
@@ -112,19 +179,17 @@ public class ControladorCobros implements Initializable {
         ChoiceBox<Trabajadores> selectTrabajador = new ChoiceBox<>();
         cargarSelectTrabajador(selectTrabajador);
         selectTrabajador.setValue(trabajador);
-        BigDecimal precioImporte = new BigDecimal(campoImporte.getText());
-        precioImporte = precioImporte.add(precio);
-        campoImporte.setText(String.valueOf(precioImporte));
-        ServiciosRealizados servicioRealizado = new ServiciosRealizados(servicio.getIdServicio(), trabajador.getIdTrabajador(), LocalDate.now(), precio, comentario);
+        sumarImporte(precio);
+        ServiciosRealizados servicioRealizado = new ServiciosRealizados(servicio.getIdServicio(), cliente.getIdCliente(), trabajador.getIdTrabajador(), LocalDate.now().toString(), precio, comentario);
         serviciosRealizados.add(servicioRealizado);
 
-        StackPane iconoEditar = crearIcono("/org/example/perruqueria/perruqueriadreams/Images/editar.png", String.valueOf(servicio.getIdServicio()));
+        //StackPane iconoEditar = crearIcono("/org/example/perruqueria/perruqueriadreams/Images/editar.png", String.valueOf(servicio.getIdServicio()));
         StackPane iconoEliminar = crearIcono("/org/example/perruqueria/perruqueriadreams/Images/eliminar.png", String.valueOf(servicio.getIdServicio()));
 
-        servicioAnadido.getChildren().addAll(selectServicio, selectTrabajador, iconoEditar, iconoEliminar);
+        servicioAnadido.getChildren().addAll(selectServicio, selectTrabajador, iconoEliminar);
         serviciosAnadidos.getChildren().add(servicioAnadido);
 
-        iconoEditar.setOnMouseClicked((MouseEvent event) -> {
+        /*iconoEditar.setOnMouseClicked((MouseEvent event) -> {
             Integer idIcono = Integer.parseInt(iconoEditar.getId());
             for (ServiciosRealizados serviciosReal : serviciosRealizados) {
                 if (serviciosReal.getIdServicio().equals(idIcono)) {
@@ -144,17 +209,65 @@ public class ControladorCobros implements Initializable {
                     comentarioServicio.setText(serviciosReal.getComentario());
                 }
             }
-        });
+        });*/
 
         iconoEliminar.setOnMouseClicked((MouseEvent event) -> {
-            BigDecimal precioTotal = new BigDecimal(campoImporte.getText());
-            precioTotal = precioTotal.subtract(precio);
-            campoImporte.setText(String.valueOf(precioTotal));
+            restarImporte(precio);
             Integer idIcono = Integer.parseInt(iconoEliminar.getId());
             serviciosRealizados.removeIf(servicioReal -> servicioReal.getIdServicio().equals(idIcono));
             Node padre = iconoEliminar.getParent();
             serviciosAnadidos.getChildren().remove(padre);
         });
+    }
+
+    public void anadirProductos(Productos producto, Trabajadores trabajador, BigDecimal precio, Integer cantidad, String descripcion) {
+        HBox productoAnadido = new HBox();
+        productoAnadido.setAlignment(Pos.TOP_CENTER);
+        productoAnadido.setSpacing(20);
+
+        ChoiceBox<Productos> selectProducto = new ChoiceBox<>();
+        cargarSelectProducto(selectProducto);
+        selectProducto.setValue(producto);
+        ChoiceBox<Trabajadores> selectTrabajador = new ChoiceBox<>();
+        cargarSelectTrabajador(selectTrabajador);
+        selectTrabajador.setValue(trabajador);
+
+        BigDecimal precioBase = producto.getPrecioProducto();
+        BigDecimal precioSumar = precioBase.multiply(new BigDecimal(cantidad));
+        sumarImporte(precioSumar);
+
+        Ventas venta = new Ventas(trabajador.getIdTrabajador(), producto.getIdProducto(), ControladorClientes.getClienteSeleccionado().getIdCliente(), LocalDate.now().toString(), cantidad, descripcion);
+        productosVendidos.add(venta);
+
+        StackPane iconoEliminar = crearIcono("/org/example/perruqueria/perruqueriadreams/Images/eliminar.png", String.valueOf(producto.getIdProducto()));
+
+        productoAnadido.getChildren().addAll(selectProducto, selectTrabajador, iconoEliminar);
+        productosAnadidos.getChildren().add(productoAnadido);
+
+        iconoEliminar.setOnMouseClicked((MouseEvent event) -> {
+            BigDecimal precioRestar = precio.multiply(new BigDecimal(cantidad));
+            restarImporte(precioRestar);
+            Integer idIcono = Integer.parseInt(iconoEliminar.getId());
+            productosVendidos.removeIf(productoVendido -> productoVendido.getIdProducto().equals(idIcono));
+            Node padre = iconoEliminar.getParent();
+            productosAnadidos.getChildren().remove(padre);
+        });
+    }
+
+    public boolean realizarCobro(ArrayList<ServiciosRealizados> serviciosRealizados, ArrayList<Ventas> ventas, Clientes cliente, BigDecimal importe, BigDecimal efectivo, BigDecimal tarjeta, BigDecimal bizum, BigDecimal deudas) {
+        for (ServiciosRealizados serviciosRealizado : serviciosRealizados) {
+            modeloServiciosRealizados.agregarServicioRealizado(serviciosRealizado);
+        }
+        for (Ventas venta : ventas) {
+            modeloVentas.agregarVenta(venta);
+        }
+        Boolean pagado = true;
+        if (deudas.compareTo(BigDecimal.ZERO) > 0) { //Comprobar si el valor de las deudas es mayor a 0.
+            pagado = false;
+        }
+        Cobros cobro = new Cobros(cliente.getIdCliente(), LocalDate.now().toString(), importe, efectivo, tarjeta, bizum, deudas, pagado);
+        boolean realizado = modeloCobros.agregarCobro(cobro);
+        return realizado;
     }
 
     @Override
@@ -166,20 +279,57 @@ public class ControladorCobros implements Initializable {
             fechaHoy.setText(diaActual);
             nombreCliente.setText(cliente);
             campoImporte.setText("0.00");
+
             cargarSelectTrabajador(selectTrabajadores);
             cargarSelectServicio(selectServicio);
             cargarSelectTrabajador(trabajadorServicio);
+            cargarSelectProducto(selectProducto);
+            cargarSelectTrabajador(trabajadorProducto);
+
             selectServicio.setOnAction(event -> {
                 BigDecimal precio = selectServicio.getValue().getPrecioBase();
                 precioServicio.setText(String.valueOf(precio));
             });
+            selectProducto.setOnAction(event -> {
+                BigDecimal precio = selectProducto.getValue().getPrecioProducto();
+                precioProducto.setText(String.valueOf(precio));
+                cantidadProducto.setText("1");
+            });
+
             anadirServicio.setOnMouseClicked((MouseEvent event) -> {
                 Servicios servicio = selectServicio.getValue();
                 Trabajadores trabajador = trabajadorServicio.getValue();
                 BigDecimal precio = (precioServicio.getText().isBlank()) ? servicio.getPrecioBase() : new BigDecimal(precioServicio.getText());
                 String comentario = comentarioServicio.getText();
-                anadirServicios(servicio, trabajador, precio, comentario);
+                anadirServicios(servicio, ControladorClientes.getClienteSeleccionado(), trabajador, precio, comentario);
+            });
+
+            anadirProducto.setOnMouseClicked((MouseEvent event) -> {
+                Productos producto = selectProducto.getValue();
+                Trabajadores trabajador = trabajadorProducto.getValue();
+                BigDecimal precio = (precioProducto.getText().isBlank()) ? producto.getPrecioProducto() : new BigDecimal(precioProducto.getText());
+                Integer cantidad = Integer.parseInt(cantidadProducto.getText());
+                String descripcion = descripcionVenta.getText();
+                anadirProductos(producto, trabajador, precio, cantidad, descripcion);
+            });
+
+            btnRealizar.setOnAction(event -> {
+                if (!serviciosAnadidos.getChildren().isEmpty() || !productosAnadidos.getChildren().isEmpty()) {
+                    BigDecimal importe = new BigDecimal(campoImporte.getText());
+                    BigDecimal efectivo = (campoEfectivo.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoEfectivo.getText());
+                    BigDecimal tarjeta = (campoTarjeta.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoTarjeta.getText());
+                    BigDecimal bizum = (campoBizum.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoBizum.getText());
+                    BigDecimal deudas = (campoPagoPendiente.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoPagoPendiente.getText());
+                    boolean exitoso = realizarCobro(serviciosRealizados, productosVendidos, ControladorClientes.getClienteSeleccionado(), importe, efectivo, tarjeta, bizum, deudas);
+                    if (exitoso) {
+                        boolean confirmado = Global.mostrarAlertaExitosa("COBRO REALIZADO CON ÉXITO.");
+                        if (confirmado) {
+                            vista.redirigir("Agenda");
+                        }
+                    }
+                }
             });
         }
     }
+
 }

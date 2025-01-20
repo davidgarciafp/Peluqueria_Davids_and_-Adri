@@ -8,24 +8,27 @@ public class ServiciosRealizados {
     // Entidades
     private Integer idServicioRealizados;
     private Integer idServicio;
+    private Integer idCliente;
     private Integer idTrabajador;
-    private LocalDate diaServicioRealizados;
+    private String diaServicioRealizados;
     private BigDecimal precioFinal;
     private String comentario;
 
     // Constructores
-    public ServiciosRealizados(Integer idServicioRealizados, Integer idServicio, Integer idTrabajador, LocalDate diaServicioRealizados, BigDecimal precioFinal, String comentario) {
+    public ServiciosRealizados(Integer idServicioRealizados, Integer idServicio, Integer idCliente, Integer idTrabajador, String diaServicioRealizados, BigDecimal precioFinal, String comentario) {
         this.idServicioRealizados = idServicioRealizados;
-        this.idTrabajador = idTrabajador;
         this.idServicio = idServicio;
+        this.idCliente = idCliente;
+        this.idTrabajador = idTrabajador;
         this.diaServicioRealizados = diaServicioRealizados;
         this.precioFinal = precioFinal;
         this.comentario = comentario;
     }
 
-    public ServiciosRealizados(Integer idServicio, Integer idTrabajador, LocalDate diaServicioRealizados, BigDecimal precioFinal, String comentario) {
-        this.idTrabajador = idTrabajador;
+    public ServiciosRealizados(Integer idServicio, Integer idCliente, Integer idTrabajador, String diaServicioRealizados, BigDecimal precioFinal, String comentario) {
         this.idServicio = idServicio;
+        this.idCliente = idCliente;
+        this.idTrabajador = idTrabajador;
         this.diaServicioRealizados = diaServicioRealizados;
         this.precioFinal = precioFinal;
         this.comentario = comentario;
@@ -38,6 +41,10 @@ public class ServiciosRealizados {
         this.idServicioRealizados = idServicioRealizados;
     }
 
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
+    }
+
     public void setIdTrabajador(Integer idTrabajador) {
         this.idTrabajador = idTrabajador;
     }
@@ -46,7 +53,7 @@ public class ServiciosRealizados {
         this.idServicio = idServicio;
     }
 
-    public void setDiaServicioRealizados(LocalDate diaServicioRealizados) {
+    public void setDiaServicioRealizados(String diaServicioRealizados) {
         this.diaServicioRealizados = diaServicioRealizados;
     }
 
@@ -64,6 +71,10 @@ public class ServiciosRealizados {
         return idServicioRealizados;
     }
 
+    public Integer getIdCliente() {
+        return idCliente;
+    }
+
     public Integer getIdTrabajador() {
         return idTrabajador;
     }
@@ -72,7 +83,7 @@ public class ServiciosRealizados {
         return idServicio;
     }
 
-    public LocalDate getDiaServicioRealizados() {
+    public String getDiaServicioRealizados() {
         return diaServicioRealizados;
     }
 

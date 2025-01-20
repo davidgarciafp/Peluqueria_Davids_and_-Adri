@@ -9,7 +9,7 @@ public class ControladorVentana {
     private static Stage stage;
 
     public ControladorVentana() {
-        ControladorVentana.stage = DatosGlobales.getMystage();
+        ControladorVentana.stage = Global.getMystage();
     }
 
     public void redirigir(String vista) {
