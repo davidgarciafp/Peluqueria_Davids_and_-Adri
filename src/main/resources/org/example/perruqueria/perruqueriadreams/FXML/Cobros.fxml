@@ -82,10 +82,8 @@
                      </image>
                   </ImageView>
                </children></VBox>
-            <VBox fx:id="serviciosAnadidos" alignment="TOP_CENTER" prefWidth="100.0" spacing="10.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SERVICIOS AÑADIDOS" />
-               </children></VBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SERVICIOS AÑADIDOS" />
+            <VBox fx:id="serviciosAnadidos" alignment="TOP_CENTER" prefWidth="100.0" spacing="10.0" />
          </children>
       </VBox>
       <VBox alignment="TOP_CENTER" layoutX="928.0" prefHeight="766.0" prefWidth="449.0" spacing="20.0">
@@ -109,10 +107,8 @@
                      </image>
                   </ImageView>
                </children></VBox>
-            <VBox fx:id="productosAnadidos" alignment="TOP_CENTER" prefWidth="100.0" spacing="10.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUCTOS AÑADIDOS" />
-               </children></VBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUCTOS AÑADIDOS" />
+            <VBox fx:id="productosAnadidos" alignment="TOP_CENTER" prefWidth="100.0" spacing="10.0" />
          </children>
       </VBox>
     </children>
