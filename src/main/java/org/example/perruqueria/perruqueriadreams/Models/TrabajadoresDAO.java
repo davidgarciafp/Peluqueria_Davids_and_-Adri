@@ -14,7 +14,7 @@ import java.util.List;
 public class TrabajadoresDAO {
 
     public List<Trabajadores> mostrarTrabajadores() {
-        String sqlMostrarTrabajadores = "SELECT * FROM trabajadores WHERE trabajador_activo = true";
+        String sqlMostrarTrabajadores = "SELECT * FROM trabajadores WHERE trabajador_activo = true AND id_trabajador != 1";
         List<Trabajadores> listaTrabajadores = new ArrayList<>(); // Creamos un array para todos los trabajadores que existan en la BD.
         
         try (Connection conn = ConexionBaseDatos.getConexion();
