@@ -23,7 +23,7 @@ public class Main extends Application {
             @Override
             public void handle(KeyEvent event) {
                 switch(event.getCode()) {
-                    case ENTER -> trabajadores.identificarTrabajador();
+                    case ENTER -> trabajadores.validarLoginPrincipal();
                 }
             }
         });

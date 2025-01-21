@@ -35,6 +35,7 @@ public class ControladorAgenda implements Initializable {
     @FXML private TableView<String> tabla;
     @FXML private ImageView siguienteDia;
     @FXML private ImageView anteriorDia;
+    @FXML private Button btnLogin;
     @FXML private ImageView iconoCerrarSesion;
     @FXML private Button btnClientes;
 
@@ -145,6 +146,9 @@ public class ControladorAgenda implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (agenda != null) {
+            btnLogin.setOnAction(event -> {
+                vista.redirigir("LoginTrabajadores");
+            });
             iconoCerrarSesion.setOnMouseClicked((MouseEvent event ) -> {
                 vista.redirigir("Login");
             });

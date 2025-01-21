@@ -15,7 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 import org.example.perruqueria.perruqueriadreams.Models.Trabajadores;
 import org.example.perruqueria.perruqueriadreams.Models.TrabajadoresDAO;
 import javafx.fxml.FXML;
@@ -26,10 +29,15 @@ public class ControladorTrabajadores implements Initializable{
     private TrabajadoresDAO trabajadoresDAO = new TrabajadoresDAO();
     private ControladorVentana vista = new ControladorVentana();
 
-    @FXML private ChoiceBox<String> usuario;
     @FXML private PasswordField password;
     @FXML private Button acceder;
-    @FXML private Label mensaje;
+    @FXML private ChoiceBox<Trabajadores> selectTrabajador;
+    @FXML private PasswordField contrasena;
+    @FXML private Button entrar;
+    @FXML private ImageView volverAgenda;
+    @FXML private ImageView iconoCerrarSesionMenu;
+    @FXML private VBox estadisticas;
+    @FXML private Text nombreTrabajador;
     @FXML private Button btnTrabajadores;
     @FXML private Button btnServicios;
     @FXML private Button btnProductos;
@@ -62,8 +70,17 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private Button mostrarInhabilitados;
     @FXML private Label nombreAdmin;
 
+    private static Trabajadores trabajadorValidado;
     private static Trabajadores trabajadorSeleccionado;
     private static boolean tablaActivos;
+
+    public static Trabajadores getTrabajadorValidado() {
+        return trabajadorValidado;
+    }
+
+    public static void setTrabajadorValidado(Trabajadores trabajadorValidado) {
+        ControladorTrabajadores.trabajadorValidado = trabajadorValidado;
+    }
 
     public static boolean isTablaActivos() {
         return tablaActivos;
@@ -77,24 +94,48 @@ public class ControladorTrabajadores implements Initializable{
         //Constructor
     }
 
-    public void mostrarNombresTrabajadores() {
-        List<Trabajadores> trabajadores = this.trabajadoresDAO.mostrarTrabajadores();
-        ArrayList<String> nombres = new ArrayList<>();
-        for (Trabajadores trabajador : trabajadores) {
-            nombres.add(trabajador.getNombreTrabajador());
-        }
-        this.usuario.setItems(FXCollections.observableList(nombres));
-    }
-
-    public void identificarTrabajador() {
+    public void validarLoginPrincipal() {
         String inputPassword = this.password.getText();
         Trabajadores trabajador = this.trabajadoresDAO.identificarDreams(inputPassword);
         if (trabajador != null) {
             vista.redirigir("Agenda");
         }
         else {
-            this.mensaje.setVisible(true);
-            this.usuario.setValue("Dreams");
+            Global.mostrarAlertaError("CONTRASEÑA INCORRECTA");
+            this.password.setText("");
+        }
+    }
+
+    public void cargarSelectTrabajadores() {
+        List<Trabajadores> trabajadores = this.trabajadoresDAO.mostrarTrabajadores();
+        ObservableList<Trabajadores> listaTrabajadores = FXCollections.observableList(trabajadores);
+        this.selectTrabajador.setItems(listaTrabajadores);
+        this.selectTrabajador.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Trabajadores trabajador) {
+                return trabajador != null ? trabajador.getNombreTrabajador() : "";
+            }
+
+            @Override
+            public Trabajadores fromString(String string) {
+                return null;
+            }
+        });
+    }
+
+    public void validarLoginTrabajadores(Trabajadores trabajador) {
+        Trabajadores trabajadorValidado = this.trabajadoresDAO.identificarTrabajador(trabajador.getIdTrabajador(), trabajador.getContrasena());
+        if (trabajadorValidado != null) {
+            setTrabajadorValidado(trabajadorValidado);
+            if (trabajadorValidado.isTipoTrabajador()) {
+                vista.redirigir("MenuAdmin");
+            }
+            else {
+                vista.redirigir("Menu");
+            }
+        }
+        else {
+            Global.mostrarAlertaError("CREDENCIALES INCORRECTAS");
             this.password.setText("");
         }
     }
@@ -163,18 +204,34 @@ public class ControladorTrabajadores implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(acceder != null){
             try {
-                this.usuario.setValue("Dreams");
-                mostrarNombresTrabajadores();
                 acceder.setOnAction(event -> {
-                    identificarTrabajador();
+                    validarLoginPrincipal();
                 });
             } catch (Exception error) {
                 throw new RuntimeException("Error" + error.getMessage());
             }
         }
+        if (entrar != null) {
+            cargarSelectTrabajadores();
+            entrar.setOnAction(event -> {
+                Trabajadores trabajador = this.selectTrabajador.getValue();
+                trabajador.setContrasena(contrasena.getText());
+                validarLoginTrabajadores(trabajador);
+            });
+            volverAgenda.setOnMouseClicked((MouseEvent event) -> {
+                vista.redirigir("Agenda");
+            });
+        }
+        if (estadisticas != null) {
+            String apellido = (getTrabajadorValidado().getApellidoTrabajador() != null) ? getTrabajadorValidado().getApellidoTrabajador() : "";
+            nombreTrabajador.setText(getTrabajadorValidado().getNombreTrabajador() + " " + apellido);
+            iconoCerrarSesionMenu.setOnMouseClicked((MouseEvent event ) -> {
+                vista.redirigir("LoginTrabajadores");
+            });
+        }
         if (btnTrabajadores != null) {
             iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
-                vista.redirigir("Login");
+                vista.redirigir("LoginTrabajadores");
             });
             try {
                 btnTrabajadores.setOnAction(event -> {
@@ -186,7 +243,7 @@ public class ControladorTrabajadores implements Initializable{
         }
         if (btnServicios != null) {
             iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
-                vista.redirigir("Login");
+                vista.redirigir("LoginTrabajadores");
             });
             try {
                 btnServicios.setOnAction(event -> {
@@ -198,7 +255,7 @@ public class ControladorTrabajadores implements Initializable{
         }
         if (btnProductos != null) {
             iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
-                vista.redirigir("Login");
+                vista.redirigir("LoginTrabajadores");
             });
             try {
                 btnProductos.setOnAction(event -> {
@@ -210,7 +267,7 @@ public class ControladorTrabajadores implements Initializable{
         }
         if (btnClientes != null) {
             iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
-                vista.redirigir("Login");
+                vista.redirigir("LoginTrabajadores");
             });
             try {
                 btnClientes.setOnAction(event -> {

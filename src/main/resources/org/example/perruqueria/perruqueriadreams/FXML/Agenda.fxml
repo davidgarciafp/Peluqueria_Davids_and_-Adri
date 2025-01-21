@@ -16,18 +16,16 @@
    <children>
       <VBox alignment="BASELINE_CENTER" layoutX="1164.0" prefHeight="768.0" prefWidth="200.0" spacing="50.0" styleClass="fondoClaro2">
          <children>
-            <VBox alignment="TOP_RIGHT" prefWidth="100.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                <children>
+                  <Button fx:id="btnLogin" mnemonicParsing="false" text="INICIAR SESIÓN" />
                   <ImageView fx:id="iconoCerrarSesion" fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
                      <image>
                         <Image url="@../Images/cerrar-sesion.png" />
                      </image>
                   </ImageView>
                </children>
-               <padding>
-                  <Insets right="10.0" />
-               </padding>
-            </VBox>
+            </HBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                <children>
                   <Button fx:id="btnClientes" mnemonicParsing="false" prefWidth="200.0" text="CLIENTES">
