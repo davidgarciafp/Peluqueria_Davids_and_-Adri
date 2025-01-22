@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -247,5 +249,212 @@ public class TrabajadoresDAO {
             }
         }
         return trabajadores;
+    }
+
+    public int ventasDia(int idTrabajador, String diaVenta) {
+        if (diaVenta == null || diaVenta.isEmpty()) {
+            diaVenta = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        }
+        String sql = "SELECT COUNT(*) AS totalVentas FROM ventas WHERE id_trabajador = ? AND dia_venta = ?";
+        int totalVentas = 0;
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTrabajador);
+            ps.setString(2, diaVenta);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalVentas = rs.getInt("totalVentas");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar la consulta. Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return totalVentas;
+    }
+    public int ventasSemana(int idTrabajador) {
+        String sql = "SELECT COUNT(*) AS totalVentasSemana FROM ventas WHERE id_trabajador = ? AND dia_venta >= ?";
+        int totalVentasSemana = 0;
+        String diaInicio = LocalDate.now().minusDays(6).format(DateTimeFormatter.ISO_DATE); // Fecha de hace 7 días incluyendo hoy
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTrabajador);
+            ps.setString(2, diaInicio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalVentasSemana = rs.getInt("totalVentasSemana");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar la consulta. Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return totalVentasSemana;
+    }
+
+    public int ventas30Dias(int idTrabajador) {
+        String sql = "SELECT COUNT(*) AS totalVentas30Dias FROM ventas WHERE id_trabajador = ? AND dia_venta >= ?";
+        int totalVentas30Dias = 0;
+        String diaInicio = LocalDate.now().minusDays(29).format(DateTimeFormatter.ISO_DATE); // Fecha de hace 30 días incluyendo hoy
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTrabajador);
+            ps.setString(2, diaInicio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalVentas30Dias = rs.getInt("totalVentas30Dias");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar la consulta. Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return totalVentas30Dias;
+    }
+
+    public int serviciosHoy(int idTrabajador) {
+        String sql = "SELECT COUNT(*) AS totalServiciosHoy FROM servicio_realizados WHERE id_trabajador = ? AND dia_servicio_realizados = ?";
+        int totalServiciosHoy = 0;
+        String diaHoy = LocalDate.now().format(DateTimeFormatter.ISO_DATE); // Fecha de hoy
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTrabajador);
+            ps.setString(2, diaHoy);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalServiciosHoy = rs.getInt("totalServiciosHoy");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar la consulta. Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return totalServiciosHoy;
+    }
+    public int serviciosSemana(int idTrabajador) {
+        String sql = "SELECT COUNT(*) AS totalServiciosSemana FROM servicio_realizados WHERE id_trabajador = ? AND dia_servicio_realizados >= ?";
+        int totalServiciosSemana = 0;
+        String diaInicio = LocalDate.now().minusDays(6).format(DateTimeFormatter.ISO_DATE); // Fecha de hace 7 días incluyendo hoy
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTrabajador);
+            ps.setString(2, diaInicio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalServiciosSemana = rs.getInt("totalServiciosSemana");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar la consulta. Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return totalServiciosSemana;
+    }
+
+    public int servicios30Dias(int idTrabajador) {
+        String sql = "SELECT COUNT(*) AS totalServicios30Dias FROM servicio_realizados WHERE id_trabajador = ? AND dia_servicio_realizados >= ?";
+        int totalServicios30Dias = 0;
+        String diaInicio = LocalDate.now().minusDays(29).format(DateTimeFormatter.ISO_DATE); // Fecha de hace 30 días incluyendo hoy
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTrabajador);
+            ps.setString(2, diaInicio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalServicios30Dias = rs.getInt("totalServicios30Dias");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar la consulta. Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return totalServicios30Dias;
+    }
+
+    public BigDecimal importeHoy(int idTrabajador) {
+        String sql = "SELECT SUM(importe) AS totalImporteHoy FROM cobros WHERE id_trabajador = ? AND dia_cobro = ?";
+        BigDecimal totalImporteHoy = BigDecimal.ZERO;
+        String diaHoy = LocalDate.now().format(DateTimeFormatter.ISO_DATE); // Fecha de hoy
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTrabajador);
+            ps.setString(2, diaHoy);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalImporteHoy = rs.getBigDecimal("totalImporteHoy");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar la consulta. Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return totalImporteHoy;
+    }
+
+    public BigDecimal importeSemana(int idTrabajador) {
+        String sql = "SELECT SUM(importe) AS totalImporteSemana FROM cobros WHERE id_trabajador = ? AND dia_cobro >= ?";
+        BigDecimal totalImporteSemana = BigDecimal.ZERO;
+        String diaInicio = LocalDate.now().minusDays(6).format(DateTimeFormatter.ISO_DATE); // Fecha de hace 7 días incluyendo hoy
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTrabajador);
+            ps.setString(2, diaInicio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalImporteSemana = rs.getBigDecimal("totalImporteSemana");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar la consulta. Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return totalImporteSemana;
+    }
+
+    public BigDecimal importe30Dias(int idTrabajador) {
+        String sql = "SELECT SUM(importe) AS totalImporte30Dias FROM cobros WHERE id_trabajador = ? AND dia_cobro >= ?";
+        BigDecimal totalImporte30Dias = BigDecimal.ZERO;
+        String diaInicio = LocalDate.now().minusDays(29).format(DateTimeFormatter.ISO_DATE); // Fecha de hace 30 días incluyendo hoy
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTrabajador);
+            ps.setString(2, diaInicio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalImporte30Dias = rs.getBigDecimal("totalImporte30Dias");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar la consulta. Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return totalImporte30Dias;
     }
 }
