@@ -201,9 +201,8 @@ public class ClientesDAO{
                         rs.getInt("id_servicio_realizados"),
                         rs.getInt("id_cliente"),
                         rs.getInt("id_servicio"),
-                        rs.getDate("dia_servicio_realizados")
+                        rs.getString("dia_servicio_realizados")
                     );
-                    servicioRealizado.setDescripcionServicio(rs.getString("descripcion_servicio"));
                     listaServiciosRealizados.add(servicioRealizado);
                 }
 
@@ -213,9 +212,8 @@ public class ClientesDAO{
                         rs.getInt("id_venta"),
                         rs.getInt("id_cliente"),
                         rs.getInt("id_producto"),
-                        rs.getDate("dia_venta")
+                        rs.getString("dia_venta")
                     );
-                    venta.setNombreProducto(rs.getString("nombre_producto"));
                     listaVentas.add(venta);
                 }
 
