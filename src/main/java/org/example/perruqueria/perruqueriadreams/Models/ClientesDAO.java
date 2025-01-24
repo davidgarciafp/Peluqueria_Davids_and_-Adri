@@ -147,23 +147,81 @@ public class ClientesDAO{
         return resultado;
     }
 
-    public List<Clientes> obtenerFicha() {
-        String sqlMostrarClientes = "SELECT * FROM clientes c INNER JOIN servicios_realizados s ON c.id_cliente = s.id_cliente INNER JOIN ventas v ON c.id_cliente = v.id_cliente INNER JOIN cobros co ON c.id_cliente = co.id_cliente WHERE c.id_cliente = ?";
-        List<Clientes> listaClientes = new ArrayList<>(); // Creamos un array para todos los trabajadores que existan en la BD.
-        
+    public List<Object[]> obtenerFicha(int idCliente) {
+        String sqlMostrarClientes = "SELECT c.id_cliente, sr.dia_servicio_realizados, s.descripcion_servicio, v.dia_venta, p.nombre_producto " +
+                                    "FROM clientes c " +
+                                    "LEFT JOIN servicio_realizados sr ON c.id_cliente = sr.id_cliente " +
+                                    "LEFT JOIN servicios s ON sr.id_servicio = s.id_servicio " +
+                                    "LEFT JOIN ventas v ON c.id_cliente = v.id_cliente " +
+                                    "LEFT JOIN productos p ON v.id_producto = p.id_producto " +
+                                    "WHERE c.id_cliente = ?";
+
+        List<Clientes> listaClientes = new ArrayList<>();
+        List<Servicios> listaServicios = new ArrayList<>();
+        List<ServiciosRealizados> listaServiciosRealizados = new ArrayList<>();
+        List<Ventas> listaVentas = new ArrayList<>();
+        List<Productos> listaProductos = new ArrayList<>();
+
         try (Connection conn = ConexionBaseDatos.getConexion();
-            PreparedStatement sqlMostrarClientesStmt = conn.prepareStatement(sqlMostrarClientes);
-            ResultSet rs = sqlMostrarClientesStmt.executeQuery()) {
-            
-            // while (rs.next()) {
-            //     Clientes clientes = new Clientes(
-            //         rs.getInt("id_cliente")
-            //     );
-            //     listaClientes.add(clientes); // Els agrreguem al array.
-            // }
+             PreparedStatement sqlMostrarClientesStmt = conn.prepareStatement(sqlMostrarClientes)) {
+            sqlMostrarClientesStmt.setInt(1, idCliente);
+            ResultSet rs = sqlMostrarClientesStmt.executeQuery();
+
+            while (rs.next()) {
+                // Agregar cliente
+                Clientes cliente = new Clientes();
+                cliente.setIdCliente(rs.getInt("id_cliente"));
+                listaClientes.add(cliente);
+
+                // Agregar servicios realizados
+                if (rs.getDate("dia_servicio_realizados") != null) {
+                    ServiciosRealizados servicioRealizado = new ServiciosRealizados(
+                        rs.getInt("id_servicio_realizados"),
+                        rs.getInt("id_cliente"),
+                        rs.getInt("id_servicio"),
+                        rs.getDate("dia_servicio_realizados")
+                    );
+                    servicioRealizado.setDescripcionServicio(rs.getString("descripcion_servicio"));
+                    listaServiciosRealizados.add(servicioRealizado);
+                }
+
+                // Agregar ventas
+                if (rs.getDate("dia_venta") != null) {
+                    Ventas venta = new Ventas(
+                        rs.getInt("id_venta"),
+                        rs.getInt("id_cliente"),
+                        rs.getInt("id_producto"),
+                        rs.getDate("dia_venta")
+                    );
+                    venta.setNombreProducto(rs.getString("nombre_producto"));
+                    listaVentas.add(venta);
+                }
+
+                // Agregar servicios
+                if (rs.getString("descripcion_servicio") != null) {
+                    Servicios servicio = new Servicios();
+                    servicio.setDescripcionServicio(rs.getString("descripcion_servicio"));
+                    listaServicios.add(servicio);
+                }
+
+                // Agregar productos
+                if (rs.getString("nombre_producto") != null) {
+                    Productos producto = new Productos();
+                    producto.setNombreProducto(rs.getString("nombre_producto"));
+                    listaProductos.add(producto);
+                }
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return listaClientes;
+
+        List<Object[]> resultado = new ArrayList<>();
+        resultado.add(listaClientes.toArray());
+        resultado.add(listaServicios.toArray());
+        resultado.add(listaServiciosRealizados.toArray());
+        resultado.add(listaVentas.toArray());
+        resultado.add(listaProductos.toArray());
+
+        return resultado;
     }
 }
