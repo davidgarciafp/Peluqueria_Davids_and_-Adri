@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import org.example.perruqueria.perruqueriadreams.Models.Agenda;
 import org.example.perruqueria.perruqueriadreams.Models.AgendaDAO;
 import org.example.perruqueria.perruqueriadreams.Models.Trabajadores;
@@ -20,10 +21,7 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ControladorAgenda implements Initializable {
     private AgendaDAO agendaDAO = new AgendaDAO();
@@ -33,9 +31,10 @@ public class ControladorAgenda implements Initializable {
     @FXML private HBox agenda;
     @FXML private DatePicker calendario;
     @FXML private TableView<String> tabla;
+    @FXML private Text dia;
     @FXML private ImageView siguienteDia;
     @FXML private ImageView anteriorDia;
-    @FXML private Button btnLogin;
+    @FXML private ImageView iconoLogin;
     @FXML private ImageView iconoCerrarSesion;
     @FXML private Button btnClientes;
 
@@ -143,21 +142,29 @@ public class ControladorAgenda implements Initializable {
         });
     }
 
+    public void mostrarTextoFecha(LocalDate fechaActual) {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("EEEE',' d 'de' MMMM", new Locale("es", "ES"));
+        String fecha = fechaActual.format(formato);
+        fecha = fecha.substring(0, 1).toUpperCase() + fecha.substring(1);
+        dia.setText(fecha);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (agenda != null) {
-            btnLogin.setOnAction(event -> {
+            iconoLogin.setOnMouseClicked((MouseEvent event) -> {
                 vista.redirigir("LoginTrabajadores");
             });
             iconoCerrarSesion.setOnMouseClicked((MouseEvent event ) -> {
                 vista.redirigir("Login");
             });
             LocalDate fechaActual = LocalDate.now();
-            DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             calendario.setValue(fechaActual);
+            mostrarTextoFecha(fechaActual);
             calendario.setOnAction(event -> {
                 LocalDate fechaSeleccionada = calendario.getValue();
                 calendario.setValue(fechaSeleccionada);
+                mostrarTextoFecha(fechaSeleccionada);
                 agenda.getChildren().clear(); //Si se ha cambiado el dia en el calendario, borramos todos los elementos de la agenda y la volvemos a generar
                 generarAgenda();
             });

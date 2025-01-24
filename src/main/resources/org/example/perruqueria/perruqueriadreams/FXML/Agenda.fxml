@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorAgenda">
    <children>
@@ -18,7 +19,11 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                <children>
-                  <Button fx:id="btnLogin" mnemonicParsing="false" text="INICIAR SESIÓN" />
+                  <ImageView fx:id="iconoLogin" fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
+                     <image>
+                        <Image url="@../Images/acceso.png" />
+                     </image>
+                  </ImageView>
                   <ImageView fx:id="iconoCerrarSesion" fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
                      <image>
                         <Image url="@../Images/cerrar-sesion.png" />
@@ -54,17 +59,22 @@
             <HBox fx:id="agenda" prefHeight="753.0" prefWidth="1136.0" styleClass="fondoAplicacion" />
          </content>
       </ScrollPane>
-      <DatePicker fx:id="calendario" editable="false" layoutX="963.0" layoutY="27.0" />
-      <ImageView fx:id="siguienteDia" fitHeight="150.0" fitWidth="25.0" layoutX="927.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
-         <image>
-            <Image url="@../Images/flecha-correcta.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="anteriorDia" fitHeight="150.0" fitWidth="25.0" layoutX="894.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
-         <image>
-            <Image url="@../Images/flecha-izquierda.png" />
-         </image>
-      </ImageView>
+      <HBox alignment="CENTER_RIGHT" layoutX="586.0" layoutY="26.0" prefHeight="26.0" prefWidth="545.0" spacing="15.0">
+         <children>
+            <Text fx:id="dia" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 17;" styleClass="negrita" />
+            <ImageView fx:id="anteriorDia" fitHeight="150.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
+               <image>
+                  <Image url="@../Images/flecha-izquierda.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="siguienteDia" fitHeight="150.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
+               <image>
+                  <Image url="@../Images/flecha-correcta.png" />
+               </image>
+            </ImageView>
+            <DatePicker fx:id="calendario" editable="false" />
+         </children>
+      </HBox>
    </children>
    <stylesheets>
       <URL value="@../Styles/main.css" />

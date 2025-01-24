@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.Year;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -251,10 +253,8 @@ public class TrabajadoresDAO {
         return trabajadores;
     }
 
-    public int ventasDia(int idTrabajador, String diaVenta) {
-        if (diaVenta == null || diaVenta.isEmpty()) {
-            diaVenta = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
-        }
+    public int ventasDia(int idTrabajador) {
+        String diaVenta = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
         String sql = "SELECT COUNT(*) AS totalVentas FROM ventas WHERE id_trabajador = ? AND dia_venta = ?";
         int totalVentas = 0;
 
@@ -402,6 +402,9 @@ public class TrabajadoresDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     totalImporteHoy = rs.getBigDecimal("totalImporteHoy");
+                    if (totalImporteHoy == null) {
+                        totalImporteHoy = BigDecimal.ZERO;
+                    }
                 }
             }
         } catch (SQLException ex) {
@@ -425,6 +428,9 @@ public class TrabajadoresDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     totalImporteSemana = rs.getBigDecimal("totalImporteSemana");
+                    if (totalImporteSemana == null) {
+                        totalImporteSemana = BigDecimal.ZERO;
+                    }
                 }
             }
         } catch (SQLException ex) {
@@ -456,5 +462,35 @@ public class TrabajadoresDAO {
         }
 
         return totalImporte30Dias;
+    }
+
+    public BigDecimal importePorMes(int idTrabajador, int mes, int anyo) {
+        String sql = "SELECT SUM(importe) AS totalImporteMes FROM cobros WHERE id_trabajador = ? AND dia_cobro BETWEEN ? AND ?";
+        BigDecimal totalImporteMes = BigDecimal.ZERO;
+
+        YearMonth yearMonth = YearMonth.of(anyo, mes);
+        LocalDate fechaInicio = yearMonth.atDay(1);
+        LocalDate fechaFin = yearMonth.atEndOfMonth();
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTrabajador);
+            ps.setString(2, fechaInicio.format(DateTimeFormatter.ISO_DATE)); // Fecha de inicio del mes
+            ps.setString(3, fechaFin.format(DateTimeFormatter.ISO_DATE));     // Fecha de fin del mes
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalImporteMes = rs.getBigDecimal("totalImporteMes");
+                    if (totalImporteMes == null) {
+                        totalImporteMes = BigDecimal.ZERO;
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar la consulta. Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return totalImporteMes;
     }
 }

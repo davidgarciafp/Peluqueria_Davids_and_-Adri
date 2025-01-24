@@ -36,7 +36,7 @@
             </image>
         </ImageView>
         <Label layoutX="58.0" layoutY="25.0" styleClass="tituloApartado" text="Productos" />
-        <Button fx:id="mostrarInactivos" layoutX="1199.0" layoutY="645.0" mnemonicParsing="false" text="MOSTRAR INACTIVOS" />
+        <Button fx:id="mostrarInactivos" layoutX="1161.0" layoutY="649.0" mnemonicParsing="false" styleClass="botones" text="MOSTRAR INACTIVOS" />
         <GridPane fx:id="gridCamposCrear" alignment="CENTER" hgap="30.0" layoutX="33.0" layoutY="630.0" prefHeight="130.0" prefWidth="541.0" vgap="20.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -86,10 +86,9 @@
                 </VBox>
             </children>
         </GridPane>
-        <Button fx:id="crear" layoutX="987.0" layoutY="682.0" mnemonicParsing="false" styleClass="boton" text="CREAR" />
-        <Button fx:id="editar" layoutX="1039.0" layoutY="682.0" mnemonicParsing="false" styleClass="boton" text="EDITAR" />
-        <Label fx:id="mensajeError" layoutX="970.0" layoutY="720.0" styleClass="mensajeError" visible="false" />
-        <Button fx:id="anadir" layoutX="1238.0" layoutY="682.0" mnemonicParsing="false" text="NUEVO" />
+        <Button fx:id="crear" layoutX="987.0" layoutY="682.0" mnemonicParsing="false" styleClass="botones" text="CREAR" />
+        <Button fx:id="editar" layoutX="1073.0" layoutY="682.0" mnemonicParsing="false" styleClass="botones" text="EDITAR" />
+        <Button fx:id="anadir" layoutX="1244.0" layoutY="703.0" mnemonicParsing="false" styleClass="botones" text="NUEVO" />
             <CheckBox fx:id="checkboxActivo" layoutX="901.0" layoutY="686.0" mnemonicParsing="false" styleClass="negrita" text="Activo" />
           <VBox layoutX="814.0" layoutY="639.0" />
           <VBox alignment="BOTTOM_LEFT" layoutX="863.0" layoutY="629.0" spacing="10.0" />

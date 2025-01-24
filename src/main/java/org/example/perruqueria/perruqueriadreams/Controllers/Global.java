@@ -19,6 +19,7 @@ public class Global {
 
     public static boolean mostrarAlertaExitosa(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("");
         alerta.setHeaderText(mensaje);
         alerta.showAndWait();
         ButtonType botonSeleccionado = alerta.getResult();
@@ -28,6 +29,15 @@ public class Global {
 
     public static boolean mostrarAlertaError(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setHeaderText(mensaje);
+        alerta.showAndWait();
+        ButtonType botonSeleccionado = alerta.getResult();
+        boolean confirmado = botonSeleccionado.getText().equals("Aceptar");
+        return  confirmado;
+    }
+
+    public static boolean mostrarAlertaAdvertencia(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
         alerta.setHeaderText(mensaje);
         alerta.showAndWait();
         ButtonType botonSeleccionado = alerta.getResult();

@@ -39,7 +39,6 @@ public class ControladorClientes implements Initializable{
     @FXML private TextField campoTelefono;
     @FXML private CheckBox checkboxProteccionDatos;
     @FXML private TextArea campoDescripcion;
-    @FXML private Label mensajeError;
     @FXML private VBox seccionFicha;
     @FXML private Button btnNuevaSesion;
 
@@ -109,38 +108,45 @@ public class ControladorClientes implements Initializable{
                 System.out.println("Error: " + error.getMessage());
             }
             volverTabla.setOnMouseClicked((MouseEvent event) -> {
-                vista.redirigir("Agenda");
+                if (ControladorTrabajadores.getTrabajadorValidado() != null && ControladorTrabajadores.getTrabajadorValidado().isTipoTrabajador()) {
+                    vista.redirigir("MenuAdmin");
+                    System.out.println("Soy admin");
+                }
+                else {
+                    vista.redirigir("Agenda");
+                }
             });
             crear.setOnAction(event -> {
                 if (campoNombre.getText().isBlank() || campoTelefono.getText().isBlank()) {
-                    mensajeError.setText("*Ni el nombre ni el teléfono pueden estar vacíos*");
-                    mensajeError.setVisible(true);
+                    Global.mostrarAlertaAdvertencia("Ni el nombre ni el teléfono pueden estar vacíos");
                 }
                 else {
-                    System.out.println( "El campo es : XXXXXXXXXXX"+checkboxProteccionDatos.isSelected());
                     boolean insercionExitosa = clientesDAO.agregarClientes(new Clientes(campoNombre.getText(), campoApellido.getText(), campoCorreo.getText(), campoTelefono.getText(), checkboxProteccionDatos.isSelected(), campoDescripcion.getText()));
                     if (insercionExitosa) {
-                        System.out.println("Cliente creado con éxito");
-                        vista.redirigir("Clientes");
+                        boolean confirmado = Global.mostrarAlertaExitosa("Cliente creado con éxito");
+                        if (confirmado) {
+                            vista.redirigir("Clientes");
+                        }
                     }
                     else {
-                        System.out.println("Error al insertar el cliente");
+                        Global.mostrarAlertaError("Error al dar de alta al cliente.");
                     }
                 }
             });
             editar.setOnAction(event -> {
                 if (campoNombre.getText().isBlank() || campoTelefono.getText().isBlank()) {
-                    mensajeError.setText("*Ni el nombre ni el teléfono pueden estar vacíos*");
-                    mensajeError.setVisible(true);
+                    Global.mostrarAlertaAdvertencia("Ni el nombre ni el teléfono pueden estar vacíos");
                 }
                 else {
                     boolean edicionExitosa = clientesDAO.actualizarClientes(clienteSeleccionado.getIdCliente(), campoNombre.getText(), campoApellido.getText(), campoCorreo.getText(), campoTelefono.getText(), checkboxProteccionDatos.isSelected(), campoDescripcion.getText());
                     if (edicionExitosa) {
-                        System.out.println("cliente editado con éxito");
-                        vista.redirigir("Clientes");
+                        boolean confirmado = Global.mostrarAlertaExitosa("Cliente editado con éxito");
+                        if (confirmado) {
+                            vista.redirigir("Clientes");
+                        }
                     }
                     else {
-                        System.out.println("Error al editar el cliente");
+                        Global.mostrarAlertaError("Error al editar el cliente");
                     }
                 }
             });

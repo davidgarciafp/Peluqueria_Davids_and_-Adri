@@ -58,8 +58,8 @@
             </HBox>
 
               <HBox alignment="CENTER" spacing="10">
-                  <Button fx:id="btnRealizar" text="Realizar" />
-                  <Button fx:id="btnImprimir" text="Imprimir" />
+                  <Button fx:id="btnRealizar" styleClass="botones" text="Realizar" />
+                  <Button fx:id="btnImprimir" styleClass="botones" text="Imprimir" />
               </HBox>
          </children>
       </VBox>

@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.example.perruqueria.perruqueriadreams.Controllers.ControladorTrabajadores;
@@ -29,6 +30,7 @@ public class Main extends Application {
         });
         stage.setTitle("Login");
         stage.setScene(scene);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("Images/peluqueria.png")));
         stage.show();
 
     }

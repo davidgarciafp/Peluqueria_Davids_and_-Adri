@@ -254,7 +254,7 @@ public class ControladorCobros implements Initializable {
         });
     }
 
-    public boolean realizarCobro(ArrayList<ServiciosRealizados> serviciosRealizados, ArrayList<Ventas> ventas, Clientes cliente, BigDecimal importe, BigDecimal efectivo, BigDecimal tarjeta, BigDecimal bizum, BigDecimal deudas) {
+    public boolean realizarCobro(ArrayList<ServiciosRealizados> serviciosRealizados, ArrayList<Ventas> ventas, Trabajadores trabajador, Clientes cliente, BigDecimal importe, BigDecimal efectivo, BigDecimal tarjeta, BigDecimal bizum, BigDecimal deudas) {
         for (ServiciosRealizados serviciosRealizado : serviciosRealizados) {
             modeloServiciosRealizados.agregarServicioRealizado(serviciosRealizado);
         }
@@ -265,7 +265,7 @@ public class ControladorCobros implements Initializable {
         if (deudas.compareTo(BigDecimal.ZERO) > 0) { //Comprobar si el valor de las deudas es mayor a 0.
             pagado = false;
         }
-        Cobros cobro = new Cobros(cliente.getIdCliente(), LocalDate.now().toString(), importe, efectivo, tarjeta, bizum, deudas, pagado);
+        Cobros cobro = new Cobros(trabajador.getIdTrabajador(), cliente.getIdCliente(), LocalDate.now().toString(), importe, efectivo, tarjeta, bizum, deudas, pagado);
         boolean realizado = modeloCobros.agregarCobro(cobro);
         return realizado;
     }
@@ -320,7 +320,7 @@ public class ControladorCobros implements Initializable {
                     BigDecimal tarjeta = (campoTarjeta.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoTarjeta.getText());
                     BigDecimal bizum = (campoBizum.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoBizum.getText());
                     BigDecimal deudas = (campoPagoPendiente.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoPagoPendiente.getText());
-                    boolean exitoso = realizarCobro(serviciosRealizados, productosVendidos, ControladorClientes.getClienteSeleccionado(), importe, efectivo, tarjeta, bizum, deudas);
+                    boolean exitoso = realizarCobro(serviciosRealizados, productosVendidos, selectTrabajadores.getValue(), ControladorClientes.getClienteSeleccionado(), importe, efectivo, tarjeta, bizum, deudas);
                     if (exitoso) {
                         boolean confirmado = Global.mostrarAlertaExitosa("COBRO REALIZADO CON ÉXITO.");
                         if (confirmado) {

@@ -19,7 +19,7 @@
    <children>
       <VBox alignment="TOP_CENTER" layoutX="1233.0" layoutY="-3.0" prefHeight="768.0" prefWidth="140.0">
          <children>
-            <ImageView fx:id="iconoCerrarSesionMenu" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="iconoCerrarSesionMenu" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
                <image>
                   <Image url="@../Images/cerrar-sesion.png" />
                </image>
@@ -55,47 +55,47 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                    <Text fx:id="ventasDia" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                    <Text fx:id="ventasSemana" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                    <Text fx:id="ventasMes" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                    <Text fx:id="serviciosDia" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                    <Text fx:id="serviciosSemana" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="3" GridPane.rowIndex="2">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                    <Text fx:id="serviciosMes" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                    <Text fx:id="ingresosDia" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                    <Text fx:id="ingresosSemana" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="3" GridPane.rowIndex="3">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                    <Text fx:id="ingresosMes" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.rowIndex="1">

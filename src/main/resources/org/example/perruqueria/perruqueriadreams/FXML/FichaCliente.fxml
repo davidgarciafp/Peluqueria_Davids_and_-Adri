@@ -22,8 +22,8 @@
             <TextArea prefHeight="152.0" prefWidth="528.0" />
          </children>
       </VBox>
-      <Button layoutX="572.0" layoutY="662.0" mnemonicParsing="false" styleClass="cursorPointer" text="GUARDAR" />
-      <Button fx:id="btnNuevaSesion" layoutX="1151.0" layoutY="674.0" mnemonicParsing="false" styleClass="cursorPointer" text="NUEVA SESIÓN" />
+      <Button layoutX="572.0" layoutY="662.0" mnemonicParsing="false" styleClass="botones" text="GUARDAR" />
+      <Button fx:id="btnNuevaSesion" layoutX="1151.0" layoutY="674.0" mnemonicParsing="false" styleClass="botones" text="NUEVA SESIÓN" />
       <ImageView fx:id="flechaVolver" fitWidth="50.0" layoutX="1290.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
          <image>
             <Image url="@../Images/volver.png" />

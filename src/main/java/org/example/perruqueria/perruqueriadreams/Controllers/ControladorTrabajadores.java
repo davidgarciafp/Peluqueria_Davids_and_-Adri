@@ -2,13 +2,14 @@ package org.example.perruqueria.perruqueriadreams.Controllers;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.util.*;
 
 
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -38,10 +39,22 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private ImageView iconoCerrarSesionMenu;
     @FXML private VBox estadisticas;
     @FXML private Text nombreTrabajador;
-    @FXML private Button btnTrabajadores;
-    @FXML private Button btnServicios;
-    @FXML private Button btnProductos;
-    @FXML private Button btnClientes;
+    @FXML private Text ventasDia;
+    @FXML private Text ventasSemana;
+    @FXML private Text ventasMes;
+    @FXML private Text serviciosDia;
+    @FXML private Text serviciosSemana;
+    @FXML private Text serviciosMes;
+    @FXML private Text ingresosDia;
+    @FXML private Text ingresosSemana;
+    @FXML private Text ingresosMes;
+    @FXML private BarChart<String, Number> graficoEstadisticas;
+    @FXML private Text nombreAdmin;
+    @FXML private VBox iconoEstadisticas;
+    @FXML private VBox iconoTrabajadores;
+    @FXML private VBox iconoClientes;
+    @FXML private VBox iconoProductos;
+    @FXML private VBox iconoServicios;
     @FXML private ImageView volverTabla;
     @FXML private ImageView iconoCerrarSesion;
     @FXML private TableView<Trabajadores> tablaTrabajadores;
@@ -66,9 +79,7 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private Label etiquetaComisionProducto;
     @FXML private TextField campoComisionServicio;
     @FXML private TextField campoComisionProducto;
-    @FXML private Label mensajeError;
     @FXML private Button mostrarInhabilitados;
-    @FXML private Label nombreAdmin;
 
     private static Trabajadores trabajadorValidado;
     private static Trabajadores trabajadorSeleccionado;
@@ -136,7 +147,7 @@ public class ControladorTrabajadores implements Initializable{
         }
         else {
             Global.mostrarAlertaError("CREDENCIALES INCORRECTAS");
-            this.password.setText("");
+            this.contrasena.setText("");
         }
     }
 
@@ -200,9 +211,46 @@ public class ControladorTrabajadores implements Initializable{
         tablaTrabajadores.setItems(datosTrabajadores);
     }
 
+    public void mostrarDatosEstadisticas(Trabajadores trabajador) {
+        Integer id = trabajador.getIdTrabajador();
+        Integer ventasHoy = trabajadoresDAO.ventasDia(id);
+        Integer ventasSemana = trabajadoresDAO.ventasSemana(id);
+        Integer ventasMes = trabajadoresDAO.ventas30Dias(id);
+        Integer serviciosHoy = trabajadoresDAO.serviciosHoy(id);
+        Integer serviciosSemana = trabajadoresDAO.serviciosSemana(id);
+        Integer serviciosMes = trabajadoresDAO.servicios30Dias(id);
+        BigDecimal importeHoy = trabajadoresDAO.importeHoy(id);
+        BigDecimal importeSemana = trabajadoresDAO.importeSemana(id);
+        BigDecimal importeMes = trabajadoresDAO.importe30Dias(id);
+
+        this.ventasDia.setText(String.valueOf(ventasHoy));
+        this.ventasSemana.setText(String.valueOf(ventasSemana));
+        this.ventasMes.setText(String.valueOf(ventasMes));
+        this.serviciosDia.setText(String.valueOf(serviciosHoy));
+        this.serviciosSemana.setText(String.valueOf(serviciosSemana));
+        this.serviciosMes.setText(String.valueOf(serviciosMes));
+        this.ingresosDia.setText(String.valueOf(importeHoy) + "€");
+        this.ingresosSemana.setText(String.valueOf(importeSemana) + "€");
+        this.ingresosMes.setText(String.valueOf(importeMes) + "€");
+
+
+        XYChart.Series<String, Number> datos = new XYChart.Series<>();
+        datos.setName("Ingresos (€)");
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        ArrayList<String> arrayMeses = new ArrayList<>(Arrays.asList(meses));
+        Integer anyoActual = LocalDate.now().getYear();
+        for (String mes : arrayMeses) {
+            int numMes = arrayMeses.indexOf(mes) + 1;
+            BigDecimal importe = trabajadoresDAO.importePorMes(id, numMes, anyoActual);
+            XYChart.Data<String, Number> datosMes = new XYChart.Data<>(mes, importe.doubleValue());
+            datos.getData().add(datosMes);
+        }
+        graficoEstadisticas.getData().add(datos);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(acceder != null){
+        if (acceder != null) {
             try {
                 acceder.setOnAction(event -> {
                     validarLoginPrincipal();
@@ -225,57 +273,50 @@ public class ControladorTrabajadores implements Initializable{
         if (estadisticas != null) {
             String apellido = (getTrabajadorValidado().getApellidoTrabajador() != null) ? getTrabajadorValidado().getApellidoTrabajador() : "";
             nombreTrabajador.setText(getTrabajadorValidado().getNombreTrabajador() + " " + apellido);
-            iconoCerrarSesionMenu.setOnMouseClicked((MouseEvent event ) -> {
+            mostrarDatosEstadisticas(getTrabajadorValidado());
+            iconoCerrarSesionMenu.setOnMouseClicked((MouseEvent event) -> {
+                ControladorTrabajadores.setTrabajadorValidado(null);
                 vista.redirigir("LoginTrabajadores");
             });
         }
-        if (btnTrabajadores != null) {
+        if (iconoTrabajadores != null) {
+            nombreAdmin.setText(getTrabajadorValidado().getNombreTrabajador());
             iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
+                ControladorTrabajadores.setTrabajadorValidado(null);
                 vista.redirigir("LoginTrabajadores");
             });
             try {
-                btnTrabajadores.setOnAction(event -> {
+                iconoTrabajadores.setOnMouseClicked((MouseEvent event) -> {
                     vista.redirigir("Trabajadores");
                 });
             } catch (Exception error) {
                 throw new RuntimeException("Error" + error.getMessage());
             }
-        }
-        if (btnServicios != null) {
-            iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
-                vista.redirigir("LoginTrabajadores");
-            });
+
             try {
-                btnServicios.setOnAction(event -> {
-                    vista.redirigir("Servicios");
-                });
-            } catch (Exception error) {
-                throw new RuntimeException("Error" + error.getMessage());
-            }
-        }
-        if (btnProductos != null) {
-            iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
-                vista.redirigir("LoginTrabajadores");
-            });
-            try {
-                btnProductos.setOnAction(event -> {
-                    vista.redirigir("Productos");
-                });
-            } catch (Exception error) {
-                throw new RuntimeException("Error" + error.getMessage());
-            }
-        }
-        if (btnClientes != null) {
-            iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
-                vista.redirigir("LoginTrabajadores");
-            });
-            try {
-                btnClientes.setOnAction(event -> {
+                iconoClientes.setOnMouseClicked((MouseEvent event) -> {
                     vista.redirigir("Clientes");
                 });
             } catch (Exception error) {
                 throw new RuntimeException("Error" + error.getMessage());
             }
+
+            try {
+                iconoProductos.setOnMouseClicked((MouseEvent event) -> {
+                    vista.redirigir("Productos");
+                });
+            } catch (Exception error) {
+                throw new RuntimeException("Error" + error.getMessage());
+            }
+
+            try {
+                iconoServicios.setOnMouseClicked((MouseEvent event) -> {
+                    vista.redirigir("Servicios");
+                });
+            } catch (Exception error) {
+                throw new RuntimeException("Error" + error.getMessage());
+            }
+
         }
 
         if (tablaTrabajadores != null) {
@@ -339,32 +380,35 @@ public class ControladorTrabajadores implements Initializable{
             });
             crear.setOnAction(event -> {
                 if (campoNombre.getText().isBlank() || campoContrasena.getText().isBlank()) {
-                    mensajeError.setText("*Ni el nombre ni la contraseña pueden estar vacíos*");
-                    mensajeError.setVisible(true);
+                    Global.mostrarAlertaAdvertencia("Ni el nombre ni la contraseña pueden estar vacíos.");
                 }
                 else {
                     boolean insercionExitosa = trabajadoresDAO.agregarTrabajadores(new Trabajadores(campoNombre.getText(), campoApellido.getText(), campoCorreo.getText(), campoTelefono.getText(), campoContrasena.getText(), true, false));
                     if (insercionExitosa) {
-                        System.out.println("Trabajador creado con éxito");
-                        vista.redirigir("Trabajadores");
+                        boolean confirmado = Global.mostrarAlertaExitosa("Trabajador creado con éxito.");
+                        if (confirmado) {
+                            vista.redirigir("Trabajadores");
+                        }
                     }
                     else {
-                        System.out.println("Error al insertar el trabajador");
+                        Global.mostrarAlertaError("Error al dar de alta al trabajador.");
                     }
                 }
             });
             editar.setOnAction(event -> {
                 if (campoNombre.getText().isBlank() || campoContrasena.getText().isBlank()) {
-                    mensajeError.setVisible(true);
+                    Global.mostrarAlertaAdvertencia("Ni el nombre ni la contraseña pueden estar vacíos.");
                 }
                 else {
                     boolean edicionExitosa = trabajadoresDAO.actualizarTrabajadores(trabajadorSeleccionado.getIdTrabajador(), campoNombre.getText(), campoApellido.getText(), campoCorreo.getText(), campoTelefono.getText(), campoContrasena.getText(), checkboxActivo.isSelected(), checkboxAdmin.isSelected(), new BigDecimal(campoComisionServicio.getText()), new BigDecimal(campoComisionProducto.getText()));
                     if (edicionExitosa) {
-                        System.out.println("Trabajador editado con éxito");
-                        vista.redirigir("Trabajadores");
+                        boolean confirmado = Global.mostrarAlertaExitosa("Trabajador editado con éxito.");
+                        if (confirmado) {
+                            vista.redirigir("Trabajadores");
+                        }
                     }
                     else {
-                        System.out.println("Error al editar el trabajador");
+                        Global.mostrarAlertaError("Error al editar el trabajador.");
                     }
                 }
             });
@@ -373,12 +417,12 @@ public class ControladorTrabajadores implements Initializable{
             mostrarInhabilitados.setOnAction(event -> {
                 if (isTablaActivos()) {
                     mostrarTrabajadoresInhabilitados();
-                    mostrarInhabilitados.setText("Mostrar habilitados");
+                    mostrarInhabilitados.setText("MOSTRAR HABILITADOS");
                     setTablaActivos(false);
                 }
                 else {
                     mostrarTrabajadores();
-                    mostrarInhabilitados.setText("Mostrar inhabilitados");
+                    mostrarInhabilitados.setText("MOSTRAR INHABILITADOS");
                     setTablaActivos(true);
                 }
             });

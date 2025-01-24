@@ -69,10 +69,9 @@
                 </VBox>
             </children>
         </GridPane>
-        <Button fx:id="crear" layoutX="956.0" layoutY="683.0" mnemonicParsing="false" styleClass="boton" text="CREAR" />
-        <Button fx:id="editar" layoutX="1008.0" layoutY="683.0" mnemonicParsing="false" styleClass="boton" text="EDITAR" />
-        <Label fx:id="mensajeError" layoutX="950.0" layoutY="720.0" styleClass="mensajeError" visible="false" />
-        <Button fx:id="anadir" layoutX="1243.0" layoutY="683.0" mnemonicParsing="false" text="NUEVO" />
+        <Button fx:id="crear" layoutX="956.0" layoutY="683.0" mnemonicParsing="false" styleClass="botones" text="CREAR" />
+        <Button fx:id="editar" layoutX="1008.0" layoutY="683.0" mnemonicParsing="false" styleClass="botones" text="EDITAR" />
+        <Button fx:id="anadir" layoutX="1243.0" layoutY="683.0" mnemonicParsing="false" styleClass="botones" text="NUEVO" />
             <CheckBox fx:id="checkboxProteccionDatos" layoutX="777.0" layoutY="687.0" mnemonicParsing="false" styleClass="negrita" text="Protección de Datos" />
       <TextArea fx:id="campoDescripcion" layoutX="467.0" layoutY="661.0" prefHeight="87.0" prefWidth="254.0" />
             <Label layoutX="467.0" layoutY="646.0" styleClass="negrita" text="Descrpición" />

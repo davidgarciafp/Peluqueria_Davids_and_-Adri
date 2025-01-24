@@ -26,11 +26,6 @@
     -fx-background-color: rgb(220, 207, 201);
 }
 
-.boton:hover {
-    -fx-cursor: hand;
-    -fx-background-color: #d2d2d4;
-}
-
 .cursorPointer:hover {
     -fx-cursor: hand;
 }
@@ -51,4 +46,22 @@
 
 .celdasCentradas {
     -fx-alignment: center;
+}
+
+.botones {
+    -fx-background-color: rgb(189, 202, 192);
+    -fx-border-color: rgb(155, 171, 162);
+    -fx-border-width: 2;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 10 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgb(84, 84, 84);
+    -fx-transition: all 0.3s ease;
+}
+
+.botones:hover {
+    -fx-background-color: rgb(193, 206, 195);
+    -fx-border-color: rgb(160, 170, 160);
+    -fx-cursor: hand;
 }

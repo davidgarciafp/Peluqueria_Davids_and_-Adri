@@ -72,6 +72,7 @@ CREATE TABLE servicio_realizados (
 
 CREATE TABLE cobros (
     id_cobros INT AUTO_INCREMENT PRIMARY KEY,
+    id_trabajador INT,
     id_cliente INT, -- Referencia a la tabla clientes.
     dia_cobro DATE,
     importe DECIMAL(10,2),
@@ -80,6 +81,7 @@ CREATE TABLE cobros (
     bizum DECIMAL(10,2),
     deudas DECIMAL(10,2),
     pagado BOOLEAN, -- Si el servicio se ha pagado (true) o esta pendiente (false).
+    FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
 

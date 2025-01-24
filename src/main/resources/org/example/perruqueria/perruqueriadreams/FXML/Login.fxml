@@ -30,7 +30,7 @@
                </children>
             </VBox>
             <Label fx:id="mensaje" style="-fx-font-size: 16px;" text="*Credenciales incorrectas*" textFill="#ff3a3a" visible="false" />
-        <Button fx:id="acceder" mnemonicParsing="false" prefHeight="38.0" style="-fx-font-size: 18px; -fx-border-color: grey; -fx-border-width: 2px;" styleClass="boton" text="Iniciar sesión" />
+        <Button fx:id="acceder" mnemonicParsing="false" prefHeight="38.0" style="-fx-font-size: 17px;" styleClass="botones" text="Iniciar sesión" />
          </children>
       </VBox>
 </children>

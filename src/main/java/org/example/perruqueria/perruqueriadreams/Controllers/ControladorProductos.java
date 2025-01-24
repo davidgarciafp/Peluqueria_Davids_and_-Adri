@@ -44,8 +44,6 @@ public class ControladorProductos implements Initializable {
     @FXML private Label etiquetaGastados;
     @FXML private ChoiceBox<String> campoGastados;
     @FXML private CheckBox checkboxActivo;
-
-    @FXML private Label mensajeError;
     @FXML private Button mostrarInactivos;
 
     private static Productos productoSeleccionado;
@@ -154,24 +152,24 @@ public class ControladorProductos implements Initializable {
 
             crear.setOnAction(event -> {
                 if (campoCodigoBarras.getText().isBlank() || campoPrecio.getText().isBlank()) {
-                    mensajeError.setText("*Ni el código de barras ni el precio pueden estar vacíos*");
-                    mensajeError.setVisible(true);
+                    Global.mostrarAlertaAdvertencia("Ni el código de barras ni el precio pueden estar vacíos.");
                 }
                 else {
                     boolean insercionExitosa = productosDAO.agregarProductos(new Productos(1, campoCodigoBarras.getText(), campoNombre.getText(), campoMarca.getText(), new BigDecimal(campoPrecio.getText()), campoDescripcion.getText(), Integer.parseInt(campoCantidad.getText()), 0, true));
                     if (insercionExitosa) {
-                        System.out.println("Producto agregado con éxito.");
-                        vista.redirigir("Productos");
+                        boolean confirmado = Global.mostrarAlertaExitosa("Producto agregado con éxito.");
+                        if (confirmado) {
+                            vista.redirigir("Productos");
+                        }
                     }
                     else {
-                        System.out.println("Error al agregar el producto.");
+                        Global.mostrarAlertaError("Error al dar de alta el producto.");
                     }
                 }
             });
             editar.setOnAction(event -> {
                 if (campoCodigoBarras.getText().isBlank() || campoPrecio.getText().isBlank()) {
-                    mensajeError.setText("*Ni el código de barras ni el precio pueden estar vacíos*");
-                    mensajeError.setVisible(true);
+                    Global.mostrarAlertaAdvertencia("Ni el código de barras ni el precio pueden estar vacíos.");
                 }
                 else {
                     int numGastado = -1;
@@ -186,11 +184,13 @@ public class ControladorProductos implements Initializable {
                     }
                     boolean edicionExitosa = productosDAO.actualizarProductos(productoSeleccionado.getIdProducto(), campoCodigoBarras.getText(), campoNombre.getText(), campoMarca.getText(), new BigDecimal(campoPrecio.getText()), campoDescripcion.getText(), Integer.parseInt(campoCantidad.getText()), numGastado, checkboxActivo.isSelected());
                     if (edicionExitosa) {
-                        System.out.println("Producto editado con éxito");
-                        vista.redirigir("Productos");
+                        boolean confirmado = Global.mostrarAlertaExitosa("Producto editado con éxito.");
+                        if (confirmado) {
+                            vista.redirigir("Productos");
+                        }
                     }
                     else {
-                        System.out.println("Error al editar el producto");
+                        Global.mostrarAlertaError("Error al editar el producto.");
                     }
                 }
             });

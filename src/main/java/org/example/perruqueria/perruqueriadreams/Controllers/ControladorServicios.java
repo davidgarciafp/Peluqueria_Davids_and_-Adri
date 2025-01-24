@@ -37,7 +37,6 @@ public class ControladorServicios implements Initializable {
     @FXML private TextField campoPrecio;
     @FXML private TextArea campoDescripcion;
     @FXML private CheckBox checkboxActivo;
-    @FXML private Label mensajeError;
     @FXML private Button mostrarInhabilitados;
     @FXML private Label nombreAdmin;
 
@@ -114,41 +113,42 @@ public class ControladorServicios implements Initializable {
             });
             crear.setOnAction(event -> {
                 if (campoDescripcion.getText().isBlank() || campoPrecio.getText().isBlank()) {
-                    mensajeError.setText("*Ni el precio ni la descripción pueden estar vacíos*");
-                    mensajeError.setVisible(true);
+                    Global.mostrarAlertaAdvertencia("Ni el precio ni la descripción pueden estar vacíos");
                 }
                 else {
                     try {
                         boolean insercionExitosa = serviciosDAO.agregarServicios(new Servicios(new BigDecimal(campoPrecio.getText()), campoDescripcion.getText(), true));                    
                         if(insercionExitosa){
-                            System.out.println("Servicio creado con éxito");
-                            vista.redirigir("Servicios");
-                        }else{
-                            System.out.println("Error al insertar el servicio");
+                            boolean confirmado = Global.mostrarAlertaExitosa("Servicio creado con éxito");
+                            if (confirmado) {
+                                vista.redirigir("Servicios");
+                            }
+                        } else{
+                            Global.mostrarAlertaError("Error al crear el servicio");
                         }
                     
                     }catch(NumberFormatException e) {
-                        mensajeError.setText("El precio debe ser un número válido");
-                        mensajeError.setVisible(true);
+                        Global.mostrarAlertaAdvertencia("El precio debe ser un número válido");
                     }catch (Exception e) {
-                        mensajeError.setText("Se produjo un error: " + e.getMessage());
-                        mensajeError.setVisible(true);
+                        System.out.println("Error: " + e.getMessage());
                     }
                 }
             
             });
             editar.setOnAction(event -> {
                 if (campoDescripcion.getText().isBlank() || campoPrecio.getText().isBlank()) {
-                    mensajeError.setVisible(true);
+                    Global.mostrarAlertaAdvertencia("Ni la descripción ni el precio pueden estar vacíos");
                 }
                 else {
                     boolean edicionExitosa = serviciosDAO.actualizarServicios(servicioSeleccionado.getIdServicio(), new BigDecimal(campoPrecio.getText()), campoDescripcion.getText(), checkboxActivo.isSelected());
                     if (edicionExitosa) {
-                        System.out.println("Servicio editado con éxito");
-                        vista.redirigir("Servicios");
+                        boolean confirmado = Global.mostrarAlertaExitosa("Servicio editado con éxito.");
+                        if (confirmado) {
+                            vista.redirigir("Servicios");
+                        }
                     }
                     else {
-                        System.out.println("Error al editar el servicio");
+                        Global.mostrarAlertaError("Error al editar el servicio.");
                     }
                 }
             });
