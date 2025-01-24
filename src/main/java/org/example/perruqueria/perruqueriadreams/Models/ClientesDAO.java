@@ -120,9 +120,9 @@ public class ClientesDAO{
         }
         return clientes;
     }
-    public boolean actualizarDescripcionFicha(Integer idCliente, String descripcionCliente) {
+    public boolean datosFicha(Integer idCliente, String descripcionCliente) {
 
-        String sqlActualizarClientes = "UPDATE clientes SET descripcion_cliente = ? WHERE id_cliente = ?";
+        String sqlActualizarClientes = "SELECT descripcion_cliente FROM clientes WHERE id_cliente = ?";
         boolean resultado =  false;
 
         try (Connection conn = ConexionBaseDatos.getConexion();
@@ -145,5 +145,25 @@ public class ClientesDAO{
             }
         }
         return resultado;
+    }
+
+    public List<Clientes> obtenerFicha() {
+        String sqlMostrarClientes = "SELECT * FROM clientes c INNER JOIN servicios_realizados s ON c.id_cliente = s.id_cliente INNER JOIN ventas v ON c.id_cliente = v.id_cliente INNER JOIN cobros co ON c.id_cliente = co.id_cliente WHERE c.id_cliente = ?";
+        List<Clientes> listaClientes = new ArrayList<>(); // Creamos un array para todos los trabajadores que existan en la BD.
+        
+        try (Connection conn = ConexionBaseDatos.getConexion();
+            PreparedStatement sqlMostrarClientesStmt = conn.prepareStatement(sqlMostrarClientes);
+            ResultSet rs = sqlMostrarClientesStmt.executeQuery()) {
+            
+            // while (rs.next()) {
+            //     Clientes clientes = new Clientes(
+            //         rs.getInt("id_cliente")
+            //     );
+            //     listaClientes.add(clientes); // Els agrreguem al array.
+            // }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listaClientes;
     }
 }
