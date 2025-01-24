@@ -120,4 +120,30 @@ public class ClientesDAO{
         }
         return clientes;
     }
+    public boolean actualizarDescripcionFicha(Integer idCliente, String descripcionCliente) {
+
+        String sqlActualizarClientes = "UPDATE clientes SET descripcion_cliente = ? WHERE id_cliente = ?";
+        boolean resultado =  false;
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+            PreparedStatement pstmt = conn.prepareStatement(sqlActualizarClientes)) {
+            
+
+            pstmt.setString(1, descripcionCliente);
+            pstmt.setInt(2, idCliente);
+
+
+            
+            int filasActualizadas = pstmt.executeUpdate();
+            resultado = filasActualizadas > 0;
+
+        } catch (SQLException ex) {
+            if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                throw new RuntimeException("BaseDatos NO encontrada");
+            } else {
+                ex.printStackTrace();
+            }
+        }
+        return resultado;
+    }
 }
