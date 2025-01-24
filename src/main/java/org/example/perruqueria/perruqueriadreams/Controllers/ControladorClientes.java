@@ -10,7 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import org.example.perruqueria.perruqueriadreams.Models.Clientes;
 import org.example.perruqueria.perruqueriadreams.Models.ClientesDAO;
 import javafx.fxml.FXML;
@@ -40,6 +42,10 @@ public class ControladorClientes implements Initializable{
     @FXML private CheckBox checkboxProteccionDatos;
     @FXML private TextArea campoDescripcion;
     @FXML private VBox seccionFicha;
+    @FXML private Text tituloFicha;
+    @FXML private ScrollPane listadoCobrosFicha;
+    @FXML private TextArea descripcionFicha;
+    @FXML private Button guardarFicha;
     @FXML private Button btnNuevaSesion;
 
     private static Clientes clienteSeleccionado;
@@ -66,6 +72,26 @@ public class ControladorClientes implements Initializable{
         columnaProteccionDatos.setCellValueFactory(new PropertyValueFactory<>("proteccionDatos"));
         columnaDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcionCliente"));
         tablaClientes.setItems(datosClientes);
+    }
+
+    public void mostrarFichaCliente() {
+        //List<String> ficha = clientesDAO.obtenerFicha();
+        GridPane tabla = new GridPane();
+        Text textoServicio = new Text("Servicio");
+        Text textoVenta = new Text("Venta");
+        tabla.add(textoServicio, 0, 0);
+        tabla.add(textoVenta, 1, 0);
+        /*for (String registro : ficha) {
+            Text textoRegistro = new Text(registro);
+            nuevoRegistro.getChildren().add(textoRegistro);
+
+        }*/
+        seccionFicha.getChildren().add(tabla);
+    }
+
+    public boolean actualizarDescripcionCliente(Integer id, String descripcion) {
+        boolean exitoso = clientesDAO.actualizarDescripcionFicha(id, descripcion);
+        return exitoso;
     }
 
     @Override
@@ -157,6 +183,15 @@ public class ControladorClientes implements Initializable{
             });
             flechaVolver.setOnMouseClicked((MouseEvent event) -> {
                 vista.redirigir("Clientes");
+            });
+            tituloFicha.setText(tituloFicha.getText() + " " + getClienteSeleccionado().getNombreCliente());
+            String descripcionInicial = clientesDAO.obtenerDescripcionCliente(getClienteSeleccionado().getIdCliente());
+            descripcionFicha.setText(descripcionInicial);
+            guardarFicha.setOnAction(event -> {
+                if (descripcionFicha.getText() != descripcionInicial) {
+                    boolean exitoso = actualizarDescripcionCliente(getClienteSeleccionado().getIdCliente(), descripcionFicha.getText());
+
+                }
             });
         }
     }

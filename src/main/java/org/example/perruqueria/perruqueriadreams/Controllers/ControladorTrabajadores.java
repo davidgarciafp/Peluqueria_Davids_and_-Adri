@@ -285,6 +285,9 @@ public class ControladorTrabajadores implements Initializable{
                 ControladorTrabajadores.setTrabajadorValidado(null);
                 vista.redirigir("LoginTrabajadores");
             });
+            iconoEstadisticas.setOnMouseClicked((MouseEvent event) -> {
+                vista.redirigir("Menu");
+            });
             try {
                 iconoTrabajadores.setOnMouseClicked((MouseEvent event) -> {
                     vista.redirigir("Trabajadores");

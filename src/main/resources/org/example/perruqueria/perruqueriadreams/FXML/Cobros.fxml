@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" stylesheets="@../Styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorCobros">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" stylesheets="@../Styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorCobros">
     <children>
       <VBox fx:id="camposCobros" alignment="TOP_CENTER" layoutX="521.0" prefHeight="766.0" prefWidth="400.0" spacing="50.0">
          <children>

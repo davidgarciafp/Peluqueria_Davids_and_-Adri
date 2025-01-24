@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorTrabajadores">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorTrabajadores">
    <stylesheets>
       <URL value="@../Styles/main.css" />
       <URL value="@../Styles/menu.css" />
@@ -47,7 +47,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox fx:id="iconoEstadísticas" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0">
+            <VBox fx:id="iconoEstadisticas" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -119,7 +119,7 @@
                   <String fx:value="cursorPointer" />
                </styleClass>
             </VBox>
-            <VBox fx:id="iconoContabilidad" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0" GridPane.columnIndex="1">
+            <VBox fx:id="iconoEstadisticasConjuntas" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0" GridPane.columnIndex="1">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                   <Label styleClass="negrita" text="Estadísticas Conjuntas" />

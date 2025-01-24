@@ -120,20 +120,42 @@ public class ClientesDAO{
         }
         return clientes;
     }
-    public boolean datosFicha(Integer idCliente, String descripcionCliente) {
 
-        String sqlActualizarClientes = "SELECT descripcion_cliente FROM clientes WHERE id_cliente = ?";
+    public String obtenerDescripcionCliente(Integer idCliente) {
+
+        String sqlObtenerDescripcion = "SELECT descripcion_cliente FROM clientes WHERE id_cliente = ?";
+        String descripcion = "";
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+            PreparedStatement pstmt = conn.prepareStatement(sqlObtenerDescripcion)) {
+
+            pstmt.setInt(1, idCliente);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                descripcion = rs.getString("descripcion_cliente");
+            }
+
+        } catch (SQLException ex) {
+            if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                throw new RuntimeException("BaseDatos NO encontrada");
+            } else {
+                ex.printStackTrace();
+            }
+        }
+        return descripcion;
+    }
+
+    public boolean actualizarDescripcionFicha(Integer idCliente, String descripcion) {
+
+        String sqlActualizarClientes = "UPDATE clientes SET descripcion_cliente = ? WHERE id_cliente = ?";
         boolean resultado =  false;
 
         try (Connection conn = ConexionBaseDatos.getConexion();
-            PreparedStatement pstmt = conn.prepareStatement(sqlActualizarClientes)) {
-            
+             PreparedStatement pstmt = conn.prepareStatement(sqlActualizarClientes)) {
 
-            pstmt.setString(1, descripcionCliente);
+            pstmt.setString(1, descripcion);
             pstmt.setInt(2, idCliente);
 
-
-            
             int filasActualizadas = pstmt.executeUpdate();
             resultado = filasActualizadas > 0;
 

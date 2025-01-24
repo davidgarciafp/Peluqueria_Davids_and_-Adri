@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
@@ -9,21 +10,26 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" stylesheets="@../Styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorClientes">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" stylesheets="@../Styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorClientes">
    <children>
-      <VBox fx:id="seccionFicha" alignment="TOP_CENTER" layoutX="98.0" layoutY="137.0" prefHeight="481.0" prefWidth="1158.0">
+      <VBox fx:id="seccionFicha" alignment="TOP_CENTER" layoutX="98.0" layoutY="137.0" prefHeight="481.0" prefWidth="1158.0" spacing="20.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 25px;" text="FICHA: " />
-            <ScrollPane prefHeight="180.0" prefWidth="506.0">
+            <Text fx:id="tituloFicha" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 25px;" text="FICHA DEL CLIENTE:" />
+            <ScrollPane fx:id="listadoCobrosFicha" prefHeight="180.0" prefWidth="506.0">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" />
               </content>
             </ScrollPane>
-            <TextArea prefHeight="152.0" prefWidth="528.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label style="-fx-font-size: 18;" styleClass="negrita" text="Descripción" />
+                  <TextArea fx:id="descripcionFicha" prefHeight="152.0" prefWidth="528.0" />
+               </children>
+            </VBox>
          </children>
       </VBox>
-      <Button layoutX="572.0" layoutY="662.0" mnemonicParsing="false" styleClass="botones" text="GUARDAR" />
-      <Button fx:id="btnNuevaSesion" layoutX="1151.0" layoutY="674.0" mnemonicParsing="false" styleClass="botones" text="NUEVA SESIÓN" />
+      <Button fx:id="guardarFicha" layoutX="625.0" layoutY="662.0" mnemonicParsing="false" styleClass="botones" text="GUARDAR" />
+      <Button fx:id="btnNuevaSesion" layoutX="1124.0" layoutY="662.0" mnemonicParsing="false" styleClass="botones" text="NUEVA SESIÓN" />
       <ImageView fx:id="flechaVolver" fitWidth="50.0" layoutX="1290.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
          <image>
             <Image url="@../Images/volver.png" />
