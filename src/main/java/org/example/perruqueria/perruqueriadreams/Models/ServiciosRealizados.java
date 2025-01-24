@@ -33,6 +33,12 @@ public class ServiciosRealizados {
         this.precioFinal = precioFinal;
         this.comentario = comentario;
     }
+    public ServiciosRealizados(Integer idServicio, Integer idCliente, Integer idTrabajador, String diaServicioRealizados) {
+        this.idServicio = idServicio;
+        this.idCliente = idCliente;
+        this.idTrabajador = idTrabajador;
+        this.diaServicioRealizados = diaServicioRealizados;
+    }
 
     public ServiciosRealizados() {}
 

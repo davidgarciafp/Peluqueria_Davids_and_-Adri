@@ -19,6 +19,12 @@ public class Ventas {
         this.cantidadVendida = cantidadVendida;
         this.descripcionVenta = descripcionVenta;
     }
+    public Ventas(Integer idTrabajador, Integer idProducto, Integer idCliente, String diaVenta) {
+        this.idTrabajador = idTrabajador;
+        this.idProducto = idProducto;
+        this.idCliente = idCliente;
+        this.diaVenta = diaVenta;
+    }
 
     public Ventas() {
 
