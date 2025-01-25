@@ -55,6 +55,7 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private VBox iconoClientes;
     @FXML private VBox iconoProductos;
     @FXML private VBox iconoServicios;
+    @FXML private VBox iconoCobros;
     @FXML private ImageView volverTabla;
     @FXML private ImageView iconoCerrarSesion;
     @FXML private TableView<Trabajadores> tablaTrabajadores;
@@ -299,6 +300,14 @@ public class ControladorTrabajadores implements Initializable{
             try {
                 iconoClientes.setOnMouseClicked((MouseEvent event) -> {
                     vista.redirigir("Clientes");
+                });
+            } catch (Exception error) {
+                throw new RuntimeException("Error" + error.getMessage());
+            }
+
+            try {
+                iconoCobros.setOnMouseClicked((MouseEvent event) -> {
+                    vista.redirigir("HistorialCobros");
                 });
             } catch (Exception error) {
                 throw new RuntimeException("Error" + error.getMessage());

@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -51,6 +52,20 @@ public class ControladorCobros implements Initializable {
     @FXML private TextField campoBizum;
     @FXML private Button btnRealizar;
     @FXML private Button btnImprimir;
+    @FXML private TableView<Cobros> tablaCobros;
+    @FXML private TableColumn<Cobros, String> colDiaCobro;
+    @FXML private TableColumn<Cobros, String> colCliente;
+    @FXML private TableColumn<Cobros, BigDecimal> colImporte;
+    @FXML private TableColumn<Cobros, BigDecimal> colDeudas;
+    @FXML private TableColumn<Cobros, Boolean> colPagado;
+    @FXML private TextField campoFecha;
+    @FXML private TextField campoCliente;
+    @FXML private TextField campoImporteEditar;
+    @FXML private TextField campoDeudas;
+    @FXML private CheckBox checkPagado;
+    @FXML private Button btnGuardarCambios;
+
+private Cobros cobroSeleccionado;
     private TrabajadoresDAO modeloTrabajadores = new TrabajadoresDAO();
     private ServiciosDAO modeloServicios = new ServiciosDAO();
     private ProductosDAO modeloProductos = new ProductosDAO();
@@ -266,9 +281,79 @@ public class ControladorCobros implements Initializable {
         boolean realizado = modeloCobros.agregarCobro(cobro);
         return realizado;
     }
+    private void cargarCobrosEnTabla() {
+        // Obtener los cobros desde el DAO
+        List<Cobros> listaCobros = modeloCobros.obtenerCobros();
+    
+        // Convertir la lista en ObservableList para usar con JavaFX
+        ObservableList<Cobros> datosCobros = FXCollections.observableArrayList(listaCobros);
+    
+        // Cargar los datos en la tabla
+        tablaCobros.setItems(datosCobros);
+    }
 
+    private void cargarDatosEnFormulario(Cobros cobro) {
+        cobroSeleccionado = cobro;
+    
+        // Cargar los datos en los campos
+        campoFecha.setText(cobro.getDiaCobro());
+        campoCliente.setText(cobro.getNombreClienteTemporal()); // Solo para mostrar, no se modifica
+        campoImporteEditar.setText(cobro.getImporte().toString());
+        campoDeudas.setText(cobro.getDeudas().toString());
+        checkPagado.setSelected(cobro.isPagado());
+    }
+    
+    private void guardarCambiosCobro() {
+        if (cobroSeleccionado != null) {
+            // Actualizar los datos del cobroSeleccionado con los valores del formulario
+            cobroSeleccionado.setDiaCobro(campoFecha.getText());
+            cobroSeleccionado.setImporte(new BigDecimal(campoImporteEditar.getText()));
+            cobroSeleccionado.setDeudas(new BigDecimal(campoDeudas.getText()));
+            cobroSeleccionado.setPagado(checkPagado.isSelected());
+    
+            // Actualizar en la base de datos
+            boolean exito = modeloCobros.modificarCobro(cobroSeleccionado);
+    
+            if (exito) {
+                mostrarMensaje("El cobro se ha modificado con éxito.");
+                cargarCobrosEnTabla(); // Recargar la tabla
+            } else {
+                mostrarMensaje("No se pudo modificar el cobro.");
+            }
+        } else {
+            mostrarMensaje("No hay un cobro seleccionado.");
+        }
+    }
+    
+    private void mostrarMensaje(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Información");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+         // Configurar columnas de la tabla
+        colDiaCobro.setCellValueFactory(new PropertyValueFactory<>("diaCobro"));
+        colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreClienteTemporal"));
+        colImporte.setCellValueFactory(new PropertyValueFactory<>("importe"));
+        colDeudas.setCellValueFactory(new PropertyValueFactory<>("deudas"));
+
+        // Cargar los datos
+        cargarCobrosEnTabla();
+        
+        volverTabla.setOnMouseClicked((MouseEvent event) -> {
+            vista.redirigir("MenuAdmin");
+        });
+        tablaCobros.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                cargarDatosEnFormulario(newValue);
+            }
+        });
+    
+        // Acción para guardar cambios
+        btnGuardarCambios.setOnAction(event -> guardarCambiosCobro());
         if (camposCobros != null) {
             String cliente = ControladorClientes.getClienteSeleccionado().getNombreCliente();
             DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");

@@ -44,6 +44,11 @@ public class Cobros {
 
     public Cobros() {}
 
+    private String nombreClienteTemporal;
+    public String getNombreClienteTemporal() { return nombreClienteTemporal; }
+    public void setNombreClienteTemporal(String nombreClienteTemporal) {
+        this.nombreClienteTemporal = nombreClienteTemporal;
+    }
     // Getters y Setters
     public Integer getIdCobros() {
         return idCobros;
