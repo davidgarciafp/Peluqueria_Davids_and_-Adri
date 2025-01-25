@@ -15,24 +15,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorTrabajadores">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorTrabajadores">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="1233.0" layoutY="-3.0" prefHeight="768.0" prefWidth="140.0">
-         <children>
-            <ImageView fx:id="iconoCerrarSesionMenu" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
-               <image>
-                  <Image url="@../Images/cerrar-sesion.png" />
-               </image>
-            </ImageView>
-         </children>
-         <padding>
-            <Insets left="10.0" right="10.0" top="20.0" />
-         </padding>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </VBox>
-      <VBox fx:id="estadisticas" layoutX="36.0" layoutY="85.0" prefHeight="664.0" prefWidth="1178.0">
+      <VBox fx:id="estadisticasAdmin" layoutX="71.0" layoutY="90.0" prefHeight="664.0" prefWidth="1178.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30px;" styleClass="negrita" text="ESTADÍSTICAS" />
             <VBox alignment="TOP_CENTER" prefHeight="614.0" prefWidth="1158.0" spacing="30.0">
@@ -158,17 +143,21 @@
             <Image url="@../Images/iconoUsuario.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="trabajdorMenos" fitHeight="40.0" fitWidth="50.0" layoutX="1025.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="anteriorTrabajador" fitHeight="40.0" fitWidth="50.0" layoutX="1025.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
          <image>
             <Image url="@../Images/flecha-izquierda.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="trabajadorMas" fitHeight="40.0" fitWidth="50.0" layoutX="1086.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="siguienteTrabajador" fitHeight="40.0" fitWidth="50.0" layoutX="1086.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
          <image>
             <Image url="@../Images/flecha-correcta.png" />
          </image>
       </ImageView>
-      <Text fx:id="trabajadorSeleccionado" layoutX="622.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <ImageView fx:id="iconoVolverEstadisticas" fitHeight="50.0" fitWidth="50.0" layoutX="1292.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
+         <image>
+            <Image url="@../Images/volver.png" />
+         </image>
+      </ImageView>
    </children>
    <stylesheets>
       <URL value="@../Styles/main.css" />

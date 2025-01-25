@@ -37,7 +37,11 @@ public class ControladorTrabajadores implements Initializable{
     @FXML private Button entrar;
     @FXML private ImageView volverAgenda;
     @FXML private ImageView iconoCerrarSesionMenu;
+    @FXML private ImageView iconoVolverEstadisticas;
+    @FXML private ImageView siguienteTrabajador;
+    @FXML private ImageView anteriorTrabajador;
     @FXML private VBox estadisticas;
+    @FXML private VBox estadisticasAdmin;
     @FXML private Text nombreTrabajador;
     @FXML private Text ventasDia;
     @FXML private Text ventasSemana;
@@ -85,6 +89,7 @@ public class ControladorTrabajadores implements Initializable{
     private static Trabajadores trabajadorValidado;
     private static Trabajadores trabajadorSeleccionado;
     private static boolean tablaActivos;
+    private int posicionListaTrabajadores;
 
     public static Trabajadores getTrabajadorValidado() {
         return trabajadorValidado;
@@ -100,6 +105,14 @@ public class ControladorTrabajadores implements Initializable{
 
     public static void setTablaActivos(boolean tablaActivos) {
         ControladorTrabajadores.tablaActivos = tablaActivos;
+    }
+
+    public int getPosicionListaTrabajadores() {
+        return posicionListaTrabajadores;
+    }
+
+    public void setPosicionListaTrabajadores(int posicionListaTrabajadores) {
+        this.posicionListaTrabajadores = posicionListaTrabajadores;
     }
 
     public ControladorTrabajadores() {
@@ -143,7 +156,7 @@ public class ControladorTrabajadores implements Initializable{
                 vista.redirigir("MenuAdmin");
             }
             else {
-                vista.redirigir("Menu");
+                vista.redirigir("Estadisticas");
             }
         }
         else {
@@ -249,6 +262,12 @@ public class ControladorTrabajadores implements Initializable{
         graficoEstadisticas.getData().add(datos);
     }
 
+    public void mostrarEstadisticasPorTrabajador(List<Trabajadores> trabajadores) {
+        Trabajadores trabajadorActual = trabajadores.get(getPosicionListaTrabajadores());
+        nombreTrabajador.setText(trabajadorActual.getNombreTrabajador());
+        mostrarDatosEstadisticas(trabajadorActual);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (acceder != null) {
@@ -280,6 +299,35 @@ public class ControladorTrabajadores implements Initializable{
                 vista.redirigir("LoginTrabajadores");
             });
         }
+        if (estadisticasAdmin != null) {
+            iconoVolverEstadisticas.setOnMouseClicked((MouseEvent event) -> {
+                vista.redirigir("MenuAdmin");
+            });
+            List<Trabajadores> trabajadores = trabajadoresDAO.mostrarTrabajadores();
+            setPosicionListaTrabajadores(0);
+            mostrarEstadisticasPorTrabajador(trabajadores);
+            siguienteTrabajador.setOnMouseClicked((MouseEvent event) -> {
+                graficoEstadisticas.getData().clear();
+                if (getPosicionListaTrabajadores() == trabajadores.size() - 1){
+                    setPosicionListaTrabajadores(0);
+                }
+                else {
+                    setPosicionListaTrabajadores(getPosicionListaTrabajadores() + 1);
+                }
+                System.out.println("Tamaño: " + trabajadores.size() + " Posición actual: " + getPosicionListaTrabajadores());
+                mostrarEstadisticasPorTrabajador(trabajadores);
+            });
+            anteriorTrabajador.setOnMouseClicked((MouseEvent event) -> {
+                graficoEstadisticas.getData().clear();
+                if (getPosicionListaTrabajadores() == 0) {
+                    setPosicionListaTrabajadores(trabajadores.size() - 1);
+                }
+                else {
+                    setPosicionListaTrabajadores(getPosicionListaTrabajadores() - 1);
+                }
+                mostrarEstadisticasPorTrabajador(trabajadores);
+            });
+        }
         if (iconoTrabajadores != null) {
             nombreAdmin.setText(getTrabajadorValidado().getNombreTrabajador());
             iconoCerrarSesion.setOnMouseClicked((MouseEvent event) -> {
@@ -287,7 +335,7 @@ public class ControladorTrabajadores implements Initializable{
                 vista.redirigir("LoginTrabajadores");
             });
             iconoEstadisticas.setOnMouseClicked((MouseEvent event) -> {
-                vista.redirigir("Menu");
+                vista.redirigir("EstadisticasCompletas");
             });
             try {
                 iconoTrabajadores.setOnMouseClicked((MouseEvent event) -> {

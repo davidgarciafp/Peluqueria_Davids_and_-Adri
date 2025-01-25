@@ -32,7 +32,7 @@
             <Insets />
          </opaqueInsets>
       </VBox>
-      <VBox fx:id="estadisticas" layoutX="36.0" layoutY="85.0" prefHeight="664.0" prefWidth="1178.0">
+      <VBox fx:id="estadisticas" layoutX="97.0" layoutY="90.0" prefHeight="664.0" prefWidth="1178.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30px;" styleClass="negrita" text="ESTADÍSTICAS" />
             <VBox alignment="TOP_CENTER" prefHeight="614.0" prefWidth="1158.0" spacing="30.0">

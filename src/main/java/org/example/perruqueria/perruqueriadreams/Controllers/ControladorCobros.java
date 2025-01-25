@@ -57,11 +57,6 @@ public class ControladorCobros implements Initializable {
     @FXML private TableColumn<Cobros, String> colCliente;
     @FXML private TableColumn<Cobros, BigDecimal> colImporte;
     @FXML private TableColumn<Cobros, BigDecimal> colDeudas;
-    @FXML private TableColumn<Cobros, Boolean> colPagado;
-    @FXML private TextField campoFecha;
-    @FXML private TextField campoCliente;
-    @FXML private TextField campoImporteEditar;
-    @FXML private TextField campoDeudas;
     @FXML private CheckBox checkPagado;
     @FXML private Button btnGuardarCambios;
     @FXML private Button mostrarNoPagados;
