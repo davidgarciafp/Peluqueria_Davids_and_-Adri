@@ -74,19 +74,22 @@ public class ControladorClientes implements Initializable{
         tablaClientes.setItems(datosClientes);
     }
 
-    public void mostrarFichaCliente() {
+    public void mostrarFichaCliente(Integer id) {
         //List<String> ficha = clientesDAO.obtenerFicha();
-        GridPane tabla = new GridPane();
+        /*GridPane tabla = new GridPane();
         Text textoServicio = new Text("Servicio");
         Text textoVenta = new Text("Venta");
         tabla.add(textoServicio, 0, 0);
-        tabla.add(textoVenta, 1, 0);
-        /*for (String registro : ficha) {
-            Text textoRegistro = new Text(registro);
-            nuevoRegistro.getChildren().add(textoRegistro);
-
+        tabla.add(textoVenta, 1, 0);*/
+        /*List<Object[]> obtenerFicha = clientesDAO.obtenerFicha(id);
+        for (Object registro : obtenerFicha) {
+            System.out.println(registro);
+            for (int i = 0; i) {
+                Text textoRegistro = new Text(registro);
+                nuevoRegistro.getChildren().add(textoRegistro);
+            }
         }*/
-        seccionFicha.getChildren().add(tabla);
+        //seccionFicha.getChildren().add(tabla);
     }
 
     public boolean actualizarDescripcionCliente(Integer id, String descripcion) {
@@ -185,6 +188,7 @@ public class ControladorClientes implements Initializable{
                 vista.redirigir("Clientes");
             });
             tituloFicha.setText(tituloFicha.getText() + " " + getClienteSeleccionado().getNombreCliente());
+            mostrarFichaCliente(getClienteSeleccionado().getIdCliente());
             String descripcionInicial = clientesDAO.obtenerDescripcionCliente(getClienteSeleccionado().getIdCliente());
             descripcionFicha.setText(descripcionInicial);
             guardarFicha.setOnAction(event -> {

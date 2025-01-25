@@ -36,9 +36,9 @@ public class CobrosDAO {
         }
         return resultado;
     }
-    public List<Cobros> obtenerCobros() {
+    public List<Cobros> obtenerCobrosSinDeudas() {
         List<Cobros> listaCobros = new ArrayList<>();
-        String sql = "SELECT c.dia_cobro, c.id_cliente, cl.nombre_cliente, " +
+        String sql = "SELECT c.id_cobros, c.dia_cobro, c.id_cliente, cl.nombre_cliente, " +
                      "c.importe, c.deudas, c.pagado " +
                      "FROM cobros c " +
                      "LEFT JOIN clientes cl ON c.id_cliente = cl.id_cliente WHERE c.pagado = 1";
@@ -51,6 +51,7 @@ public class CobrosDAO {
                 Cobros cobro = new Cobros();
     
                 // Asignamos los valores directamente al objeto Cobros
+                cobro.setIdCobros(rs.getInt("id_cobros"));
                 cobro.setDiaCobro(rs.getString("dia_cobro"));
                 cobro.setIdCliente(rs.getInt("id_cliente")); // Almacena el ID del cliente
                 cobro.setImporte(rs.getBigDecimal("importe"));
@@ -68,9 +69,9 @@ public class CobrosDAO {
     
         return listaCobros;
     }
-    public List<Cobros> obtenerCobrosSinPagar() {
+    public List<Cobros> obtenerCobrosConDeudas() {
         List<Cobros> listaCobros = new ArrayList<>();
-        String sql = "SELECT c.dia_cobro, c.id_cliente, cl.nombre_cliente, " +
+        String sql = "SELECT c.id_cobros, c.dia_cobro, c.id_cliente, cl.nombre_cliente, " +
                      "c.importe, c.deudas, c.pagado " +
                      "FROM cobros c " +
                      "LEFT JOIN clientes cl ON c.id_cliente = cl.id_cliente WHERE c.pagado = 0";
@@ -83,6 +84,7 @@ public class CobrosDAO {
                 Cobros cobro = new Cobros();
     
                 // Asignamos los valores directamente al objeto Cobros
+                cobro.setIdCobros(rs.getInt("id_cobros"));
                 cobro.setDiaCobro(rs.getString("dia_cobro"));
                 cobro.setIdCliente(rs.getInt("id_cliente")); // Almacena el ID del cliente
                 cobro.setImporte(rs.getBigDecimal("importe"));
@@ -102,15 +104,12 @@ public class CobrosDAO {
     }
 
     public boolean modificarCobro(Cobros cobro) {
-        String sql = "UPDATE cobros SET dia_cobro = ?, importe = ?, deudas = ?, pagado = ? WHERE id_cobros = ?";
+        String sql = "UPDATE cobros SET pagado = ?, deudas = 0.00 WHERE id_cobros = ?";
         try (Connection conn = ConexionBaseDatos.getConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    
-            pstmt.setString(1, cobro.getDiaCobro());
-            pstmt.setBigDecimal(2, cobro.getImporte());
-            pstmt.setBigDecimal(3, cobro.getDeudas());
-            pstmt.setBoolean(4, cobro.isPagado());
-            pstmt.setInt(5, cobro.getIdCobros()); // Asegúrate de que el modelo tiene este ID
+
+            pstmt.setBoolean(1, cobro.isPagado());
+            pstmt.setInt(2, cobro.getIdCobros());
     
             int filasActualizadas = pstmt.executeUpdate();
             return filasActualizadas > 0;
