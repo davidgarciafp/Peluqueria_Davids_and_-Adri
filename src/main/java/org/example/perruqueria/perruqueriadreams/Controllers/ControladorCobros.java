@@ -7,9 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,12 +22,12 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.List;
 
 public class ControladorCobros implements Initializable {
     @FXML private VBox camposCobros;
     @FXML private VBox camposServicios;
     @FXML private VBox camposProductos;
+    @FXML private ImageView volverTabla;
     @FXML private ChoiceBox<Servicios> selectServicio;
     @FXML private ChoiceBox<Trabajadores> trabajadorServicio;
     @FXML private TextField precioServicio;
@@ -295,7 +292,9 @@ public class ControladorCobros implements Initializable {
                 precioProducto.setText(String.valueOf(precio));
                 cantidadProducto.setText("1");
             });
-
+            volverTabla.setOnMouseClicked((MouseEvent event) -> {
+                vista.redirigir("FichaCliente");
+            });
             anadirServicio.setOnMouseClicked((MouseEvent event) -> {
                 Servicios servicio = selectServicio.getValue();
                 Trabajadores trabajador = trabajadorServicio.getValue();

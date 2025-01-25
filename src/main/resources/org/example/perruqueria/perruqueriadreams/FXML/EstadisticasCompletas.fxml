@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorTrabajadores">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="1233.0" layoutY="-3.0" prefHeight="768.0" prefWidth="140.0">
+         <children>
+            <ImageView fx:id="iconoCerrarSesionMenu" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
+               <image>
+                  <Image url="@../Images/cerrar-sesion.png" />
+               </image>
+            </ImageView>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" top="20.0" />
+         </padding>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </VBox>
+      <VBox fx:id="estadisticas" layoutX="36.0" layoutY="85.0" prefHeight="664.0" prefWidth="1178.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30px;" styleClass="negrita" text="ESTADÍSTICAS" />
+            <VBox alignment="TOP_CENTER" prefHeight="614.0" prefWidth="1158.0" spacing="30.0">
+               <children>
+                  <HBox maxWidth="-Infinity" prefHeight="100.0">
+                     <children>
+                        <GridPane minHeight="225.0" minWidth="600.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="250.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <children>
+                                    <Text fx:id="ventasDia" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                 <children>
+                                    <Text fx:id="ventasSemana" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                 <children>
+                                    <Text fx:id="ventasMes" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <children>
+                                    <Text fx:id="serviciosDia" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                 <children>
+                                    <Text fx:id="serviciosSemana" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                 <children>
+                                    <Text fx:id="serviciosMes" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <children>
+                                    <Text fx:id="ingresosDia" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                 <children>
+                                    <Text fx:id="ingresosSemana" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                 <children>
+                                    <Text fx:id="ingresosMes" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.rowIndex="1">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="negrita" text="VENTAS" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.rowIndex="2">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="negrita" text="SERVICIOS REALIZADOS" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.rowIndex="3">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="negrita" text="INGRESOS GENERADOS" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="1">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="negrita" text="DIA" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="2">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="negrita" text="SEMANA" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="celdas" GridPane.columnIndex="3">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="negrita" text="MES" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </HBox>
+                  <BarChart fx:id="graficoEstadisticas" prefHeight="320.0" prefWidth="1158.0" title="INGRESOS">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets left="20.0" top="10.0" />
+         </padding>
+      </VBox>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/Dreams_Logo.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="nombreTrabajador" layoutX="660.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20px;" styleClass="negrita" />
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="608.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/iconoUsuario.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="trabajdorMenos" fitHeight="40.0" fitWidth="50.0" layoutX="1025.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/flecha-izquierda.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="trabajadorMas" fitHeight="40.0" fitWidth="50.0" layoutX="1086.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/flecha-correcta.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="trabajadorSeleccionado" layoutX="622.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+   </children>
+   <stylesheets>
+      <URL value="@../Styles/main.css" />
+      <URL value="@../Styles/menu.css" />
+   </stylesheets>
+</AnchorPane>
