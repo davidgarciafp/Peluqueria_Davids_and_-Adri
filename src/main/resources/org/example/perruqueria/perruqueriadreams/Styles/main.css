@@ -53,6 +53,10 @@
     -fx-border-color: black;
 }
 
+.textoIconos {
+    -fx-font-size: 17px;
+}
+
 .botones {
     -fx-background-color: rgb(189, 202, 192);
     -fx-border-color: rgb(155, 171, 162);

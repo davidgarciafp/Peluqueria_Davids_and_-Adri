@@ -37,7 +37,11 @@
                         <Image url="@../Images/grafico-de-barras.png" />
                      </image>
                   </ImageView>
-                  <Label styleClass="negrita" text="Estadísticas Generales" />
+                  <Label text="Estadísticas Generales">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoIconos" />
+                     </styleClass></Label>
                </children>
                <GridPane.margin>
                   <Insets bottom="20.0" right="20.0" />
@@ -49,8 +53,15 @@
             </VBox>
             <VBox fx:id="iconoTrabajadores" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0" GridPane.columnIndex="2">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label styleClass="negrita" text="Trabajadores" />
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/icono-trabajadores.png" />
+                     </image></ImageView>
+                  <Label text="Trabajadores">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoIconos" />
+                     </styleClass></Label>
                </children>
                <GridPane.margin>
                   <Insets bottom="20.0" right="20.0" />
@@ -60,23 +71,17 @@
                   <String fx:value="cursorPointer" />
                </styleClass>
             </VBox>
-            <VBox fx:id="iconoClientes" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <VBox fx:id="iconoProductos" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label styleClass="negrita" text="Clientes" />
-               </children>
-               <GridPane.margin>
-                  <Insets bottom="20.0" right="20.0" />
-               </GridPane.margin>
-               <styleClass>
-                  <String fx:value="opcionesMenu" />
-                  <String fx:value="cursorPointer" />
-               </styleClass>
-            </VBox>
-            <VBox fx:id="iconoProductos" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0" GridPane.rowIndex="1">
-               <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label styleClass="negrita" text="Productos" />
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/icono-productos.png" />
+                     </image></ImageView>
+                  <Label text="Productos">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoIconos" />
+                     </styleClass></Label>
                </children>
                <GridPane.margin>
                   <Insets bottom="20.0" right="20.0" />
@@ -92,7 +97,11 @@
                      <image>
                         <Image url="@../Images/corte-de-pelo.png" />
                      </image></ImageView>
-                  <Label styleClass="negrita" text="Servicios" />
+                  <Label text="Servicios">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoIconos" />
+                     </styleClass></Label>
                </children>
                <GridPane.margin>
                   <Insets bottom="20.0" right="20.0" />
@@ -104,8 +113,15 @@
             </VBox>
             <VBox fx:id="iconoCobros" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0" GridPane.columnIndex="1">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label styleClass="negrita" text="Historial de Cobros" />
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/icono-cobros.png" />
+                     </image></ImageView>
+                  <Label text="Historial de Cobros">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoIconos" />
+                     </styleClass></Label>
                </children>
                <GridPane.margin>
                   <Insets bottom="20.0" right="20.0" />
@@ -115,16 +131,38 @@
                   <String fx:value="cursorPointer" />
                </styleClass>
             </VBox>
+            <VBox fx:id="iconoClientes" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/icono-clientes.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="Clientes">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoIconos" />
+                     </styleClass>
+                  </Label>
+               </children>
+               <styleClass>
+                  <String fx:value="opcionesMenu" />
+                  <String fx:value="cursorPointer" />
+               </styleClass>
+               <GridPane.margin>
+                  <Insets bottom="20.0" right="20.0" />
+               </GridPane.margin>
+            </VBox>
          </children>
       </GridPane>
-      <VBox alignment="CENTER" layoutX="623.0" layoutY="16.0" prefHeight="116.0" prefWidth="156.0">
+      <VBox alignment="CENTER" layoutX="608.0" layoutY="8.0" prefHeight="116.0" prefWidth="156.0">
          <children>
             <ImageView fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/iconoUsuario.png" />
                </image>
             </ImageView>
-            <Text fx:id="nombreAdmin" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fx:id="nombreAdmin" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20px;" styleClass="negrita" />
          </children>
       </VBox>
       <ImageView fx:id="iconoCerrarSesion" fitWidth="60.0" layoutX="1267.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">

@@ -36,7 +36,7 @@ public class ControladorAgenda implements Initializable {
     @FXML private ImageView anteriorDia;
     @FXML private ImageView iconoLogin;
     @FXML private ImageView iconoCerrarSesion;
-    @FXML private Button btnClientes;
+    @FXML private VBox iconoClientes;
 
     public HashMap<String, String> getAgendaMap() {
         return agendaMap;
@@ -174,7 +174,7 @@ public class ControladorAgenda implements Initializable {
             anteriorDia.setOnMouseClicked((MouseEvent event) -> {
                 calendario.setValue(calendario.getValue().minusDays(1));
             });
-            btnClientes.setOnAction(event -> {
+            iconoClientes.setOnMouseClicked((MouseEvent event) -> {
                 vista.redirigir("Clientes");
             });
             generarAgenda(); //La generamos cuando se haya cargado la vista
