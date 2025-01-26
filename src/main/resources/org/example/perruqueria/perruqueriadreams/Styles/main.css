@@ -48,6 +48,11 @@
     -fx-alignment: center;
 }
 
+.celdas {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+}
+
 .botones {
     -fx-background-color: rgb(189, 202, 192);
     -fx-border-color: rgb(155, 171, 162);

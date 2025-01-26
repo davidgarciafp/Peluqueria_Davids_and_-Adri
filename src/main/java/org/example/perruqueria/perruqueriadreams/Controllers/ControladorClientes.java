@@ -1,20 +1,24 @@
 package org.example.perruqueria.perruqueriadreams.Controllers;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import org.example.perruqueria.perruqueriadreams.Models.Clientes;
-import org.example.perruqueria.perruqueriadreams.Models.ClientesDAO;
+import javafx.util.converter.LocalDateStringConverter;
+import org.example.perruqueria.perruqueriadreams.Models.*;
 import javafx.fxml.FXML;
 import javafx.collections.FXCollections;
 import javafx.scene.input.MouseEvent;
@@ -43,7 +47,7 @@ public class ControladorClientes implements Initializable{
     @FXML private TextArea campoDescripcion;
     @FXML private VBox seccionFicha;
     @FXML private Text tituloFicha;
-    @FXML private ScrollPane listadoCobrosFicha;
+    @FXML private HBox listadoCobrosFicha;
     @FXML private TextArea descripcionFicha;
     @FXML private Button guardarFicha;
     @FXML private Button btnNuevaSesion;
@@ -74,22 +78,77 @@ public class ControladorClientes implements Initializable{
         tablaClientes.setItems(datosClientes);
     }
 
+    public String formatearFecha(String fecha) {
+        DateTimeFormatter formatoInicial = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate objetoFecha = LocalDate.parse(fecha, formatoInicial);
+        DateTimeFormatter formatoFinal = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String fechaFormateada = objetoFecha.format(formatoFinal);
+        return fechaFormateada;
+    }
+
+    public VBox crearContenidoCelda(String texto) {
+        VBox vbox = new VBox();
+        vbox.getStyleClass().add("celdas");
+        vbox.getStyleClass().add("celdasTablas");
+        vbox.setAlignment(Pos.CENTER);
+        Text text = new Text(texto);
+        vbox.getChildren().add(text);
+        return vbox;
+    }
+
+    public VBox crearCabeceraTabla(String nombre) {
+        VBox vbox = crearContenidoCelda(nombre);
+        vbox.getStyleClass().add("negrita");
+        return vbox;
+    }
+
     public void mostrarFichaCliente(Integer id) {
-        //List<String> ficha = clientesDAO.obtenerFicha();
-        /*GridPane tabla = new GridPane();
-        Text textoServicio = new Text("Servicio");
-        Text textoVenta = new Text("Venta");
-        tabla.add(textoServicio, 0, 0);
-        tabla.add(textoVenta, 1, 0);*/
-        /*List<Object[]> obtenerFicha = clientesDAO.obtenerFicha(id);
-        for (Object registro : obtenerFicha) {
-            System.out.println(registro);
-            for (int i = 0; i) {
-                Text textoRegistro = new Text(registro);
-                nuevoRegistro.getChildren().add(textoRegistro);
-            }
-        }*/
-        //seccionFicha.getChildren().add(tabla);
+        List<Object> serviciosFicha = clientesDAO.obtenerServiciosFicha(id);
+        List <Servicios> listaServicios = (List<Servicios>) serviciosFicha.get(0);
+        List<ServiciosRealizados> listaServiciosRealizados = (List<ServiciosRealizados>) serviciosFicha.get(1);
+
+        List<Object> ventasFicha = clientesDAO.obtenerVentasFicha(id);
+        List<Productos> listaProductos = (List<Productos>) ventasFicha.get(0);
+        List<Ventas> listaVentas = (List<Ventas>) ventasFicha.get(1);
+
+        GridPane tablaServicios = new GridPane();
+
+        VBox vboxTextoServicio = crearCabeceraTabla("Servicio");
+        VBox vboxTextoFecha = crearCabeceraTabla("Fecha");
+
+        tablaServicios.add(vboxTextoServicio, 0, 0);
+        tablaServicios.add(vboxTextoFecha, 1, 0);
+        int fila = 1;
+
+        for (ServiciosRealizados servicioRealizado : listaServiciosRealizados) {
+            VBox vboxServicio = crearContenidoCelda(listaServicios.get(listaServiciosRealizados.indexOf(servicioRealizado)).getDescripcionServicio());
+            tablaServicios.add(vboxServicio, 0, fila);
+
+            String fecha = formatearFecha(servicioRealizado.getDiaServicioRealizados());
+            VBox vboxFecha = crearContenidoCelda(fecha);
+            tablaServicios.add(vboxFecha, 1, fila);
+            fila++;
+        }
+
+        GridPane tablaVentas = new GridPane();
+        VBox vboxTextoProducto = crearCabeceraTabla("Producto");
+        VBox vboxTextoFechaVenta = crearCabeceraTabla("Fecha");
+
+        tablaVentas.add(vboxTextoProducto, 0, 0);
+        tablaVentas.add(vboxTextoFechaVenta, 1, 0);
+        fila = 1;
+
+        for (Ventas venta : listaVentas) {
+            VBox vboxProducto = crearContenidoCelda(listaProductos.get(listaVentas.indexOf(venta)).getNombreProducto());
+            tablaVentas.add(vboxProducto, 0, fila);
+
+            String fecha = formatearFecha(venta.getDiaVenta());
+            VBox vboxVenta = crearContenidoCelda(fecha);
+            tablaVentas.add(vboxVenta, 1, fila);
+            fila++;
+        }
+        listadoCobrosFicha.getChildren().add(tablaServicios);
+        listadoCobrosFicha.getChildren().add(tablaVentas);
     }
 
     public boolean actualizarDescripcionCliente(Integer id, String descripcion) {
@@ -194,7 +253,12 @@ public class ControladorClientes implements Initializable{
             guardarFicha.setOnAction(event -> {
                 if (descripcionFicha.getText() != descripcionInicial) {
                     boolean exitoso = actualizarDescripcionCliente(getClienteSeleccionado().getIdCliente(), descripcionFicha.getText());
-
+                    if (exitoso) {
+                        Global.mostrarAlertaExitosa("Descripción editada correctamente");
+                    }
+                    else {
+                        Global.mostrarAlertaError("Error al editar la descripción");
+                    }
                 }
             });
         }

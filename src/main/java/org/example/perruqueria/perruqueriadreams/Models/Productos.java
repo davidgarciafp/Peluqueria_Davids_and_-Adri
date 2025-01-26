@@ -41,7 +41,7 @@ public class Productos {
     }
 
     public void setNombreProducto(String nombreProducto) {
-        this.nombreProducto = this.nombreProducto;
+        this.nombreProducto = nombreProducto;
     }
 
     public void setMarca(String marca) {
