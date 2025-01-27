@@ -90,3 +90,31 @@
 .choice-box:hover {
     -fx-cursor: hand;
 }
+
+.table-view .column-header {
+    -fx-background-color: lightgray;
+    -fx-border-width: 0 1 1 0;
+    -fx-border-color: black;
+}
+
+.table-row-cell {
+    -fx-background-color: #F4EAE0;
+    -fx-border-color: lightgray;
+    -fx-border-width: 1px;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #2E2E2E;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+}
+
+.table-cell {
+     -fx-padding: 7px;
+     -fx-alignment: CENTER;
+}
+
+.table-cell:selected {
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+}

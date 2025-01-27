@@ -30,7 +30,7 @@
             <TableColumn fx:id="columnaGastados" prefWidth="164.0" styleClass="celdasCentradas" text="Gastados" />
             </columns>
         </TableView>
-        <ImageView fx:id="volverTabla" fitHeight="50.0" fitWidth="100.0" layoutX="1294.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="volverTabla" fitHeight="50.0" fitWidth="100.0" layoutX="1281.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
             <image>
                 <Image url="@../Images/volver.png" />
             </image>

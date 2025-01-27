@@ -73,8 +73,8 @@
         <Button fx:id="editar" layoutX="1008.0" layoutY="683.0" mnemonicParsing="false" styleClass="botones" text="EDITAR" />
         <Button fx:id="anadir" layoutX="1243.0" layoutY="683.0" mnemonicParsing="false" styleClass="botones" text="NUEVO" />
             <CheckBox fx:id="checkboxProteccionDatos" layoutX="777.0" layoutY="687.0" mnemonicParsing="false" styleClass="negrita" text="Protección de Datos" />
-      <TextArea fx:id="campoDescripcion" layoutX="467.0" layoutY="661.0" prefHeight="87.0" prefWidth="254.0" />
-            <Label layoutX="467.0" layoutY="646.0" styleClass="negrita" text="Descrpición" />
+      <TextArea fx:id="campoDescripcion" layoutX="467.0" layoutY="660.0" prefHeight="87.0" prefWidth="254.0" />
+            <Label layoutX="467.0" layoutY="639.0" styleClass="negrita" text="Descrpición" />
 
     </children>
 </AnchorPane>
