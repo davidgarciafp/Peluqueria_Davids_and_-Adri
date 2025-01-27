@@ -74,3 +74,19 @@
     -fx-border-color: rgb(160, 170, 160);
     -fx-cursor: hand;
 }
+
+.text-field, .text-area, .choice-box {
+    -fx-border-width: 0.5px;
+    -fx-border-color: black;
+    -fx-border-radius: 5;
+    -fx-font-size: 14px;
+}
+
+.text-field {
+    -fx-background-color: lightgray;
+    -fx-prompt-text-fill: gray;
+}
+
+.choice-box:hover {
+    -fx-cursor: hand;
+}

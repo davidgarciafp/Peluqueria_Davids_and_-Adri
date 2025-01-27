@@ -51,7 +51,6 @@ public class ControladorCobros implements Initializable {
     @FXML private TextField campoTarjeta;
     @FXML private TextField campoBizum;
     @FXML private Button btnRealizar;
-    @FXML private Button btnImprimir;
     @FXML private TableView<Cobros> tablaCobros;
     @FXML private TableColumn<Cobros, String> colDiaCobro;
     @FXML private TableColumn<Cobros, String> colCliente;
@@ -203,7 +202,7 @@ public class ControladorCobros implements Initializable {
 
         //StackPane iconoEditar = crearIcono("/org/example/perruqueria/perruqueriadreams/Images/editar.png", String.valueOf(servicio.getIdServicio()));
         StackPane iconoEliminar = crearIcono("/org/example/perruqueria/perruqueriadreams/Images/eliminar.png", String.valueOf(servicio.getIdServicio()));
-
+        iconoEliminar.getStyleClass().add("cursorPointer");
         servicioAnadido.getChildren().addAll(selectServicio, selectTrabajador, iconoEliminar);
         serviciosAnadidos.getChildren().add(servicioAnadido);
 
@@ -258,7 +257,7 @@ public class ControladorCobros implements Initializable {
         productosVendidos.add(venta);
 
         StackPane iconoEliminar = crearIcono("/org/example/perruqueria/perruqueriadreams/Images/eliminar.png", String.valueOf(producto.getIdProducto()));
-
+        iconoEliminar.getStyleClass().add("cursorPointer");
         productoAnadido.getChildren().addAll(selectProducto, selectTrabajador, iconoEliminar);
         productosAnadidos.getChildren().add(productoAnadido);
 
@@ -401,36 +400,57 @@ public class ControladorCobros implements Initializable {
                 vista.redirigir("FichaCliente");
             });
             anadirServicio.setOnMouseClicked((MouseEvent event) -> {
-                Servicios servicio = selectServicio.getValue();
-                Trabajadores trabajador = trabajadorServicio.getValue();
-                BigDecimal precio = (precioServicio.getText().isBlank()) ? servicio.getPrecioBase() : new BigDecimal(precioServicio.getText());
-                String comentario = comentarioServicio.getText();
-                anadirServicios(servicio, ControladorClientes.getClienteSeleccionado(), trabajador, precio, comentario);
+                if (selectServicio.getValue() == null || trabajadorServicio.getValue() == null) {
+                    Global.mostrarAlertaAdvertencia("Debes seleccionar un servicio y el trabajador que lo ha realizado.");
+                }
+                else {
+                    Servicios servicio = selectServicio.getValue();
+                    Trabajadores trabajador = trabajadorServicio.getValue();
+                    BigDecimal precio = (precioServicio.getText().isBlank()) ? servicio.getPrecioBase() : new BigDecimal(precioServicio.getText());
+                    String comentario = comentarioServicio.getText();
+                    anadirServicios(servicio, ControladorClientes.getClienteSeleccionado(), trabajador, precio, comentario);
+                }
             });
 
             anadirProducto.setOnMouseClicked((MouseEvent event) -> {
-                Productos producto = selectProducto.getValue();
-                Trabajadores trabajador = trabajadorProducto.getValue();
-                BigDecimal precio = (precioProducto.getText().isBlank()) ? producto.getPrecioProducto() : new BigDecimal(precioProducto.getText());
-                Integer cantidad = Integer.parseInt(cantidadProducto.getText());
-                String descripcion = descripcionVenta.getText();
-                anadirProductos(producto, trabajador, precio, cantidad, descripcion);
+                if (selectProducto.getValue() == null || trabajadorProducto.getValue() == null) {
+                    Global.mostrarAlertaAdvertencia("Debes seleccionar un producto y el trabajador que lo vende.");
+                }
+                else {
+                    Productos producto = selectProducto.getValue();
+                    Trabajadores trabajador = trabajadorProducto.getValue();
+                    BigDecimal precio = (precioProducto.getText().isBlank()) ? producto.getPrecioProducto() : new BigDecimal(precioProducto.getText());
+                    Integer cantidad = Integer.parseInt(cantidadProducto.getText());
+                    String descripcion = descripcionVenta.getText();
+                    anadirProductos(producto, trabajador, precio, cantidad, descripcion);
+                }
             });
 
             btnRealizar.setOnAction(event -> {
                 if (!serviciosAnadidos.getChildren().isEmpty() || !productosAnadidos.getChildren().isEmpty()) {
-                    BigDecimal importe = new BigDecimal(campoImporte.getText());
-                    BigDecimal efectivo = (campoEfectivo.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoEfectivo.getText());
-                    BigDecimal tarjeta = (campoTarjeta.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoTarjeta.getText());
-                    BigDecimal bizum = (campoBizum.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoBizum.getText());
-                    BigDecimal deudas = (campoPagoPendiente.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoPagoPendiente.getText());
-                    boolean exitoso = realizarCobro(serviciosRealizados, productosVendidos, selectTrabajadores.getValue(), ControladorClientes.getClienteSeleccionado(), importe, efectivo, tarjeta, bizum, deudas);
-                    if (exitoso) {
-                        boolean confirmado = Global.mostrarAlertaExitosa("COBRO REALIZADO CON ÉXITO.");
-                        if (confirmado) {
-                            vista.redirigir("Agenda");
+                    if (selectTrabajadores.getValue() == null) {
+                        Global.mostrarAlertaAdvertencia("Por favor, selecciona el trabajador que realiza el cobro.");
+                    }
+                    else if (campoEfectivo.getText().isBlank() && campoTarjeta.getText().isBlank() && campoBizum.getText().isBlank()){
+                        Global.mostrarAlertaAdvertencia("Por favor, seleccione qué cantidad ha pagado el cliente con cada método de pago.");
+                    }
+                    else {
+                        BigDecimal importe = new BigDecimal(campoImporte.getText());
+                        BigDecimal efectivo = (campoEfectivo.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoEfectivo.getText());
+                        BigDecimal tarjeta = (campoTarjeta.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoTarjeta.getText());
+                        BigDecimal bizum = (campoBizum.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoBizum.getText());
+                        BigDecimal deudas = (campoPagoPendiente.getText().isBlank()) ? new BigDecimal("0") : new BigDecimal(campoPagoPendiente.getText());
+                        boolean exitoso = realizarCobro(serviciosRealizados, productosVendidos, selectTrabajadores.getValue(), ControladorClientes.getClienteSeleccionado(), importe, efectivo, tarjeta, bizum, deudas);
+                        if (exitoso) {
+                            boolean confirmado = Global.mostrarAlertaExitosa("COBRO REALIZADO CON ÉXITO.");
+                            if (confirmado) {
+                                vista.redirigir("Agenda");
+                            }
                         }
                     }
+                }
+                else {
+                    Global.mostrarAlertaAdvertencia("No se ha añadido ningún servicio ni producto.");
                 }
             });
         }

@@ -76,7 +76,7 @@ public class ControladorAgenda implements Initializable {
         columnaHoras.setStyle("-fx-font-size: 17px");
         columnaHoras.getStyleClass().add("negrita");
         columnaHoras.setAlignment(Pos.TOP_CENTER);
-        columnaHoras.setSpacing(13);
+        columnaHoras.setSpacing(18);
         columnaHoras.setPadding(new Insets(45, 0, 0, 0));
         for (String hora : horas) {
             Label labelHora = new Label(hora);

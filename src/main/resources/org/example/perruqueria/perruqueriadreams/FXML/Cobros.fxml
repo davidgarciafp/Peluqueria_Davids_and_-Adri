@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -13,20 +15,33 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" stylesheets="@../Styles/main.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorCobros">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" styleClass="fondoAplicacion" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.perruqueria.perruqueriadreams.Controllers.ControladorCobros">
     <children>
-      <VBox fx:id="camposCobros" alignment="TOP_CENTER" layoutX="521.0" prefHeight="766.0" prefWidth="400.0" spacing="50.0">
+      <VBox fx:id="camposCobros" alignment="TOP_CENTER" layoutX="471.0" prefHeight="766.0" prefWidth="452.0" spacing="50.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="COBRO" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="COBRO">
+               <styleClass>
+                  <String fx:value="negrita" />
+                  <String fx:value="tituloApartados" />
+               </styleClass></Text>
 
-              <HBox alignment="CENTER">
-                 <Text style="-fx-font-size: 14px;" styleClass="negrita" text="Fecha: " />
-               <Text fx:id="fechaHoy" strokeType="OUTSIDE" strokeWidth="0.0" />
+              <HBox alignment="CENTER" spacing="8.0">
+               <Label text="Fecha:">
+                  <styleClass>
+                     <String fx:value="negrita" />
+                     <String fx:value="textoCamposCobro" />
+                  </styleClass>
+               </Label>
+               <Text fx:id="fechaHoy" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="valoresTexto" />
               </HBox>
             <VBox alignment="CENTER">
                <children>
-                   <Label styleClass="negrita" text="Cliente:" />
-                  <Text fx:id="nombreCliente" strokeType="OUTSIDE" strokeWidth="0.0" />
+                   <Label text="Cliente:">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoCamposCobro" />
+                     </styleClass></Label>
+                  <Text fx:id="nombreCliente" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="valoresTexto" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -34,23 +49,39 @@
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                    <Label styleClass="negrita" text="Seleccionar Trabajador:" />
+                    <Label text="Trabajador:">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoCamposCobro" />
+                     </styleClass></Label>
                     <ChoiceBox fx:id="selectTrabajadores" prefWidth="120.0" />
                </children>
             </VBox>
-            <HBox alignment="CENTER" spacing="10.0">
+            <HBox alignment="CENTER" spacing="5.0">
                <children>
-                    <Label text="Importe a Pagar:" />
+                    <Label text="Importe a Pagar:">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoCamposCobro" />
+                     </styleClass></Label>
                     <TextField fx:id="campoImporte" prefWidth="100.0" promptText="0.00" />
 
-                    <Label text="Pago Pendiente:" />
+                    <Label text="Pago Pendiente:">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoCamposCobro" />
+                     </styleClass></Label>
                     <TextField fx:id="campoPagoPendiente" prefWidth="100.0" promptText="0.00" />
                </children>
             </HBox>
             <HBox alignment="CENTER" spacing="15.0">
                <children>
 
-                    <Label text="Método de Pago:" />
+                    <Label text="Método de Pago:">
+                     <styleClass>
+                        <String fx:value="negrita" />
+                        <String fx:value="textoCamposCobro" />
+                     </styleClass></Label>
                   <TextField fx:id="campoEfectivo" prefWidth="80.0" promptText="Efectivo" />
                   <TextField fx:id="campoTarjeta" prefWidth="80.0" promptText="Tarjeta" />
                   <TextField fx:id="campoBizum" prefWidth="80.0" promptText="Bizum" />
@@ -58,63 +89,83 @@
             </HBox>
 
               <HBox alignment="CENTER" spacing="10">
-                  <Button fx:id="btnRealizar" styleClass="botones" text="Realizar" />
-                  <Button fx:id="btnImprimir" styleClass="botones" text="Imprimir" />
-               <ImageView fx:id="volverTabla" fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                  <Button fx:id="btnRealizar" styleClass="botones" text="REALIZAR" />
+               <ImageView fx:id="volverTabla" fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
                   <image>
                      <Image url="@../Images/volver.png" />
                   </image>
                </ImageView>
               </HBox>
          </children>
+         <padding>
+            <Insets top="40.0" />
+         </padding>
       </VBox>
-      <VBox alignment="TOP_CENTER" prefHeight="766.0" prefWidth="499.0" spacing="20.0">
+      <VBox alignment="TOP_CENTER" prefHeight="766.0" prefWidth="470.0" spacing="20.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SERVICIOS" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SERVICIOS">
+               <styleClass>
+                  <String fx:value="negrita" />
+                  <String fx:value="tituloApartados" />
+               </styleClass></Text>
             <VBox fx:id="camposServicios" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
-                  <Label text="Servicio:" />
+                  <Label styleClass="textoCamposSP" text="Servicio:" />
                   <ChoiceBox fx:id="selectServicio" prefWidth="150.0" />
-                  <Label text="Trabajador:" />
+                  <Label styleClass="textoCamposSP" text="Trabajador:" />
                   <ChoiceBox fx:id="trabajadorServicio" prefWidth="150.0" />
-                  <Label layoutX="230.0" layoutY="74.0" text="Precio:" />
+                  <Label layoutX="230.0" layoutY="74.0" styleClass="textoCamposSP" text="Precio:" />
                   <TextField fx:id="precioServicio" alignment="CENTER" maxWidth="-Infinity" />
-                  <Label layoutX="242.0" layoutY="138.0" text="Comentario:" />
+                  <Label layoutX="242.0" layoutY="138.0" styleClass="textoCamposSP" text="Comentario:" />
                   <TextArea fx:id="comentarioServicio" maxWidth="-Infinity" prefWidth="380.0" />
-                  <ImageView fx:id="anadirServicio" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="anadirServicio" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
                      <image>
                         <Image url="@../Images/boton-agregar.png" />
                      </image>
                   </ImageView>
                </children></VBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SERVICIOS AÑADIDOS" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="tituloAnadidos" text="SERVICIOS AÑADIDOS" />
             <VBox fx:id="serviciosAnadidos" alignment="TOP_CENTER" prefWidth="100.0" spacing="10.0" />
          </children>
+         <padding>
+            <Insets top="40.0" />
+         </padding>
       </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="928.0" prefHeight="766.0" prefWidth="449.0" spacing="20.0">
+      <VBox alignment="TOP_CENTER" layoutX="926.0" prefHeight="766.0" prefWidth="452.0" spacing="20.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUCTOS" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUCTOS">
+               <styleClass>
+                  <String fx:value="negrita" />
+                  <String fx:value="tituloApartados" />
+               </styleClass></Text>
             <VBox fx:id="camposProductos" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
-                  <Label text="Producto:" />
+                  <Label styleClass="textoCamposSP" text="Producto:" />
                   <ChoiceBox fx:id="selectProducto" prefWidth="150.0" styleClass="celdasCentradas" />
-                  <Label text="Trabajador:" />
+                  <Label styleClass="textoCamposSP" text="Trabajador:" />
                   <ChoiceBox fx:id="trabajadorProducto" prefWidth="150.0" />
-                  <Label text="Precio:" />
+                  <Label styleClass="textoCamposSP" text="Precio:" />
                   <TextField fx:id="precioProducto" alignment="CENTER" maxWidth="-Infinity" />
-                  <Label text="Cantidad" />
+                  <Label styleClass="textoCamposSP" text="Cantidad:" />
                   <TextField fx:id="cantidadProducto" alignment="CENTER" maxWidth="-Infinity" />
-                  <Label text="Descripción:" />
+                  <Label styleClass="textoCamposSP" text="Descripción:" />
                   <TextArea fx:id="descripcionVenta" maxWidth="-Infinity" prefWidth="380.0" />
-                  <ImageView fx:id="anadirProducto" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="anadirProducto" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">
                      <image>
                         <Image url="@../Images/boton-agregar.png" />
                      </image>
                   </ImageView>
                </children></VBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUCTOS AÑADIDOS" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="tituloAnadidos" text="PRODUCTOS AÑADIDOS" />
             <VBox fx:id="productosAnadidos" alignment="TOP_CENTER" prefWidth="100.0" spacing="10.0" />
          </children>
+         <padding>
+            <Insets top="40.0" />
+         </padding>
       </VBox>
     </children>
+   <stylesheets>
+      <URL value="@../Styles/main.css" />
+      <URL value="@../Styles/cobros.css" />
+   </stylesheets>
 </AnchorPane>
