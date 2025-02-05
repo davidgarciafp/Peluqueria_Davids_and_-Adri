@@ -148,6 +148,7 @@
                   <TextField fx:id="precioProducto" alignment="CENTER" maxWidth="-Infinity" />
                   <Label styleClass="textoCamposSP" text="Cantidad:" />
                   <TextField fx:id="cantidadProducto" alignment="CENTER" maxWidth="-Infinity" />
+                  <Text fx:id="mensajeErrorStock" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15px;" styleClass="negrita" visible="false" />
                   <Label styleClass="textoCamposSP" text="Descripción:" />
                   <TextArea fx:id="descripcionVenta" maxWidth="-Infinity" prefWidth="380.0" />
                   <ImageView fx:id="anadirProducto" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="cursorPointer">

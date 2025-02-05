@@ -111,6 +111,28 @@ public class ProductosDAO {
         return resultado;
     }
 
+    public boolean actualizarStock(Integer idProducto, Integer cantidad) {
+        String sqlActualizarProductos = "UPDATE productos SET cantidad_disponible = ? WHERE id_producto = ?";
+        boolean resultado =  false;
+
+        try (Connection conn = ConexionBaseDatos.getConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sqlActualizarProductos)) {
+            pstmt.setInt(1, cantidad);
+            pstmt.setInt(2, idProducto);
+
+            int filasActualizadas = pstmt.executeUpdate();
+            resultado = filasActualizadas > 0;
+
+        } catch (SQLException ex) {
+            if (ex.getMessage().equals("BaseDatos NO encontrada")) {
+                throw new RuntimeException("BaseDatos NO encontrada");
+            } else {
+                ex.printStackTrace();
+            }
+        }
+        return resultado;
+    }
+
     public Productos encontrarProducto(int idProducto) {
         Productos productos = null;
         String sql = "SELECT * FROM productos WHERE id_producto = ?";

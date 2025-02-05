@@ -39,6 +39,7 @@ public class ControladorCobros implements Initializable {
     @FXML private ChoiceBox<Trabajadores> trabajadorProducto;
     @FXML private TextField precioProducto;
     @FXML private TextField cantidadProducto;
+    @FXML private Text mensajeErrorStock;
     @FXML private TextArea descripcionVenta;
     @FXML private ImageView anadirProducto;
     @FXML private VBox productosAnadidos;
@@ -238,37 +239,61 @@ public class ControladorCobros implements Initializable {
     }
 
     public void anadirProductos(Productos producto, Trabajadores trabajador, BigDecimal precio, Integer cantidad, String descripcion) {
+        mensajeErrorStock.setVisible(false);
+        mensajeErrorStock.setManaged(false);
         HBox productoAnadido = new HBox();
         productoAnadido.setAlignment(Pos.TOP_CENTER);
         productoAnadido.setSpacing(20);
 
-        ChoiceBox<Productos> selectProducto = new ChoiceBox<>();
-        cargarSelectProducto(selectProducto);
-        selectProducto.setValue(producto);
-        ChoiceBox<Trabajadores> selectTrabajador = new ChoiceBox<>();
-        cargarSelectTrabajador(selectTrabajador);
-        selectTrabajador.setValue(trabajador);
+        if (producto.getCantidadDisponible() - cantidad >= 0) {
+            modeloProductos.actualizarStock(producto.getIdProducto(), producto.getCantidadDisponible() - cantidad);
 
-        BigDecimal precioBase = producto.getPrecioProducto();
-        BigDecimal precioSumar = precioBase.multiply(new BigDecimal(cantidad));
-        sumarImporte(precioSumar);
+            ChoiceBox<Productos> selectProducto = new ChoiceBox<>();
+            cargarSelectProducto(selectProducto);
+            selectProducto.setValue(producto);
+            ChoiceBox<Trabajadores> selectTrabajador = new ChoiceBox<>();
+            cargarSelectTrabajador(selectTrabajador);
+            selectTrabajador.setValue(trabajador);
 
-        Ventas venta = new Ventas(trabajador.getIdTrabajador(), producto.getIdProducto(), ControladorClientes.getClienteSeleccionado().getIdCliente(), LocalDate.now().toString(), cantidad, descripcion);
-        productosVendidos.add(venta);
+            BigDecimal precioBase = producto.getPrecioProducto();
+            BigDecimal precioSumar = precioBase.multiply(new BigDecimal(cantidad));
+            sumarImporte(precioSumar);
 
-        StackPane iconoEliminar = crearIcono("/org/example/perruqueria/perruqueriadreams/Images/eliminar.png", String.valueOf(producto.getIdProducto()));
-        iconoEliminar.getStyleClass().add("cursorPointer");
-        productoAnadido.getChildren().addAll(selectProducto, selectTrabajador, iconoEliminar);
-        productosAnadidos.getChildren().add(productoAnadido);
+            boolean productoExiste = false;
 
-        iconoEliminar.setOnMouseClicked((MouseEvent event) -> {
-            BigDecimal precioRestar = precio.multiply(new BigDecimal(cantidad));
-            restarImporte(precioRestar);
-            Integer idIcono = Integer.parseInt(iconoEliminar.getId());
-            productosVendidos.removeIf(productoVendido -> productoVendido.getIdProducto().equals(idIcono));
-            Node padre = iconoEliminar.getParent();
-            productosAnadidos.getChildren().remove(padre);
-        });
+            for (Ventas venta : productosVendidos) {
+                if (venta.getIdProducto().equals(producto.getIdProducto())) {
+                    boolean confirmado = Global.mostrarAlertaAdvertencia("Este producto ya ha sido añadido.");
+                    productoExiste = true;
+                }
+            }
+
+            if (!productoExiste) {
+                Ventas venta = new Ventas(trabajador.getIdTrabajador(), producto.getIdProducto(), ControladorClientes.getClienteSeleccionado().getIdCliente(), LocalDate.now().toString(), cantidad, descripcion);
+                productosVendidos.add(venta);
+
+                StackPane iconoEliminar = crearIcono("/org/example/perruqueria/perruqueriadreams/Images/eliminar.png", String.valueOf(producto.getIdProducto()));
+                iconoEliminar.getStyleClass().add("cursorPointer");
+                productoAnadido.getChildren().addAll(selectProducto, selectTrabajador, iconoEliminar);
+                productosAnadidos.getChildren().add(productoAnadido);
+
+                iconoEliminar.setOnMouseClicked((MouseEvent event) -> {
+                    modeloProductos.actualizarStock(producto.getIdProducto(), producto.getCantidadDisponible());
+                    BigDecimal precioRestar = precio.multiply(new BigDecimal(cantidad));
+                    restarImporte(precioRestar);
+                    Integer idIcono = Integer.parseInt(iconoEliminar.getId());
+                    productosVendidos.removeIf(productoVendido -> productoVendido.getIdProducto().equals(idIcono));
+                    Node padre = iconoEliminar.getParent();
+                    productosAnadidos.getChildren().remove(padre);
+                });
+            }
+        }
+        else {
+            mensajeErrorStock.setText("Del producto '" + producto.getNombreProducto() + "' solo quedan " + producto.getCantidadDisponible() + " unidades");
+            mensajeErrorStock.setVisible(true);
+            mensajeErrorStock.setManaged(true);
+        }
+
     }
 
     public boolean realizarCobro(ArrayList<ServiciosRealizados> serviciosRealizados, ArrayList<Ventas> ventas, Trabajadores trabajador, Clientes cliente, BigDecimal importe, BigDecimal efectivo, BigDecimal tarjeta, BigDecimal bizum, BigDecimal deudas) {
@@ -374,6 +399,7 @@ public class ControladorCobros implements Initializable {
             btnGuardarCambios.setOnAction(event -> guardarCambiosCobro());
         }
         if (camposCobros != null) {
+            mensajeErrorStock.setManaged(false);
             String cliente = ControladorClientes.getClienteSeleccionado().getNombreCliente();
             DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String diaActual = LocalDate.now().format(formatoFecha);
